@@ -66,7 +66,7 @@
                  <div class="form-group">
                     <label for="InputMessage">Descripción</label>
                     <div class="input-group">
-                        <textarea name="InputMessage" id="InputMessage" class="form-control" rows="3" placeholder="Soy alérgico a los gatos y me gustan las perras" required></textarea>
+                        <textarea name="InputMessage" id="InputMessage" class="form-control" rows="4" placeholder="Soy alérgico a los gatos y me gustan las perras" required></textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                 </div>
