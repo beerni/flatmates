@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Admin on 08/11/2015.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Tareas {
+public class tareas {
     @InjectLinks({})
     private List<Link> links;
     private String id;
