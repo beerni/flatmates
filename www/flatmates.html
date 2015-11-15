@@ -37,67 +37,37 @@
                         <div class="container">
                             <ul>
                                 <li>
-                                    <a id = btnhome>
+                                    <a id= "btnhome">
                                         <i class="icon-home icon-large"></i> Home
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        <i class="icon-tasks icon-large"></i> Elegir tarea
+                                    <a id = "btnnuevogrupo">
+                                        <i class="icon-plus-sign icon-large" ></i> Crear grupo
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        <i class="icon-ok icon-large"></i> Evaluar tarea
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-list-alt icon-large"></i> Lista compra
-                                    </a>
-                                </li>
-                                 <li>
-                                    <a href="#">
-                                        <i class="icon-remove-sign icon-large"></i> Dejar grupo
+                                    <a id = "btnPerfil">
+                                        <i class="icon-user icon-large"></i> Perfil
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                
-                
-        <section class="nav nav-page">
-        <div class="container">
-            <div class="row">
-                <div class="span7">
-                    <header class="page-header">
-                        <h3>Grupo<br/>
-                            <small id="lblNombreGrupo">Nombre grupo</small>
-                        </h3>
-                    </header>
-                </div>
-            </div>
-        </div>
-    </section>
     <section class="page container">
-       <div class="row">
-                        <div class="box">
-                            <div class="box-header">
-                                <h5>Información</h5>
-                            </div>
-                            <div class="box-content">
-                                <p>
-                                Aqui ira la informacion del grupo.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
         <div class="row">
             <div class="span8">
                 <div class="box pattern pattern-sandstone">
                     <div class="box-header">
-                        <i class="icon-list"></i>
-                        <h5>Mensajes</h5>
+                        <i class="icon-refresh" id = "btnreload"></i>
+                        <h5>Mensajes  </h5>
+                        <div class="pull-right">
+                        <a title="Actualizar">
+                            <span id = "demo">31</span>
+                            s
+                        </a>
+  
+                        </div>
                     </div>
                     <div class="box-content box-list collapse in">
                         <ul>
@@ -132,61 +102,27 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="box-collapse">
-                        <div class="span3">
-                            <button class="btn btn-box">
-                                Previous
-                            </button>
-                            </div>
-                             <div class="span3">
-                             <button class="btn btn-box">
-                                Next
-                            </button>
-                            </div>
-
-                        </div>
                     </div>
 
                 </div>
             </div>
-             <div class="span8">
-                        <div class="box pattern pattern-sandstone">
-                            <div class="box-content box-table">
-                                <table id="sample-table" class="table table-hover table-bordered tablesorter">
-                                    <thead>
-                                        <tr>
-                                            <th>Usuario</th>
-                                            <th>Puntos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>User1</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User2</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User3</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User4</td>
-                                            <td>0</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td>User5</td>
-                                            <td>
-                                            0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="span8">
+                <div class="box">
+                    <div class="box-header">
+                        <i class="icon-book"></i>
+                        <h5>Escribir mensaje</h5>
                     </div>
+                    <div class="box-content">   
+                                <textarea id="txtmensaje" class="form-control" placeholder="Mensaje" maxlength="255" rows = "3" ></textarea>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class= "icon-ok"></i> 
+                            Enviar</button>
+                                    </div>
+
+                </div>
+            </div>
+        </div>
+            
             
 
     </section>
@@ -211,6 +147,7 @@
         </footer>
 <script type="text/javascript" src="js/logout.js"></script>
 <script type="text/javascript" src="js/flatmates.js"></script>
+
 
     </body>
 </html>
