@@ -1,4 +1,4 @@
-$( "#form-signin" ).submit(function( event ) {
+$("#button_signin").click(function(e) {
   event.preventDefault();
   login($("#loginid").val(), $("#password").val(), function(){
   	console.log("change");
@@ -9,4 +9,5 @@ $( "#form-signin" ).submit(function( event ) {
 $("#button_register").click(function(e) {
 	e.preventDefault();
 	window.location.replace("register.html");
+
 });

@@ -1,6 +1,6 @@
 $("#btnhome").click(function(e) {
 	e.preventDefault();
-	window.location.reload();
+	window.location.replace("flatmates.html");
 
 });
 
