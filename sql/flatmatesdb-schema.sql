@@ -9,9 +9,8 @@ CREATE TABLE users (
     password BINARY(16) NOT NULL,
     email VARCHAR(255) NOT NULL,
     fullname VARCHAR(255) NOT NULL,
-    tlf INT,
     sexo ENUM ('hombre','mujer'),
-    informacio VARCHAR(255),
+    informacio VARCHAR(500),
     puntos INT,
     PRIMARY KEY (id)
 );

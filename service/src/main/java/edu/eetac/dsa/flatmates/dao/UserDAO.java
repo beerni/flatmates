@@ -8,9 +8,9 @@ import java.sql.SQLException;
  * Created by Admin on 08/11/2015.
  */
 public interface UserDAO {
-    public User createUser(String loginid, String password, String email, String fullname, int tlf, String info, int puntos) throws SQLException, UserAlreadyExistsException;
+    public User createUser(String loginid, String password, String email, String fullname, String info, int puntos, boolean sexo) throws SQLException, UserAlreadyExistsException;
 
-    public User updateProfile(String id, String email, String fullname, int tlf, String info) throws SQLException;
+    public User updateProfile(String id, String email, String fullname, String info) throws SQLException;
 
     public User getUserById(String id) throws SQLException;
 

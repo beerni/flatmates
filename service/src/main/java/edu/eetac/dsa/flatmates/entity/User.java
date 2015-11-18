@@ -19,9 +19,17 @@ public class User {
     private String email;
     private String fullname;
     private int tlf;
-    private enum sexo {hombre, mujer};
+    private String sexo;
     private String info;
     private int puntos;
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
 
     public List<Link> getLinks() {
         return links;
