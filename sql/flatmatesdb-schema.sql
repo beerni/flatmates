@@ -9,11 +9,32 @@ CREATE TABLE users (
     password BINARY(16) NOT NULL,
     email VARCHAR(255) NOT NULL,
     fullname VARCHAR(255) NOT NULL,
+    tlf INT,
     sexo ENUM ('hombre','mujer'),
-    informacio VARCHAR(500),
-    puntos INT,
-    PRIMARY KEY (id)
+    info VARCHAR(255),
+    grupoid BINARY (16),	
+    PRIMARY KEY (id),
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
 );
+
+CREATE TABLE puntos_totales (
+    id BINARY(16) NOT NULL,
+    loginid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,	
+    PRIMARY KEY (id),
+    FOREIGN KEY (loginid) REFERENCES users(id) on delete cascade
+);
+
+CREATE TABLE puntos_grupo (
+    id BINARY(16) NOT NULL,
+    loginid BINARY(16) NOT NULL,
+    grupoid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,	
+    PRIMARY KEY (id),
+    FOREIGN KEY (loginid) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde
+);
+
 
 CREATE TABLE user_roles (
     userid BINARY(16) NOT NULL,
@@ -30,16 +51,13 @@ CREATE TABLE auth_tokens (
 );
 CREATE TABLE grupo (
     id BINARY(16) NOT NULL,
-    userid BINARY(16) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     info VARCHAR(500),
-    admin VARCHAR(16) NOT NULL,
-    puntos INT NOT NULL,
+    admin BINARY(16) NOT NULL,
     last_modified TIMESTAMP NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),
-    FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
-    FOREIGN KEY (userid) REFERENCES users(id) on delete cascade    
+    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade    
 );
 
 CREATE TABLE tareas (

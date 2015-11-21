@@ -21,7 +21,6 @@ public class User {
     private int tlf;
     private String sexo;
     private String info;
-    private int puntos;
 
     public String getSexo() {
         return sexo;
@@ -87,11 +86,4 @@ public class User {
         this.info = info;
     }
 
-    public int getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
 }

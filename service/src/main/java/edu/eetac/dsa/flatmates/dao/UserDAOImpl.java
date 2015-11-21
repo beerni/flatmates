@@ -15,10 +15,11 @@ import java.sql.SQLException;
  */
 public class UserDAOImpl implements UserDAO{
     @Override
-    public User createUser(String loginid, String password, String email, String fullname, String info, int puntos, boolean sexo) throws SQLException, UserAlreadyExistsException {
+    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
+        String idp = null;
         try {
             User user = getUserByLoginid(loginid);
             if (user != null)
@@ -47,12 +48,31 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(4, email);
             stmt.setString(5, fullname);
             stmt.setString(7, info);
-            stmt.setInt(8, puntos);
             stmt.executeUpdate();
 
             stmt.close();
             stmt = connection.prepareStatement(UserDAOQuery.ASSIGN_ROLE_REGISTERED);
             stmt.setString(1, id);
+            stmt.executeUpdate();
+
+            connection.commit();
+
+            stmt.close();
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(UserDAOQuery.UUID);
+            ResultSet r = stmt.executeQuery();
+            if (r.next())
+                idp = rs.getString(1);
+            else
+                throw new SQLException();
+            connection.setAutoCommit(false);
+
+            stmt.close();
+
+            stmt = connection.prepareStatement(UserDAOQuery.PUNTOS);
+
+            stmt.setString(1, idp);
+            stmt.setString(2, loginid);
             stmt.executeUpdate();
 
             connection.commit();
@@ -124,7 +144,6 @@ public class UserDAOImpl implements UserDAO{
                 user.setTlf(rs.getInt("tlf"));
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
-                user.setPuntos(rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             // Relanza la excepción
@@ -161,8 +180,8 @@ public class UserDAOImpl implements UserDAO{
                 user.setTlf(rs.getInt("tlf"));
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
-                user.setPuntos(rs.getInt("puntos"));
             }
+
         } catch (SQLException e) {
             throw e;
         } finally {

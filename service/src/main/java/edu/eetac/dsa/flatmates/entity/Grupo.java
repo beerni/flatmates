@@ -15,12 +15,19 @@ public class Grupo {
     private List<Link> links;
     private String id;
     private String nombre;
-    private String userid;
+    private String userlogin;
     private String admin;
-    private int puntos;
     private String info;
     private long creationTimestamp;
     private long lastModified;
+
+    public String getUserlogin() {
+        return userlogin;
+    }
+
+    public void setUserlogin(String user_login) {
+        this.userlogin = user_login;
+    }
 
     public List<Link> getLinks() {
         return links;
@@ -46,13 +53,6 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
 
     public String getAdmin() {
         return admin;
@@ -62,13 +62,6 @@ public class Grupo {
         this.admin = admin;
     }
 
-    public int getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
 
     public String getInfo() {
         return info;
