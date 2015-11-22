@@ -14,12 +14,20 @@ public class MensajeGrupo {
     @InjectLinks({})
     private List<Link> links;
     private String id;
-    private String
+    private String subject;
     private String mensaje;
     private String userid;
     private String grupoid;
     private long creationTimestamp;
     private long lastModified;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public List<Link> getLinks() {
         return links;

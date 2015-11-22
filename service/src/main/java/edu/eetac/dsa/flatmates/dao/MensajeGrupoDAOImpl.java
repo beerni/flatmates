@@ -65,9 +65,9 @@ public class MensajeGrupoDAOImpl implements MensajeGrupoDAO {
                 mensajeGrupo.setGrupoid(rs.getString("grupoid"));
                 mensajeGrupo.setUserid(rs.getString("userid"));
                 mensajeGrupo.setSubject(rs.getString("subject"));
-                tema.setContent(rs.getString("content"));
-                tema.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
-                tema.setLastModified(rs.getTimestamp("last_modified").getTime());
+                mensajeGrupo.setMensaje(rs.getString("mensaje"));
+                mensajeGrupo.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
+                mensajeGrupo.setLastModified(rs.getTimestamp("last_modified").getTime());
             }
         } catch (SQLException e) {
             throw e;
@@ -75,21 +75,93 @@ public class MensajeGrupoDAOImpl implements MensajeGrupoDAO {
             if (stmt != null) stmt.close();
             if (connection != null) connection.close();
         }
-        return tema;
+        return mensajeGrupo;
     }
 
     @Override
     public ColeccionMensajeGrupo getMensaje(String id) throws SQLException {
-        return null;
+        ColeccionMensajeGrupo coleccionMensajeGrupo = new ColeccionMensajeGrupo();
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(MensajeGrupoDAOQuery.GET_MENSAJES);
+            stmt.setString(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            boolean first = true;
+            while (rs.next()) {
+                MensajeGrupo mensajeGrupo = new MensajeGrupo();
+                mensajeGrupo.setId(rs.getString("id"));
+                mensajeGrupo.setGrupoid(rs.getString("grupoid"));
+                mensajeGrupo.setUserid(rs.getString("userid"));
+                mensajeGrupo.setSubject(rs.getString("subject"));
+                mensajeGrupo.setMensaje(rs.getString("mensaje"));
+                mensajeGrupo.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
+                mensajeGrupo.setLastModified(rs.getTimestamp("last_modified").getTime());
+                if (first) {
+                    coleccionMensajeGrupo.setNewestTimestamp(mensajeGrupo.getLastModified());
+                    first = false;
+                }
+                coleccionMensajeGrupo.setOldestTimestamp(mensajeGrupo.getLastModified());
+                coleccionMensajeGrupo.getMensajesgrupo().add(mensajeGrupo);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+        return coleccionMensajeGrupo;
     }
 
     @Override
     public MensajeGrupo updateMensaje(String id, String subject, String content) throws SQLException {
-        return null;
+        MensajeGrupo mensajeGrupo = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(MensajeGrupoDAOQuery.UPDATE_MENSAJE);
+            stmt.setString(1, subject);
+            stmt.setString(2, content);
+            stmt.setString(3, id);
+
+            int rows = stmt.executeUpdate();
+            if (rows == 1)
+                mensajeGrupo = getMensajeById(id);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return mensajeGrupo;
     }
 
     @Override
     public boolean deleteMensaje(String id) throws SQLException {
-        return false;
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(MensajeGrupoDAOQuery.DELETE_MENSAJE);
+            stmt.setString(1, id);
+
+            int rows = stmt.executeUpdate();
+            return (rows == 1);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null)
+                stmt.close();
+            if (connection != null)
+                connection.close();
+        }
     }
 }
