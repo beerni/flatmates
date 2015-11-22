@@ -1,5 +1,8 @@
 package edu.eetac.dsa.flatmates.dao;
 
+import edu.eetac.dsa.flatmates.auth.UserInfo;
+import edu.eetac.dsa.flatmates.entity.AuthToken;
+
 import java.sql.SQLException;
 
 /**

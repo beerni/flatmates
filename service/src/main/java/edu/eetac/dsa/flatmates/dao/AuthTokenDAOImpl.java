@@ -1,5 +1,9 @@
 package edu.eetac.dsa.flatmates.dao;
 
+import edu.eetac.dsa.flatmates.auth.UserInfo;
+import edu.eetac.dsa.flatmates.entity.AuthToken;
+import edu.eetac.dsa.flatmates.entity.Role;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +46,8 @@ public class AuthTokenDAOImpl implements AuthTokenDAO {
             if (connection != null) connection.close();
         }
 
-        return userInfo;    }
+        return userInfo;
+    }
 
     @Override
     public AuthToken createAuthToken(String userid) throws SQLException {

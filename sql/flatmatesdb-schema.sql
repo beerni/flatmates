@@ -9,7 +9,6 @@ CREATE TABLE users (
     password BINARY(16) NOT NULL,
     email VARCHAR(255) NOT NULL,
     fullname VARCHAR(255) NOT NULL,
-    tlf INT,
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
     grupoid BINARY (16),	
