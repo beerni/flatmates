@@ -2,6 +2,7 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.ColeccionGrupo;
 import edu.eetac.dsa.flatmates.entity.Grupo;
+import edu.eetac.dsa.flatmates.entity.PuntosGrupo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class GrupoDAOImpl implements GrupoDAO {
         String id = null;
         try {
             connection = Database.getConnection();
-            stmt = connection.prepareStatement(UserDAOQuery.UUID);
+            stmt = connection.prepareStatement(GrupoDAOQuery.UUID);
             ResultSet rs = stmt.executeQuery();
             if (rs.next())
                 id = rs.getString(1);
@@ -144,6 +145,13 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.setString(1, id);
             stmt.setString(2, idu);
             stmt.executeUpdate();
+
+            stmt.close();
+            stmt = connection.prepareStatement(GrupoDAOQuery.PUNTOS);
+            stmt.setString(1, idu);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
+
             return true;
 
         } catch (SQLException e) {
@@ -166,6 +174,12 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.setString(1, id);
             stmt.setString(2, idu);
             stmt.executeUpdate();
+            stmt.close();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.DEL_PUNTOS);
+            stmt.setString(1, idu);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
             return true;
 
         } catch (SQLException e) {
@@ -175,5 +189,62 @@ public class GrupoDAOImpl implements GrupoDAO {
             if (connection != null) connection.close();
         }
     }
+
+    @Override
+    public PuntosGrupo getPuntos(String loginid, String grupoid) throws SQLException {
+        PuntosGrupo puntosGrupo = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_PUNTOS);
+            stmt.setString(1, loginid);
+            stmt.setString(2, grupoid);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                puntosGrupo = new PuntosGrupo();
+                puntosGrupo.setLoginid(rs.getString("loginid"));
+                puntosGrupo.setGrupoid(rs.getString("grupoid"));
+                puntosGrupo.setPuntos(rs.getInt("puntos"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return puntosGrupo;
+    }
+
+    @Override
+    public PuntosGrupo updatePuntos(String loginid, String grupoid, int puntos) throws SQLException {
+        PuntosGrupo puntosTotales = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, puntos);
+            stmt.setString(2, loginid);
+            stmt.setString(3, grupoid);
+            int rows = stmt.executeUpdate();
+            if (rows == 1)
+                puntosTotales = getPuntos(loginid, grupoid);
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return puntosTotales;
+    }
+
 
 }

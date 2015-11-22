@@ -4,7 +4,6 @@ package edu.eetac.dsa.flatmates.entity;
  * Created by Admin on 21/11/2015.
  */
 public class PuntosGrupo {
-    private String id;
     private String loginid;
     private String grupoid;
     private int puntos;
@@ -15,14 +14,6 @@ public class PuntosGrupo {
 
     public void setPuntos(int puntos) {
         this.puntos = puntos;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLoginid() {

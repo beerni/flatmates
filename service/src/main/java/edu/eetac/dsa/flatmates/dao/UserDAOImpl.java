@@ -1,5 +1,6 @@
 package edu.eetac.dsa.flatmates.dao;
 
+import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
 
 import java.math.BigInteger;
@@ -19,7 +20,6 @@ public class UserDAOImpl implements UserDAO{
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
-        String idp = null;
         try {
             User user = getUserByLoginid(loginid);
             if (user != null)
@@ -58,21 +58,10 @@ public class UserDAOImpl implements UserDAO{
             connection.commit();
 
             stmt.close();
-            connection = Database.getConnection();
-            stmt = connection.prepareStatement(UserDAOQuery.UUID);
-            ResultSet r = stmt.executeQuery();
-            if (r.next())
-                idp = rs.getString(1);
-            else
-                throw new SQLException();
-            connection.setAutoCommit(false);
-
-            stmt.close();
 
             stmt = connection.prepareStatement(UserDAOQuery.PUNTOS);
 
-            stmt.setString(1, idp);
-            stmt.setString(2, loginid);
+            stmt.setString(1, loginid);
             stmt.executeUpdate();
 
             connection.commit();
@@ -155,7 +144,8 @@ public class UserDAOImpl implements UserDAO{
         }
 
         // Devuelve el modelo
-        return user;    }
+        return user;
+    }
 
     @Override
     public User getUserByLoginid(String loginid) throws SQLException {
@@ -243,4 +233,59 @@ public class UserDAOImpl implements UserDAO{
         }
 
     }
+
+    @Override
+    public PuntosTotales getPuntos(String loginid) throws SQLException {
+        PuntosTotales puntosTotales = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.GET_PUNTOS);
+            stmt.setString(1, loginid);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                puntosTotales = new PuntosTotales();
+                puntosTotales.setLoginid(rs.getString("loginid"));
+                puntosTotales.setPuntos(rs.getInt("puntos"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return puntosTotales;
+    }
+
+    @Override
+    public PuntosTotales updatePuntos(String loginid, int puntos) throws SQLException {
+        PuntosTotales puntosTotales = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, puntos);
+            stmt.setString(2, loginid);
+            int rows = stmt.executeUpdate();
+            if (rows == 1)
+               puntosTotales = getPuntos(loginid);
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return puntosTotales;
+    }
+
+
 }

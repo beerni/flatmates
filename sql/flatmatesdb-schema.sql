@@ -18,21 +18,20 @@ CREATE TABLE users (
 );
 
 CREATE TABLE puntos_totales (
-    id BINARY(16) NOT NULL,
-    loginid BINARY(16) NOT NULL,
+    loginid VARCHAR(15) NOT NULL,
     puntos INT NOT NULL,	
-    PRIMARY KEY (id),
-    FOREIGN KEY (loginid) REFERENCES users(id) on delete cascade
+    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
+    PRIMARY KEY (loginid, puntos)
 );
 
 CREATE TABLE puntos_grupo (
-    id BINARY(16) NOT NULL,
-    loginid BINARY(16) NOT NULL,
+    loginid VARCHAR(16) NOT NULL,
     grupoid BINARY(16) NOT NULL,
     puntos INT NOT NULL,	
     PRIMARY KEY (id),
-    FOREIGN KEY (loginid) REFERENCES users(id) on delete cascade,
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde
+    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde,
+    PRIMARY KEY (loginid, grupoid, puntos)
 );
 
 
@@ -84,7 +83,8 @@ CREATE TABLE mensajegrupo (
 );
 CREATE TABLE mensaje (
     id BINARY(16) NOT NULL,
-    userid BINARY(16) NOT NULL,	
+    userid BINARY(16) NOT NULL,
+    subject VARCHAR(100) NOT NULL,	
     mensaje VARCHAR(500) NOT NULL,
     last_modified TIMESTAMP NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
