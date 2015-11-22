@@ -15,9 +15,27 @@ public class mensaje {
     private List<Link> links;
     private String id;
     private String mensaje;
+    private String subject;
+    private String loginid;
     private String userid;
     private long creationTimestamp;
     private long lastModified;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
 
     public List<Link> getLinks() {
         return links;

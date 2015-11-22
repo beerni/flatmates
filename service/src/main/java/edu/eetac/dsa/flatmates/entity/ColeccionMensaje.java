@@ -16,7 +16,7 @@ public class ColeccionMensaje {
     private List<Link> links;
     private long newestTimestamp;
     private long oldestTimestamp;
-    private List<Mensaje> mensajes = new ArrayList<>();
+    private List<mensaje> mensajes = new ArrayList<>();
 
     public List<Link> getLinks() {
         return links;
@@ -42,11 +42,11 @@ public class ColeccionMensaje {
         this.oldestTimestamp = oldestTimestamp;
     }
 
-    public List<Mensaje> getMensajes() {
+    public List<mensaje> getMensajes() {
         return mensajes;
     }
 
-    public void setMensajes(List<Mensaje> mensajes) {
+    public void setMensajes(List<mensaje> mensajes) {
         this.mensajes = mensajes;
     }
 }

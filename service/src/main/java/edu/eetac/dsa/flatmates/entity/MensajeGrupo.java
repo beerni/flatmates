@@ -14,6 +14,7 @@ public class MensajeGrupo {
     @InjectLinks({})
     private List<Link> links;
     private String id;
+    private String
     private String mensaje;
     private String userid;
     private String grupoid;
