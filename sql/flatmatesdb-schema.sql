@@ -11,26 +11,20 @@ CREATE TABLE users (
     fullname VARCHAR(255) NOT NULL,
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
-    grupoid BINARY (16),	
-    PRIMARY KEY (id),
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE puntos_totales (
-    loginid VARCHAR(15) NOT NULL,
-    puntos INT NOT NULL,	
-    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
-    PRIMARY KEY (loginid, puntos)
-);
-
-CREATE TABLE puntos_grupo (
-    loginid VARCHAR(16) NOT NULL,
-    grupoid BINARY(16) NOT NULL,
-    puntos INT NOT NULL,	
+CREATE TABLE grupo (
+    id BINARY(16) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    info VARCHAR(500),
+    admin BINARY(16) NOT NULL,
+    last_modified TIMESTAMP NOT NULL,
+    userid BINARY(16) NOT NULL,
+    creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),
-    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde,
-    PRIMARY KEY (loginid, grupoid, puntos)
+    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade,    
+     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade    
 );
 
 
@@ -47,16 +41,23 @@ CREATE TABLE auth_tokens (
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
     PRIMARY KEY (token)
 );
-CREATE TABLE grupo (
-    id BINARY(16) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    info VARCHAR(500),
-    admin BINARY(16) NOT NULL,
-    last_modified TIMESTAMP NOT NULL,
-    creation_timestamp DATETIME not null default current_timestamp,
-    PRIMARY KEY (id),
-    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade    
+
+CREATE TABLE puntos_totales (
+    loginid VARCHAR(15) NOT NULL,
+    puntos INT NOT NULL,	
+    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
+    PRIMARY KEY (loginid, puntos)
 );
+
+CREATE TABLE puntos_grupo (
+    loginid VARCHAR(16) NOT NULL,
+    grupoid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,	
+    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
+    PRIMARY KEY (loginid, grupoid, puntos)
+);
+
 
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
@@ -77,7 +78,6 @@ CREATE TABLE mensaje (
     last_modified TIMESTAMP NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade
   
 );
