@@ -33,6 +33,21 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.setString(3, info);
             stmt.setString(4, userid);
             stmt.executeUpdate();
+
+            stmt.close();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.PUNTOS);
+            stmt.setString(1, userid);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
+
+            stmt.close();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.ADD_GRUPO);
+            stmt.setString(1, id);
+            stmt.setString(2, userid);
+            stmt.executeUpdate();
+
         } catch (SQLException e) {
             throw e;
         } finally {

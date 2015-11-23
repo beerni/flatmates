@@ -9,8 +9,8 @@ public interface GrupoDAOQuery {
     public final static String GET_GRUPO_BY_ID = "select hex(g.id) as id, g.nombre, g.info, hex(g.admin) as g.admin, g.creation_timestamp, g.last_modified from grupo g, users u where g.id=unhex(?) and u.id=g.userid";
     public final static String GET_GRUPOS = "select hex(id) as id, nombre, info, hex(admin), creation_timestamp, last_modified from grupo";
     public final static String DELETE_GRUPO = "delete from grupo where id=unhex(?)";
-    public final static String DEL_GRUPO = "update from grupo set grupoid = NULL where grupoid=unhex(?) and id=unhex(?)";
-    public final static String ADD_GRUPO = "update from grupo set grupoid = ? where id =";
+    public final static String DEL_GRUPO = "delete from grupousuario where grupoid=unhex(?) and userid=unhex(?)";
+    public final static String ADD_GRUPO = "insert into grupousuario set grupoid = ? where userid = ?";
     public final static String PUNTOS =  "insert into puntos_grupo (loginid, grupoid, puntos) values(UNHEX(?), UNHEX(?), '0')";
     public final static String GET_PUNTOS = "select loginid, puntos from puntos_grupo where loginid = ? and grupoid = ?";
     public final static String SET_PUNTOS = "update puntos_grupo set puntos=? where loginid = ? and grupoid = ?";
