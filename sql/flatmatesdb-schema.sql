@@ -20,11 +20,17 @@ CREATE TABLE grupo (
     info VARCHAR(500),
     admin BINARY(16) NOT NULL,
     last_modified TIMESTAMP NOT NULL,
-    userid BINARY(16) NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),
-    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade,    
-     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade    
+    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade      
+);
+
+CREATE TABLE grupousuario (
+    userid BINARY(16) NOT NULL,
+    grupoid BINARY(16) NOT NULL,
+    FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
+    PRIMARY KEY (userid, grupoid)
 );
 
 
@@ -65,6 +71,7 @@ CREATE TABLE tareas (
     userid BINARY (16) NOT NULL,	
     tarea VARCHAR (100) NOT NULL,
     image VARCHAR (500),
+    punts int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade
@@ -82,7 +89,7 @@ CREATE TABLE mensaje (
   
 );
 
-CREATE TABLE listaCompra (
+CREATE TABLE listacompra (
 	id BINARY (16) NOT NULL,
 	item VARCHAR (100) NOT NULL,
 	grupoid BINARY (16) NOT NULL,
