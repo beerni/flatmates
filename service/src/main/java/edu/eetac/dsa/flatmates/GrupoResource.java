@@ -42,12 +42,12 @@ public class GrupoResource {
     @Path("/{id}")
     @POST
     @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
-    public void suscribirGrupo(@PathParam("id") String id, @Context UriInfo uriInfo)  {
+    public void eliminarusuarioGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo)  {
 
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         AuthToken authenticationToken = null;
         try{
-            grupoDAO.suscribirGrupo(id, securityContext.getUserPrincipal().getName());
+            grupoDAO.eliminarusuarioGrupo(id, userid);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
@@ -98,12 +98,11 @@ public class GrupoResource {
     }
     @Path("/su={id}")
     @DELETE
-    public void desuscribirGrupo(@PathParam("id") String id, @Context UriInfo uriInfo) throws URISyntaxException {
+    public void eliminaruserGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo) throws URISyntaxException {
 
         GrupoDAO grupoDAO = new GrupoDAOImpl();
-        String userid = securityContext.getUserPrincipal().getName();
         try{
-            if(!grupoDAO.dessuscribirGrupo(id, userid))
+            if(!grupoDAO.eliminarusuarioGrupo(id, userid))
                 throw new NotFoundException("Group with id = "+id+" doesn't exist");
         } catch (SQLException e) {
             throw new InternalServerErrorException();

@@ -17,6 +17,24 @@ public class tareas {
     private String userid;
     private String grupoid;
     private String tarea;
+    private String image;
+    private int puntos;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
 
     public List<Link> getLinks() {
         return links;

@@ -63,8 +63,6 @@ CREATE TABLE puntos_grupo (
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     PRIMARY KEY (loginid, grupoid, puntos)
 );
-
-
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
     grupoid BINARY (16) NOT NULL,
