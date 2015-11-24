@@ -42,12 +42,16 @@ public class GrupoResource {
     @Path("/{id}")
     @POST
     @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
-    public void eliminarusuarioGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo)  {
+    public void addusuarioGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo)  {
 
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         AuthToken authenticationToken = null;
+        Grupo grupo = null;
         try{
-            grupoDAO.eliminarusuarioGrupo(id, userid);
+            grupo = grupoDAO.getGrupoById(id);
+                if(!grupo.getAdmin().equals(securityContext.getUserPrincipal().getName()))
+                    throw new ForbiddenException("You aren't the admin");
+            grupoDAO.añadirusuariosalGrupo(id, userid);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
@@ -70,7 +74,7 @@ public class GrupoResource {
     @Path("/{id}")
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
-    public Grupo getGrupo(@PathParam("id") String id){
+    public Grupo getGrupos(@PathParam("id") String id){
         Grupo grupo = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         try {
@@ -85,25 +89,28 @@ public class GrupoResource {
     @Path("/{id}")
     @DELETE
     public void deleteGrupo(@PathParam("id") String id) {
-        if (!securityContext.isUserInRole("admin"))
-            throw new ForbiddenException("You are not allowed to delete a group.");
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
-
+            if(!grupo.getAdmin().equals(securityContext.getUserPrincipal().getName())&&!securityContext.isUserInRole("admin"))
+                throw new ForbiddenException("You aren't the admin or the admin in the group");
             if(!grupoDAO.deleteGrupo(id))
                 throw new NotFoundException("Group with id = "+id+" doesn't exist");
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
     }
-    @Path("/su={id}")
+    @Path("/del={id}")
     @DELETE
     public void eliminaruserGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo) throws URISyntaxException {
-
+        String user = securityContext.getUserPrincipal().getName();
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try{
+            if(!grupo.getAdmin().equals(user)&&!userid.equals(user))
+                throw new ForbiddenException("Only the admin or the own user can delete");
             if(!grupoDAO.eliminarusuarioGrupo(id, userid))
-                throw new NotFoundException("Group with id = "+id+" doesn't exist");
+                throw new NotFoundException("Grupo with id = "+id+" doesn't exist");
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
