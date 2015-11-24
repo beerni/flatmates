@@ -8,6 +8,8 @@ public class FlatmatesMediaType {
     public final static String FLATMATES_USER = "application/vnd.dsa.flatmates.user+json";
     public final static String FLATMATES_GRUPO = "application/vnd.dsa.flatmates.grupo+json";
     public final static String FLATMATES_GRUPO_COLLECTION = "application/vnd.dsa.flatmates.grupo+json";
-    public final static String FLATMATES_MENSAJE = "application/vnd.dsa.flatmates.mesnsaje+json";
-    public final static String FLATMATES_MENSAJE_COLLECTION = "application/vnd.dsa.flatmates.Mensaje+json";
+    public final static String FLATMATES_MENSAJE = "application/vnd.dsa.flatmates.mensaje+json";
+    public final static String FLATMATES_MENSAJE_COLLECTION = "application/vnd.dsa.flatmates.mensaje+json";
+    public final static String FLATMATES_LISTA = "application/vnd.dsa.flatmates.lista+json";
+    public final static String FLATMATES_LISTA_COLLECTION = "application/vnd.dsa.flatmates.lista+json";
 }
