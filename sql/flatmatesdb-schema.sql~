@@ -3,6 +3,17 @@ create database flatmatesdb;
 
 use flatmatesdb;
 
+CREATE TABLE grupo (
+    id BINARY(16) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    info VARCHAR(500),
+    admin BINARY(16) NOT NULL,
+    last_modified TIMESTAMP NOT NULL,
+    creation_timestamp DATETIME not null default current_timestamp,
+    PRIMARY KEY (id),
+    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade    
+);
+
 CREATE TABLE users (
     id BINARY(16) NOT NULL,
     loginid VARCHAR(15) NOT NULL UNIQUE,
@@ -16,23 +27,21 @@ CREATE TABLE users (
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
 );
 
+CREATE TABLE puntos_grupo (
+    loginid VARCHAR(16) NOT NULL,
+    grupoid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,	
+    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
+    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde,
+    PRIMARY KEY (loginid, grupoid)
+);
+
 CREATE TABLE puntos_totales (
     loginid VARCHAR(15) NOT NULL,
     puntos INT NOT NULL,	
     FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
     PRIMARY KEY (loginid, puntos)
 );
-
-CREATE TABLE puntos_grupo (
-    loginid VARCHAR(16) NOT NULL,
-    grupoid BINARY(16) NOT NULL,
-    puntos INT NOT NULL,	
-    PRIMARY KEY (id),
-    FOREIGN KEY (loginid) REFERENCES users(loginid) on delete cascade,
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascasde,
-    PRIMARY KEY (loginid, grupoid, puntos)
-);
-
 
 CREATE TABLE user_roles (
     userid BINARY(16) NOT NULL,
@@ -47,17 +56,6 @@ CREATE TABLE auth_tokens (
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
     PRIMARY KEY (token)
 );
-CREATE TABLE grupo (
-    id BINARY(16) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    info VARCHAR(500),
-    admin BINARY(16) NOT NULL,
-    last_modified TIMESTAMP NOT NULL,
-    creation_timestamp DATETIME not null default current_timestamp,
-    PRIMARY KEY (id),
-    FOREIGN KEY (admin) REFERENCES users(id) on delete cascade    
-);
-
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
     grupoid BINARY (16) NOT NULL,
