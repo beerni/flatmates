@@ -2,6 +2,7 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.ColeccionGrupo;
 import edu.eetac.dsa.flatmates.entity.Grupo;
+import edu.eetac.dsa.flatmates.entity.GrupoUsuario;
 import edu.eetac.dsa.flatmates.entity.PuntosGrupo;
 
 import java.sql.Connection;
@@ -259,6 +260,33 @@ public class GrupoDAOImpl implements GrupoDAO {
         }
 
         return puntosTotales;
+    }
+
+    @Override
+    public GrupoUsuario getGrupoUserById(String id) throws SQLException {
+        GrupoUsuario grupoUsuario = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_GRUPOUSER);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setUserid(rs.getString("userid"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return grupoUsuario;
     }
 
 

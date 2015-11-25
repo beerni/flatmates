@@ -2,6 +2,7 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.ColeccionGrupo;
 import edu.eetac.dsa.flatmates.entity.Grupo;
+import edu.eetac.dsa.flatmates.entity.GrupoUsuario;
 import edu.eetac.dsa.flatmates.entity.PuntosGrupo;
 
 
@@ -19,4 +20,5 @@ public interface GrupoDAO {
     public boolean eliminarusuarioGrupo(String id, String idu) throws SQLException;
     public PuntosGrupo getPuntos(String loginid, String grupoid) throws SQLException;
     public PuntosGrupo updatePuntos(String loginid, String grupoid, int puntos) throws SQLException;
+    public GrupoUsuario getGrupoUserById(String id) throws SQLException;
 }
