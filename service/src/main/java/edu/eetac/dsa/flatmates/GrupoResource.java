@@ -71,21 +71,7 @@ public class GrupoResource {
         return grupoCollection;
     }
 
-    @Path("/{id}")
-    @GET
-    @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
-    public Grupo getGrupos(@PathParam("id") String id){
-        Grupo grupo = null;
-        GrupoDAO grupoDAO = new GrupoDAOImpl();
-        try {
-            grupo = grupoDAO.getGrupoById(id);
-            if(grupo == null)
-                throw new NotFoundException("Group with id = "+id+" doesn't exist");
-        } catch (SQLException e) {
-            throw new InternalServerErrorException();
-        }
-        return grupo;
-    }
+
     @Path("/{id}")
     @DELETE
     public void deleteGrupo(@PathParam("id") String id) {
