@@ -64,6 +64,7 @@ public class GrupoResource {
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
             if(!grupo.getAdmin().equals(securityContext.getUserPrincipal().getName())&&!securityContext.isUserInRole("admin"))
                 throw new ForbiddenException("You aren't the admin or the admin in the group");
             if(!grupoDAO.deleteGrupo(id))
@@ -72,13 +73,15 @@ public class GrupoResource {
             throw new InternalServerErrorException();
         }
     }
-    @Path("/del={id}")
+    @Path("/{id}/user/{userid}")
     @DELETE
-    public void eliminaruserGrupo(@PathParam("id") String id, @FormParam("userid") String userid, @Context UriInfo uriInfo) throws URISyntaxException {
+    public void eliminaruserGrupo(@PathParam("id") String id, @PathParam("userid") String userid) {
         String user = securityContext.getUserPrincipal().getName();
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+
         Grupo grupo = null;
         try{
+            grupo = grupoDAO.getGrupoById(id);
             if(!grupo.getAdmin().equals(user)&&!userid.equals(user))
                 throw new ForbiddenException("Only the admin or the own user can delete");
             if(!grupoDAO.eliminarusuarioGrupo(id, userid))
