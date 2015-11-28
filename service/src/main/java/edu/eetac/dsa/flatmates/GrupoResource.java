@@ -5,6 +5,7 @@ import edu.eetac.dsa.flatmates.dao.GrupoDAOImpl;
 import edu.eetac.dsa.flatmates.entity.AuthToken;
 import edu.eetac.dsa.flatmates.entity.ColeccionGrupo;
 import edu.eetac.dsa.flatmates.entity.Grupo;
+import edu.eetac.dsa.flatmates.entity.GrupoUsuario;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -24,7 +25,7 @@ public class GrupoResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
     public Response createGrupo(@FormParam("nombre") String nombre,@FormParam("info") String info, @Context UriInfo uriInfo) throws URISyntaxException {
-        if (!securityContext.isUserInRole("admin"))
+        if (!securityContext.isUserInRole("registered"))
             throw new ForbiddenException("You are not allowed to create a group.");
         if(nombre== null)
             throw new BadRequestException("all parameters are mandatory");
@@ -56,21 +57,6 @@ public class GrupoResource {
             throw new InternalServerErrorException();
         }
     }
-
-    @GET
-    @Produces(FlatmatesMediaType.FLATMATES_GRUPO_COLLECTION)
-    public ColeccionGrupo getGrupo(){
-        ColeccionGrupo grupoCollection = null;
-        GrupoDAO grupoDAO = new GrupoDAOImpl();
-        try {
-            grupoCollection = grupoDAO.getGrupos();
-        } catch (SQLException e) {
-            throw new InternalServerErrorException();
-        }
-
-        return grupoCollection;
-    }
-
 
     @Path("/{id}")
     @DELETE

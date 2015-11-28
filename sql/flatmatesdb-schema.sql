@@ -11,6 +11,7 @@ CREATE TABLE users (
     fullname VARCHAR(255) NOT NULL,
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
+    tareas int NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -66,7 +67,7 @@ CREATE TABLE puntos_grupo (
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
     grupoid BINARY (16) NOT NULL,
-    userid BINARY (16) NOT NULL,	
+    userid BINARY (16),	
     tarea VARCHAR (100) NOT NULL,
     image CHAR (32),
     punts int NOT NULL,

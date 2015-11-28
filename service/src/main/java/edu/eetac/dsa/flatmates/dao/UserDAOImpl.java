@@ -20,50 +20,50 @@ public class UserDAOImpl implements UserDAO{
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
+
         try {
+
             User user = getUserByLoginid(loginid);
             if (user != null)
                 throw new UserAlreadyExistsException();
             connection = Database.getConnection();
             stmt = connection.prepareStatement(UserDAOQuery.UUID);
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next())
                 id = rs.getString(1);
             else
                 throw new SQLException();
 
             connection.setAutoCommit(false);
-
             stmt.close();
+
             if (sexo == true) {
                 stmt = connection.prepareStatement(UserDAOQuery.CREATE_USER_HOMBRE);
             }
             else{
                 stmt = connection.prepareStatement(UserDAOQuery.CREATE_USER_MUJER);
-
             }
             stmt.setString(1, id);
             stmt.setString(2, loginid);
             stmt.setString(3, password);
             stmt.setString(4, email);
             stmt.setString(5, fullname);
-            stmt.setString(7, info);
+            stmt.setString(6, info);
+
             stmt.executeUpdate();
 
             stmt.close();
+
             stmt = connection.prepareStatement(UserDAOQuery.ASSIGN_ROLE_REGISTERED);
             stmt.setString(1, id);
             stmt.executeUpdate();
-
             connection.commit();
 
             stmt.close();
-
             stmt = connection.prepareStatement(UserDAOQuery.PUNTOS);
-
-            stmt.setString(1, loginid);
+            stmt.setString(1, id);
             stmt.executeUpdate();
-
             connection.commit();
 
         } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class UserDAOImpl implements UserDAO{
                 user.setLoginid(rs.getString("loginid"));
                 user.setEmail(rs.getString("email"));
                 user.setFullname(rs.getString("fullname"));
-                user.setTlf(rs.getInt("tlf"));
+                user.setTareas(rs.getInt("tareas"));
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
             }
@@ -156,22 +156,19 @@ public class UserDAOImpl implements UserDAO{
         try {
             connection = Database.getConnection();
 
-
             stmt = connection.prepareStatement(UserDAOQuery.GET_USER_BY_USERNAME);
             stmt.setString(1, loginid);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+
                 user = new User();
                 user.setId(rs.getString("id"));
                 user.setLoginid(rs.getString("loginid"));
                 user.setEmail(rs.getString("email"));
                 user.setFullname(rs.getString("fullname"));
-                user.setTlf(rs.getInt("tlf"));
-                user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
             }
-
         } catch (SQLException e) {
             throw e;
         } finally {

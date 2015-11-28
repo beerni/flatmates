@@ -1,5 +1,7 @@
 package edu.eetac.dsa.flatmates.entity;
 
+
+
 /**
  * Created by Admin on 21/11/2015.
  */

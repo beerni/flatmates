@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Admin on 08/11/2015.
+ * Created by Admin on 28/11/2015.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ColeccionTareas {
-    @InjectLinks({
-    })
+public class RelacionPuntosTareas {
+    @InjectLinks({})
     private List<Link> links;
-    private List<tareas> tareas = new ArrayList<>();
+    private String userid;
+    private String idtarea;
 
     public List<Link> getLinks() {
         return links;
@@ -25,11 +25,19 @@ public class ColeccionTareas {
         this.links = links;
     }
 
-    public List<tareas> getTareas() {
-        return tareas;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setTareas(List<tareas> tareas) {
-        this.tareas = tareas;
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getIdtarea() {
+        return idtarea;
+    }
+
+    public void setIdtarea(String idtarea) {
+        this.idtarea = idtarea;
     }
 }

@@ -18,9 +18,9 @@ public class User {
     private String loginid;
     private String email;
     private String fullname;
-    private int tlf;
     private String sexo;
     private String info;
+    private int tareas;
 
     public String getSexo() {
         return sexo;
@@ -70,12 +70,12 @@ public class User {
         this.fullname = fullname;
     }
 
-    public int getTlf() {
-        return tlf;
+    public int getTareas() {
+        return tareas;
     }
 
-    public void setTlf(int tlf) {
-        this.tlf = tlf;
+    public void setTareas(int tareas) {
+        this.tareas = tareas;
     }
 
     public String getInfo() {

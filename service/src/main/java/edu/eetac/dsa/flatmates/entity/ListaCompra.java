@@ -16,9 +16,19 @@ public class ListaCompra {
         private String id;
         private String grupoid;
         private String item;
+        private boolean hecho;
 
     public List<Link> getLinks() {
         return links;
+    }
+
+
+    public boolean isHecho() {
+        return hecho;
+    }
+
+    public void setHecho(boolean hecho) {
+        this.hecho = hecho;
     }
 
     public void setLinks(List<Link> links) {
