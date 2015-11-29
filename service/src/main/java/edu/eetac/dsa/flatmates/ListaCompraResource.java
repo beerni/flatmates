@@ -17,12 +17,12 @@ import java.sql.SQLException;
 /**
  * Created by Admin on 24/11/2015.
  */
-@Path("{id}")
+@Path("/lista")
 public class ListaCompraResource {
     @Context
     private SecurityContext securityContext;
 
-    @Path("/lista")
+    @Path("/{id}")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(FlatmatesMediaType.FLATMATES_LISTA)
