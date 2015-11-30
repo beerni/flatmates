@@ -42,7 +42,8 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
                 connection.close();
             }
         }
-        return getListaById(id);    }
+        return getListaById(id);
+    }
 
     @Override
     public ListaCompra getListaById(String id) throws SQLException {
@@ -57,12 +58,14 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
             stmt.setString(1, id);
 
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 listaCompra = new ListaCompra();
                 listaCompra.setId(rs.getString("id"));
                 listaCompra.setItem(rs.getString("item"));
                 listaCompra.setGrupoid(rs.getString("grupoid"));
             }
+
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -102,7 +105,7 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
     }
 
     @Override
-    public ListaCompra updateLista(String id, String item) throws SQLException {
+    public ListaCompra updateLista(String id, String item, String grupoid) throws SQLException {
         ListaCompra listaCompra = null;
 
         Connection connection = null;
@@ -113,6 +116,7 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
             stmt = connection.prepareStatement(ListaCompraDAOQuery.UPDATE_LISTA);
             stmt.setString(1, item);
             stmt.setString(2, id);
+            stmt.setString(3, grupoid);
 
             int rows = stmt.executeUpdate();
             if (rows == 1)

@@ -22,7 +22,7 @@ public class ListaCompraResource {
     @Context
     private SecurityContext securityContext;
 
-    @Path("/{id}")
+    @Path("/grupo/{id}")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(FlatmatesMediaType.FLATMATES_LISTA)
@@ -45,6 +45,7 @@ public class ListaCompraResource {
         URI uri = new URI(uriInfo.getAbsolutePath().toString() + "/" + listaCompra.getId());
         return Response.created(uri).type(FlatmatesMediaType.FLATMATES_MENSAJE).entity(listaCompra).build();
     }
+    @Path("/grupo/{id}")
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_LISTA_COLLECTION)
     public ColeccionListaCompra getListas(@PathParam("id") String id){
@@ -64,7 +65,7 @@ public class ListaCompraResource {
 
         return listaCompraCollection;
     }
-    @Path("/{idlista}")
+    @Path("/{idlista}/grupo/{id}")
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_LISTA)
     public ListaCompra getLista(@PathParam("id") String id, @PathParam("idlista") String idlista){
@@ -86,14 +87,15 @@ public class ListaCompraResource {
         return listaCompra;
     }
 
-    @Path("/{idt}")
+    @Path("/{idt}/grupo/{id}")
     @PUT
     @Consumes(FlatmatesMediaType.FLATMATES_LISTA)
     @Produces(FlatmatesMediaType.FLATMATES_LISTA)
     public ListaCompra updateLista(@PathParam("id") String id, @PathParam("idt") String idt, ListaCompra listaCompra) {
-        if(listaCompra == null)
+       System.out.println(listaCompra.getId() + " " + listaCompra.getItem() + " " + listaCompra.getGrupoid());
+        if(listaCompra.getId() == null||listaCompra.getItem()==null||listaCompra.getGrupoid()==null)
             throw new BadRequestException("entity is null");
-        if(!id.equals(listaCompra.getId()))
+        if(!idt.equals(listaCompra.getId()))
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
@@ -103,7 +105,7 @@ public class ListaCompraResource {
             grupoUsuario = grupoDAO.getGrupoUserById(id);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
-            listaCompra = listaCompraDAO.updateLista(idt, listaCompra.getId());
+            listaCompra = listaCompraDAO.updateLista(listaCompra.getId(), listaCompra.getItem(), listaCompra.getGrupoid());
             if(listaCompra == null)
                 throw new NotFoundException("Item with id = "+id+" doesn't exist");
         } catch (SQLException e) {
@@ -111,7 +113,7 @@ public class ListaCompraResource {
         }
         return listaCompra;
     }
-    @Path("/{idt}")
+    @Path("/{idt}/grupo/{id}")
     @DELETE
     public void deleteLista(@PathParam("id") String idg, @PathParam("idt") String id) {
         String userid = securityContext.getUserPrincipal().getName();

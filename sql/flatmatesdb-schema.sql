@@ -101,7 +101,7 @@ CREATE TABLE listacompra (
 	id BINARY (16) NOT NULL,
 	item VARCHAR (100) NOT NULL,
 	grupoid BINARY (16) NOT NULL,
-        hecho enum {'false', 'true'},
+        hecho enum ('false','true'),
 	PRIMARY KEY (id),
 	FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
 );
