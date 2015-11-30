@@ -12,6 +12,7 @@ CREATE TABLE users (
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
     tareas int NOT NULL,
+    imagen VARCHAR (50),
     PRIMARY KEY (id)
 );
 
@@ -69,7 +70,7 @@ CREATE TABLE tareas (
     grupoid BINARY (16) NOT NULL,
     userid BINARY (16),	
     tarea VARCHAR (100) NOT NULL,
-    image CHAR (32),
+    imagen VARCHAR (32),
     punts int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
@@ -100,7 +101,7 @@ CREATE TABLE listacompra (
 	id BINARY (16) NOT NULL,
 	item VARCHAR (100) NOT NULL,
 	grupoid BINARY (16) NOT NULL,
-        hecho BOOLEAN NOT NULL,
+        hecho enum {'false', 'true'},
 	PRIMARY KEY (id),
 	FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
 );
