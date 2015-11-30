@@ -21,4 +21,6 @@ public interface GrupoDAO {
     public PuntosGrupo getPuntos(String loginid, String grupoid) throws SQLException;
     public PuntosGrupo updatePuntos(String loginid, String grupoid, int puntos) throws SQLException;
     public GrupoUsuario getGrupoUserById(String id) throws SQLException;
+    public GrupoUsuario getUserGrupoById(String loginid) throws SQLException;
+
 }

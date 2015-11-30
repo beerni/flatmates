@@ -289,5 +289,31 @@ public class GrupoDAOImpl implements GrupoDAO {
         return grupoUsuario;
     }
 
+    @Override
+    public GrupoUsuario getUserGrupoById(String id) throws SQLException {
+        GrupoUsuario grupoUsuario = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_USERGRUPO);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setUserid(rs.getString("userid"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return grupoUsuario;
+    }
+
 
 }
