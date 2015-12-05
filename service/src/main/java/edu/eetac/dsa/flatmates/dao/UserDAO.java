@@ -3,6 +3,7 @@ package edu.eetac.dsa.flatmates.dao;
 import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 
 /**

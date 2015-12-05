@@ -11,4 +11,9 @@
     "path": "login",
     "methods": ["POST"]
   }
+,
+  {
+    "path": "multipart",
+    "methods": ["POST"]
+  }
 ]

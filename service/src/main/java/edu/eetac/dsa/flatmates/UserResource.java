@@ -6,12 +6,21 @@ import edu.eetac.dsa.flatmates.dao.UserDAO;
 import edu.eetac.dsa.flatmates.dao.UserDAOImpl;
 import edu.eetac.dsa.flatmates.entity.AuthToken;
 import edu.eetac.dsa.flatmates.entity.User;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.UUID;
+import java.lang.String;
 
 /**
  * Created by Admin on 22/11/2015.

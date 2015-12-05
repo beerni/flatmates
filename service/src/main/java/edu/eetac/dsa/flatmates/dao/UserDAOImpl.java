@@ -2,7 +2,10 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
+import javax.ws.rs.core.Application;
 
+import java.applet.Applet;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,11 +13,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+import javax.ws.rs.InternalServerErrorException;
 
 /**
  * Created by Admin on 09/11/2015.
  */
 public class UserDAOImpl implements UserDAO{
+    private Application app;
     @Override
     public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
@@ -44,12 +53,18 @@ public class UserDAOImpl implements UserDAO{
             else{
                 stmt = connection.prepareStatement(UserDAOQuery.CREATE_USER_MUJER);
             }
+
+
+           // UUID uuid = writeAndConvertImage (imagen);
+            //user.setFilename(uuid.toString() + ".png");
+            user.setImageURL(app.getProperties().get("imgBaseURL")+user.getFilename());
             stmt.setString(1, id);
             stmt.setString(2, loginid);
             stmt.setString(3, password);
             stmt.setString(4, email);
             stmt.setString(5, fullname);
             stmt.setString(6, info);
+
 
             stmt.executeUpdate();
 
@@ -77,6 +92,32 @@ public class UserDAOImpl implements UserDAO{
         }
         return getUserById(id);
     }
+
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(file);
+        }
+        catch (IOException e){
+            throw new InternalServerErrorException("Something has been wrong when converting the file");
+        }
+
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString()+".png";
+        try {
+            ImageIO.write(
+                    image,
+                    "png",
+
+                    new File(app.getProperties().get("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
+    }
+
 
     @Override
     public User updateProfile(String id, String email, String fullname, String info) throws SQLException {
