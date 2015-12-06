@@ -6,12 +6,36 @@ import edu.eetac.dsa.flatmates.dao.UserDAO;
 import edu.eetac.dsa.flatmates.dao.UserDAOImpl;
 import edu.eetac.dsa.flatmates.entity.AuthToken;
 import edu.eetac.dsa.flatmates.entity.User;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import javax.ws.rs.*;
+
+import javax.imageio.ImageIO;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.*;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.GET;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.PUT;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.UUID;
+
+import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 
 /**
  * Created by Admin on 22/11/2015.
@@ -19,26 +43,70 @@ import java.sql.SQLException;
 
 @Path("users")
 public class UserResource {
+    @Context
+    private Application app;
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes (MediaType.MULTIPART_FORM_DATA)
     @Produces(FlatmatesMediaType.FLATMATES_AUTH_TOKEN)
-    public Response registerUser(@FormParam("login") String loginid, @FormParam("password") String password, @FormParam("email") String email, @FormParam("fullname") String fullname, @FormParam("info") String info, @FormParam("sexo") boolean sexo, @Context UriInfo uriInfo) throws URISyntaxException {
+    public Response registerUser(@FormDataParam("login") String loginid,
+                                 @FormDataParam("password") String password,
+                                 @FormDataParam("email") String email,
+                                 @FormDataParam("fullname") String fullname,
+                                 @FormDataParam("info") String info,
+                                 @FormDataParam("sexo") boolean sexo,
+                                 @FormDataParam("imagen") InputStream imagen,
+                                 @FormDataParam("imagen") FormDataContentDisposition fileDetail,
+                                 @Context UriInfo uriInfo) throws URISyntaxException {
+
+
         if(loginid == null || password == null || email == null || fullname == null)
             throw new BadRequestException("all parameters are mandatory");
         UserDAO userDAO = new UserDAOImpl();
         User user = null;
         AuthToken authenticationToken = null;
         try{
-            user = userDAO.createUser(loginid, password, email, fullname, info, sexo);
+            UUID uuid = writeAndConvertImage(imagen);
+            //System.out.println(loginid + password + email + fullname+ info+ sexo+ uuid.toString());
+            user = userDAO.createUser(loginid, password, email, fullname, info, sexo, uuid.toString());
+            user.setFilename(uuid.toString() + ".png");
             authenticationToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);
         }catch(SQLException e){
             throw new InternalServerErrorException();
+
+        }catch(NullPointerException e) {
+            System.out.println(e.toString());
         }
+        user.setImageURL(app.getProperties().get("imgBaseURL") + user.getFilename());
         URI uri = new URI(uriInfo.getAbsolutePath().toString() + "/" + user.getId());
         return Response.created(uri).type(FlatmatesMediaType.FLATMATES_AUTH_TOKEN).entity(authenticationToken).build();
     }
+
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
+
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when reading the file.");
+        }
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString() + ".png";
+
+        try {
+            ImageIO.write(image, "png",
+
+                    new File(app.getProperties().get("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
+    }
+
     @Path("/{id}")
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_USER)

@@ -5,8 +5,8 @@ package edu.eetac.dsa.flatmates.dao;
  */
 public interface UserDAOQuery {
     public final static String UUID = "select REPLACE(UUID(),'-','')";
-    public final static String CREATE_USER_HOMBRE = "insert into users (id, loginid, password, email, fullname, sexo, info, tareas) values (UNHEX(?), ?, UNHEX(MD5(?)), ?, ?, 'hombre', ?, '0')";
-    public final static String CREATE_USER_MUJER = "insert into users (id, loginid, password, email, fullname, sexo, info, tareas) values (UNHEX(?), ?, UNHEX(MD5(?)), ?, ?, 'mujer', ?, '0')";
+    public final static String CREATE_USER_HOMBRE = "insert into users (id, loginid, password, email, fullname, sexo, info, tareas, imagen) values (UNHEX(?), ?, UNHEX(MD5(?)), ?, ?, 'hombre', ?, '0',?)";
+    public final static String CREATE_USER_MUJER = "insert into users (id, loginid, password, email, fullname, sexo, info, tareas, imagen) values (UNHEX(?), ?, UNHEX(MD5(?)), ?, ?, 'mujer', ?, '0',?)";
     public final static String UPDATE_USER = "update users set email=?, fullname=?, info=? where id=unhex(?)";
     public final static String ASSIGN_ROLE_REGISTERED = "insert into user_roles (userid, role) values (UNHEX(?), 'registered')";
     public final static String ASSIGN_ROLE_ADMIN = "insert into user_roles (userid, role) values (UNHEX(?), 'admin')";

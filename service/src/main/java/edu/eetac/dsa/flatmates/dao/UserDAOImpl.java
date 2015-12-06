@@ -3,6 +3,14 @@ package edu.eetac.dsa.flatmates.dao;
 import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
 
+import javax.imageio.ImageIO;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,20 +18,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * Created by Admin on 09/11/2015.
  */
 public class UserDAOImpl implements UserDAO{
     @Override
-    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo) throws SQLException, UserAlreadyExistsException {
+    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo, String uuid_imagen) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
+        User user=null;
 
         try {
 
-            User user = getUserByLoginid(loginid);
+            user = getUserByLoginid(loginid);
             if (user != null)
                 throw new UserAlreadyExistsException();
             connection = Database.getConnection();
@@ -50,6 +60,7 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(4, email);
             stmt.setString(5, fullname);
             stmt.setString(6, info);
+            stmt.setString(7, uuid_imagen);
 
             stmt.executeUpdate();
 
@@ -75,8 +86,10 @@ public class UserDAOImpl implements UserDAO{
                 connection.close();
             }
         }
+
         return getUserById(id);
     }
+
 
     @Override
     public User updateProfile(String id, String email, String fullname, String info) throws SQLException {

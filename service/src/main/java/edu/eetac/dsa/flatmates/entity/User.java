@@ -21,6 +21,24 @@ public class User {
     private String sexo;
     private String info;
     private int tareas;
+    private String imageURL;
+    private String filename;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getSexo() {
         return sexo;
