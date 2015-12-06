@@ -92,7 +92,6 @@ public class ListaCompraResource {
     @Consumes(FlatmatesMediaType.FLATMATES_LISTA)
     @Produces(FlatmatesMediaType.FLATMATES_LISTA)
     public ListaCompra updateLista(@PathParam("id") String id, @PathParam("idt") String idt, ListaCompra listaCompra) {
-       System.out.println(listaCompra.getId() + " " + listaCompra.getItem() + " " + listaCompra.getGrupoid());
         if(listaCompra.getId() == null||listaCompra.getItem()==null||listaCompra.getGrupoid()==null)
             throw new BadRequestException("entity is null");
         if(!idt.equals(listaCompra.getId()))

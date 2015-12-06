@@ -63,7 +63,7 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setId(rs.getString("id"));
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
-                Tarea.setImage(rs.getString("Image"));
+                Tarea.setImage(rs.getString("imagen"));
                 Tarea.setPuntos(rs.getInt("punts"));
             }
         } catch (SQLException e) {

@@ -98,7 +98,7 @@ public class UserResource {
         try {
             ImageIO.write(image, "png",
 
-                    new File(app.getProperties().get("uploadFolder") + filename));
+                    new File("/Users/Admin/flatmates-develop/imagen/" + filename));
         } catch (IOException e) {
             throw new InternalServerErrorException(
                     "Something has been wrong when converting the file.");

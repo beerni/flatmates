@@ -12,7 +12,7 @@ CREATE TABLE users (
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
     tareas int NOT NULL,
-    imagen VARCHAR (50),
+    imagen VARCHAR (36),
     PRIMARY KEY (id)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE tareas (
     grupoid BINARY (16) NOT NULL,
     userid BINARY (16),	
     tarea VARCHAR (100) NOT NULL,
-    imagen VARCHAR (32),
+    imagen VARCHAR (36),
     punts int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
