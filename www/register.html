@@ -25,7 +25,7 @@
             <div class="col-lg-6">
                 <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Campos obligatorios</strong></div>
                 <div class="form-group">
-                    <label for="InputName">Nombre</label>
+                    <label for="InputName">Nombre completo</label>
                     <div class="input-group">
                         <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Nombre" required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
@@ -34,14 +34,14 @@
                 <div class="form-group">
                     <label for="InputName">Username</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Username" required>
+                        <input type="text" class="form-control" name="InputNick" id="InputNick" placeholder="Username" required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="InputEmail">Email</label>
                     <div class="input-group">
-                        <input type="email" class="form-control" id="InputEmailFirst" name="InputEmail" placeholder="Enter Email" required>
+                        <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email" required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                 </div>
@@ -65,8 +65,15 @@
                  <div class="form-group">
                     <label for="InputMessage">Descripción</label>
                     <div class="input-group">
-                        <textarea name="InputMessage" id="InputMessage" class="form-control" rows="3" placeholder="Soy alérgico a los gatos y me gustan los perros" required></textarea>
+                        <textarea name="InputMessage" id="InputMessage" class="form-control" rows="1" placeholder="Soy alérgico a los gatos y me gustan los perros" required></textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label for="inputFile">Elige tu foto de perfil</label>
+                    <div class="input-group">
+                        <input name="image" type="file" id="inputFile" required="required">
+                        
                     </div>
                 </div>
                 <button id="signup"
@@ -85,6 +92,7 @@
     <script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type = "text/javascript" src="js/registrar.js"></script>
 <!-- Registration form - END -->
 
 </div>

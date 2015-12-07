@@ -2,6 +2,8 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.User;
 
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +16,8 @@ import java.sql.SQLException;
  * Created by Admin on 09/11/2015.
  */
 public class UserDAOImpl implements UserDAO{
+    @Context
+    private Application app;
     @Override
     public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo, String uuid_imagen) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
@@ -133,6 +137,8 @@ public class UserDAOImpl implements UserDAO{
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
                 user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen") + ".png");
+                //user.setImageURL(app.getProperties().get("imgBaseURL")+ user.getFilename());
             }
         } catch (SQLException e) {
             // Relanza la excepción
