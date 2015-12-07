@@ -1,16 +1,7 @@
 package edu.eetac.dsa.flatmates.dao;
 
-import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
 
-import javax.imageio.ImageIO;
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 
 /**
  * Created by Admin on 09/11/2015.
@@ -72,10 +62,6 @@ public class UserDAOImpl implements UserDAO{
             connection.commit();
 
             stmt.close();
-            stmt = connection.prepareStatement(UserDAOQuery.PUNTOS);
-            stmt.setString(1, id);
-            stmt.executeUpdate();
-            connection.commit();
 
         } catch (SQLException e) {
             throw e;
@@ -146,6 +132,7 @@ public class UserDAOImpl implements UserDAO{
                 user.setTareas(rs.getInt("tareas"));
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
+                user.setPuntos(rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             // Relanza la excepción
@@ -181,6 +168,8 @@ public class UserDAOImpl implements UserDAO{
                 user.setEmail(rs.getString("email"));
                 user.setFullname(rs.getString("fullname"));
                 user.setInfo(rs.getString("info"));
+                user.setTareas(rs.getInt("tareas"));
+                user.setPuntos(rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             throw e;
@@ -243,38 +232,9 @@ public class UserDAOImpl implements UserDAO{
         }
 
     }
-
     @Override
-    public PuntosTotales getPuntos(String loginid) throws SQLException {
-        PuntosTotales puntosTotales = null;
-
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        try {
-            connection = Database.getConnection();
-
-            stmt = connection.prepareStatement(UserDAOQuery.GET_PUNTOS);
-            stmt.setString(1, loginid);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                puntosTotales = new PuntosTotales();
-                puntosTotales.setLoginid(rs.getString("loginid"));
-                puntosTotales.setPuntos(rs.getInt("puntos"));
-            }
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (stmt != null) stmt.close();
-            if (connection != null) connection.close();
-        }
-
-        return puntosTotales;
-    }
-
-    @Override
-    public PuntosTotales updatePuntos(String loginid, int puntos) throws SQLException {
-        PuntosTotales puntosTotales = null;
+    public User updatePuntos(String loginid, int puntos) throws SQLException {
+        User user = null;
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -286,7 +246,7 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(2, loginid);
             int rows = stmt.executeUpdate();
             if (rows == 1)
-               puntosTotales = getPuntos(loginid);
+                user= getUserById(loginid);
         } catch (SQLException ex){
             throw ex;
         } finally {
@@ -294,7 +254,7 @@ public class UserDAOImpl implements UserDAO{
             if (connection != null) connection.close();
         }
 
-        return puntosTotales;
+        return user;
     }
 
 

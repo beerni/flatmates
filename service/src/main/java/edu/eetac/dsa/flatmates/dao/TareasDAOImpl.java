@@ -65,6 +65,7 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setTarea(rs.getString("tarea"));
                 Tarea.setImage(rs.getString("imagen"));
                 Tarea.setPuntos(rs.getInt("punts"));
+                Tarea.setHecho(rs.getBoolean("hecho"));
             }
         } catch (SQLException e) {
             throw e;
@@ -92,6 +93,7 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setId(rs.getString("id"));
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
+                Tarea.setHecho(rs.getBoolean("hecho"));
                 coleccionTareas.getTareas().add(Tarea);
             }
         } catch (SQLException e) {
@@ -104,14 +106,40 @@ public class TareasDAOImpl implements TareasDAO{
     }
 
     @Override
-    public boolean deleteTarea(String id) throws SQLException {
+    public boolean selectTarea(String idg, String idt, String userid) throws SQLException{
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+
+            stmt = connection.prepareStatement(TareasDAOQuery.SELECT_TAREA);
+            stmt.setString(1, userid);
+            stmt.setString(2, idg);
+            stmt.setString(3, idt);
+            stmt.executeUpdate();
+
+            stmt.close();
+            return true;
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
+    public boolean deleteTarea(String id, String idt) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(TareasDAOQuery.DELETE_TAREA);
-            stmt.setString(1, id);
+            stmt.setString(1, idt);
+            stmt.setString(2, id);
 
             int rows = stmt.executeUpdate();
             return (rows == 1);

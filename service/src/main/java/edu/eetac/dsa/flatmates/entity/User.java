@@ -23,6 +23,16 @@ public class User {
     private int tareas;
     private String imageURL;
     private String filename;
+    private int puntos;
+
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
 
     public String getImageURL() {
         return imageURL;

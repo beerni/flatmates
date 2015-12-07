@@ -19,6 +19,15 @@ public class tareas {
     private String tarea;
     private String image;
     private int puntos;
+    private boolean hecho;
+
+    public boolean isHecho() {
+        return hecho;
+    }
+
+    public void setHecho(boolean hecho) {
+        this.hecho = hecho;
+    }
 
     public String getImage() {
         return image;

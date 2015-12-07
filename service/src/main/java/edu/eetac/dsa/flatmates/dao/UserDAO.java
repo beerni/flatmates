@@ -1,9 +1,7 @@
 package edu.eetac.dsa.flatmates.dao;
 
-import edu.eetac.dsa.flatmates.entity.PuntosTotales;
 import edu.eetac.dsa.flatmates.entity.User;
 
-import java.io.InputStream;
 import java.sql.SQLException;
 
 /**
@@ -22,8 +20,6 @@ public interface UserDAO {
 
     public boolean checkPassword(String id, String password) throws SQLException;
 
-    public PuntosTotales getPuntos(String loginid) throws SQLException;
-
-    public PuntosTotales updatePuntos(String loginid, int puntos) throws SQLException;
+    public User updatePuntos(String loginid, int puntos) throws SQLException;
 
 }

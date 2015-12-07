@@ -5,6 +5,7 @@ import edu.eetac.dsa.flatmates.dao.GrupoDAOImpl;
 import edu.eetac.dsa.flatmates.dao.ListaCompraDAO;
 import edu.eetac.dsa.flatmates.dao.ListaCompraDAOImpl;
 import edu.eetac.dsa.flatmates.entity.ColeccionListaCompra;
+import edu.eetac.dsa.flatmates.entity.Grupo;
 import edu.eetac.dsa.flatmates.entity.GrupoUsuario;
 import edu.eetac.dsa.flatmates.entity.ListaCompra;
 
@@ -35,7 +36,7 @@ public class ListaCompraResource {
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(id);
+            grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             listaCompra = listaCompraDAO.createLista(item, id);
@@ -55,7 +56,7 @@ public class ListaCompraResource {
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(id);
+            grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             listaCompraCollection = listaCompraDAO.getLista(id);
@@ -75,7 +76,7 @@ public class ListaCompraResource {
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(id);
+            grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             listaCompra = listaCompraDAO.getListaById(idlista);
@@ -101,7 +102,7 @@ public class ListaCompraResource {
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         ListaCompraDAO listaCompraDAO = new ListaCompraDAOImpl();
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(id);
+            grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             listaCompra = listaCompraDAO.updateLista(listaCompra.getId(), listaCompra.getItem(), listaCompra.getGrupoid());
@@ -112,6 +113,7 @@ public class ListaCompraResource {
         }
         return listaCompra;
     }
+
     @Path("/{idt}/grupo/{id}")
     @DELETE
     public void deleteLista(@PathParam("id") String idg, @PathParam("idt") String id) {
@@ -120,7 +122,7 @@ public class ListaCompraResource {
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         GrupoUsuario grupoUsuario = null;
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(idg);
+            grupoUsuario = grupoDAO.getGrupoUserById(idg, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             if(!listaCompraDAO.deleteLista(id))

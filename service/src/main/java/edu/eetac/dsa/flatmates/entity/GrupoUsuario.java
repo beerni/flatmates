@@ -15,6 +15,16 @@ public class GrupoUsuario {
     private List<Link> links;
     private String grupoid;
     private String userid;
+    private int puntos;
+
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
 
     public List<Link> getLinks() {
         return links;

@@ -13,6 +13,7 @@ CREATE TABLE users (
     info VARCHAR(255),
     tareas int NOT NULL,
     imagen VARCHAR (36),
+    puntos int NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -30,6 +31,7 @@ CREATE TABLE grupo (
 CREATE TABLE grupousuario (
     userid BINARY(16) NOT NULL,
     grupoid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     PRIMARY KEY (userid, grupoid)
@@ -50,21 +52,6 @@ CREATE TABLE auth_tokens (
     PRIMARY KEY (token)
 );
 
-CREATE TABLE puntos_totales (
-    id BINARY (16) NOT NULL,
-    puntos INT NOT NULL,	
-    FOREIGN KEY (id) REFERENCES users(id) on delete cascade,
-    PRIMARY KEY (id, puntos)
-);
-
-CREATE TABLE puntos_grupo (
-    id BINARY (16) NOT NULL,
-    grupoid BINARY(16) NOT NULL,
-    puntos INT NOT NULL,	
-    FOREIGN KEY (id) REFERENCES users(id) on delete cascade,
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
-    PRIMARY KEY (id, grupoid, puntos)
-);
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
     grupoid BINARY (16) NOT NULL,
@@ -72,6 +59,7 @@ CREATE TABLE tareas (
     tarea VARCHAR (100) NOT NULL,
     imagen VARCHAR (36),
     punts int NOT NULL,
+    hecho enum ('fales','true'),
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade

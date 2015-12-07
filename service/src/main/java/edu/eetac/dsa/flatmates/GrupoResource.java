@@ -59,6 +59,10 @@ public class GrupoResource {
         UserDAO userDAO = new UserDAOImpl();
         try{
             grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+            {
+                throw new NotFoundException("Group with id=" + id + " not found");
+            }
                 if(!grupo.getAdmin().equals(securityContext.getUserPrincipal().getName()))
                     throw new ForbiddenException("You aren't the admin");
             user = userDAO.getUserByLoginid(loginid);
@@ -85,7 +89,12 @@ public class GrupoResource {
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         try {
-            grupoUsuario = grupoDAO.getGrupoUserById(id);
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+            {
+                throw new NotFoundException("Group with id = " + id + " not found");
+            }
+            grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             grupo = grupoDAO.getGrupoById(id);
@@ -104,6 +113,8 @@ public class GrupoResource {
         Grupo grupo = null;
         try {
             grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id = " + id + " not found");
             if(!grupo.getAdmin().equals(securityContext.getUserPrincipal().getName())&&!securityContext.isUserInRole("admin"))
                 throw new ForbiddenException("You aren't the admin or the admin in the group");
             if(!grupoDAO.deleteGrupo(id))
@@ -128,6 +139,10 @@ public class GrupoResource {
                 throw new NotFoundException("User with id = " + userid + " not found");
             }
             grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+            {
+                throw new NotFoundException("Grupo with id = " + id + " not found");
+            }
             if(!grupo.getAdmin().equals(user)&&!userid.equals(user))
                 throw new ForbiddenException("Only the admin or the own user can delete");
             if(grupo.getAdmin().equals(userid))
