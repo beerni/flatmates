@@ -49,7 +49,7 @@ public class GrupoResource {
     @Path("/{id}")
     @POST
     @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
-    public void addusuarioGrupo(@PathParam("id") String id, @FormParam("loginid") String loginid, @Context UriInfo uriInfo)  {
+    public void addusuarioGrupo(@PathParam("id") String id, @FormParam("loginid") String loginid)  {
 
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         AuthToken authenticationToken = null;
