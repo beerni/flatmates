@@ -1,6 +1,6 @@
 $("#button_signin").click(function(e) {
   event.preventDefault();
-  login($("#loginid").val(), $("#password").val(), function(){
+  login($("#username").val(), $("#password").val(), function(){
   	console.log("change");
   	window.location.replace('flatmates.html');
   });

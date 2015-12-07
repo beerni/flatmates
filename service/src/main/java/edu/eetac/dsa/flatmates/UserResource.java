@@ -59,16 +59,16 @@ public class UserResource {
                                  @Context UriInfo uriInfo) throws URISyntaxException {
 
 
-        if(loginid == null || password == null || email == null || fullname == null)
+        if(loginid == null || password == null || email == null || fullname == null || imagen==null)
             throw new BadRequestException("all parameters are mandatory");
         UserDAO userDAO = new UserDAOImpl();
         User user = null;
         AuthToken authenticationToken = null;
         try{
             UUID uuid = writeAndConvertImage(imagen);
-            //System.out.println(loginid + password + email + fullname+ info+ sexo+ uuid.toString());
             user = userDAO.createUser(loginid, password, email, fullname, info, sexo, uuid.toString());
             user.setFilename(uuid.toString() + ".png");
+            //user.setImageURL(app.getProperties().get("imgBaseURL") + user.getFilename());
             authenticationToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);
@@ -78,7 +78,6 @@ public class UserResource {
         }catch(NullPointerException e) {
             System.out.println(e.toString());
         }
-        user.setImageURL(app.getProperties().get("imgBaseURL") + user.getFilename());
         URI uri = new URI(uriInfo.getAbsolutePath().toString() + "/" + user.getId());
         return Response.created(uri).type(FlatmatesMediaType.FLATMATES_AUTH_TOKEN).entity(authenticationToken).build();
     }
@@ -98,7 +97,7 @@ public class UserResource {
         try {
             ImageIO.write(image, "png",
 
-                    new File("/Users/Admin/flatmates-develop/imagen/" + filename));
+                    new File("/home/bernat/dsa-projects/flatmates-project/www/images/" + filename));
         } catch (IOException e) {
             throw new InternalServerErrorException(
                     "Something has been wrong when converting the file.");

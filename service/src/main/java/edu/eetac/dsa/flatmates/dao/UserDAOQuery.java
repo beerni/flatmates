@@ -10,7 +10,7 @@ public interface UserDAOQuery {
     public final static String UPDATE_USER = "update users set email=?, fullname=?, info=? where id=unhex(?)";
     public final static String ASSIGN_ROLE_REGISTERED = "insert into user_roles (userid, role) values (UNHEX(?), 'registered')";
     public final static String ASSIGN_ROLE_ADMIN = "insert into user_roles (userid, role) values (UNHEX(?), 'admin')";
-    public final static String GET_USER_BY_ID = "select hex(id) as id, loginid, email, fullname, sexo, info, tareas, puntos from users where id=unhex(?)";
+    public final static String GET_USER_BY_ID = "select hex(id) as id, loginid, email, fullname, sexo, info, tareas, puntos, imagen from users where id=unhex(?)";
     public final static String GET_USER_BY_USERNAME = "select hex(u.id) as id, u.loginid, u.email, u.fullname, u.sexo, u.info, u.tareas, u.puntos from users u where u.loginid=?";
     public final static String DELETE_USER = "delete from users where id=unhex(?)";
     public final static String GET_PASSWORD =  "select hex(password) as password from users where id=unhex(?)";
