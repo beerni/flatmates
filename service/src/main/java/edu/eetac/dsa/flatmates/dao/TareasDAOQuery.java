@@ -5,7 +5,7 @@ package edu.eetac.dsa.flatmates.dao;
  */
 public class TareasDAOQuery {
     public final static String UUID = "select REPLACE(UUID(),'-','')";
-    public final static String CREATE_TAREA = "insert into tareas (id, grupoid, tarea, punts, hecho) values (UNHEX(?), unhex(?), ?, '0', 'false')";
+    public final static String CREATE_TAREA = "insert into tareas (id, grupoid, tarea, punts, hecho) values (UNHEX(?), unhex(?), ?, '0', '0')";
     public final static String GET_TAREA_BY_ID = "select hex(id) as id, hex(userid) as userid, tarea, imagen, punts, hecho from tareas where id=unhex(?) and grupoid = unhex(?)";
     public final static String GET_TAREA_BY = "select hex(t.id) as id, hex(t.userid) as userid, t.tarea, t.imagen, t.punts, u.loginid from tareas t, users u where t.id=unhex(?) and u.id = t.userid";
     public final static String GET_TAREA = "select hex(id) as id, hex(userid) as userid, tarea, punts, hecho from tareas where grupoid = unhex(?)";

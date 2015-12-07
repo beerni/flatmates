@@ -14,4 +14,5 @@ public interface ListaCompraDAO {
     public ColeccionListaCompra getLista(String grupoid) throws SQLException;
     public ListaCompra updateLista(String id, String item, String grupoid) throws SQLException;
     public boolean deleteLista(String id) throws SQLException;
+    public boolean HechoLista(String id, String idg) throws SQLException;
 }

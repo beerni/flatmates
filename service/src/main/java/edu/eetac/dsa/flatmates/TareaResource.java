@@ -35,6 +35,8 @@ public class TareaResource{
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         try {
             grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             if(!grupo.getAdmin().equals(userid))
                 throw new ForbiddenException("You aren't the admin");
             Tareas = tareaDAO.createTareas(id, tarea);
@@ -53,7 +55,11 @@ public class TareaResource{
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -73,7 +79,11 @@ public class TareaResource{
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -97,8 +107,13 @@ public class TareaResource{
         GrupoUsuario grupoUsuario = null;
         tareas Tareas = null;
         try{
+            grupo = grupoDAO.getGrupoById(idg);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + idg+ " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(idg, userid);
             Tareas = tareasDAO.getTareadById(id, idg);
+            if (Tareas == null)
+                throw new NotFoundException("Tarea with id=" + id + " not found");
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("You aren't the admin");
             if(Tareas.getUserid()!= null)
@@ -118,8 +133,14 @@ public class TareaResource{
         TareasDAO tareasDAO = new TareasDAOImpl();
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         Grupo grupo = null;
+        tareas Tareas = null;
         try {
             grupo = grupoDAO.getGrupoById(idg);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + idg + " not found");
+            Tareas = tareasDAO.getTareadById(id, idg);
+            if (Tareas == null)
+                throw new NotFoundException("Tarea with id=" + id + " not found");
             if(!grupo.getAdmin().equals(userid))
                 throw new ForbiddenException("operation not allowed");
             if(!tareasDAO.deleteTarea(idg, id))
@@ -128,4 +149,5 @@ public class TareaResource{
             throw new InternalServerErrorException();
         }
     }
+
 }

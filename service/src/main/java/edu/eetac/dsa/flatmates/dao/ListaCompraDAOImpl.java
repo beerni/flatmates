@@ -64,6 +64,7 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
                 listaCompra.setId(rs.getString("id"));
                 listaCompra.setItem(rs.getString("item"));
                 listaCompra.setGrupoid(rs.getString("grupoid"));
+                listaCompra.setHecho(rs.getBoolean("hecho"));
             }
 
         } catch (SQLException e) {
@@ -93,6 +94,7 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
                 listaCompra.setId(rs.getString("id"));
                 listaCompra.setItem(rs.getString("item"));
                 listaCompra.setGrupoid(rs.getString("grupoid"));
+                listaCompra.setHecho(rs.getBoolean("hecho"));
                 coleccionListaCompra.getListaCompras().add(listaCompra);
             }
         } catch (SQLException e) {
@@ -150,6 +152,31 @@ public class ListaCompraDAOImpl implements ListaCompraDAO {
                 stmt.close();
             if (connection != null)
                 connection.close();
+        }
+    }
+
+    @Override
+    public boolean HechoLista(String id, String idg) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+
+            stmt = connection.prepareStatement(ListaCompraDAOQuery.HECHO);
+            stmt.setString(1, id);
+            stmt.setString(2, idg);
+            stmt.executeUpdate();
+
+            stmt.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
         }
     }
 }

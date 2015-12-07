@@ -22,7 +22,6 @@ public class ListaCompra {
         return links;
     }
 
-
     public boolean isHecho() {
         return hecho;
     }

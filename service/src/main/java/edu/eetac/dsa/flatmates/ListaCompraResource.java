@@ -14,6 +14,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Admin on 24/11/2015.
@@ -35,7 +36,11 @@ public class ListaCompraResource {
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -55,7 +60,11 @@ public class ListaCompraResource {
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -75,7 +84,11 @@ public class ListaCompraResource {
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -100,8 +113,12 @@ public class ListaCompraResource {
         String userid = securityContext.getUserPrincipal().getName();
         GrupoUsuario grupoUsuario = null;
         GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
         ListaCompraDAO listaCompraDAO = new ListaCompraDAOImpl();
         try {
+            grupo = grupoDAO.getGrupoById(id);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(id, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -121,7 +138,15 @@ public class ListaCompraResource {
         ListaCompraDAO listaCompraDAO = new ListaCompraDAOImpl();
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         GrupoUsuario grupoUsuario = null;
+        Grupo grupo = null;
+        ListaCompra listaCompra = null;
         try {
+            grupo = grupoDAO.getGrupoById(idg);
+            if (grupo == null)
+                throw new NotFoundException("Group with id=" + idg + " not found");
+            listaCompra = listaCompraDAO.getListaById(id);
+            if (listaCompra == null)
+                throw new NotFoundException("Item with id=" + id + " not found");
             grupoUsuario = grupoDAO.getGrupoUserById(idg, userid);
             if(!grupoUsuario.getUserid().equals(userid))
                 throw new ForbiddenException("operation not allowed");
@@ -131,5 +156,35 @@ public class ListaCompraResource {
             throw new InternalServerErrorException();
         }
     }
-
+    @Path("/{id}/grupo/{idgrupo}/hecho")
+    @POST
+    @Produces(FlatmatesMediaType.FLATMATES_LISTA)
+    public void hecho(@PathParam("id") String id, @PathParam("idgrupo") String idg)  {
+        String userid = securityContext.getUserPrincipal().getName();
+        GrupoDAO grupoDAO = new GrupoDAOImpl();
+        Grupo grupo = null;
+        ListaCompra listaCompra = null;
+        GrupoUsuario grupoUsuario = null;
+        ListaCompraDAO listaCompraDAO = new ListaCompraDAOImpl();
+        try{
+            grupo = grupoDAO.getGrupoById(idg);
+            if (grupo == null)
+            {
+                throw new NotFoundException("Group with id=" + idg + " not found");
+            }
+            grupoUsuario = grupoDAO.getGrupoUserById(idg, userid);
+            if(!grupoUsuario.getUserid().equals(userid))
+                throw new ForbiddenException("You aren't the admin");
+            listaCompra = listaCompraDAO.getListaById(id);
+            if (listaCompra == null)
+            {
+                throw new NotFoundException("Item with id = "+id+" doesn't exist");
+            }
+            if (listaCompra.isHecho())
+                throw new ForbiddenException("This item is did");
+            listaCompraDAO.HechoLista(id, idg);
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+    }
 }
