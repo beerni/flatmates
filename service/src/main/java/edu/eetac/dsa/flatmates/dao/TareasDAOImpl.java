@@ -199,21 +199,27 @@ public class TareasDAOImpl implements TareasDAO{
         }
     }
     @Override
-    public tareas updateTarea(String id, String idg, String uuid_imagen) throws SQLException {
+    public tareas updateTarea(String id, String idg, String uuid_imagen, String userid) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
+        tareas Tareas = null;
         try {
             connection = Database.getConnection();
-
+            Tareas = getTareadById(id, idg);
+            if (!Tareas.isHecho()) {
+                stmt = connection.prepareStatement(UserDAOQuery.SET_TAREAS);
+                stmt.setString(1, userid);
+                stmt.executeUpdate();
+                stmt.close();
+            }
             stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_IMAGE);
+            stmt.setString(1, uuid_imagen);
             stmt.setString(1, uuid_imagen);
             stmt.setString(2, id);
             stmt.setString(3, idg);
-
             stmt.executeUpdate();
 
             stmt.close();
-
         } catch (SQLException e) {
             throw e;
         } finally {

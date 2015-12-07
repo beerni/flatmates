@@ -203,7 +203,7 @@ public class TareaResource{
     @PUT
     @Consumes (MediaType.MULTIPART_FORM_DATA)
     @Produces(FlatmatesMediaType.FLATMATES_TAREA)
-    public tareas registerUser(@FormDataParam("imagen") InputStream imagen,
+    public tareas updateTarea(@FormDataParam("imagen") InputStream imagen,
                                  @FormDataParam("imagen") FormDataContentDisposition fileDetail,
                                  @PathParam("id") String id, @PathParam("grupoid") String idg, @Context UriInfo uriInfo) throws URISyntaxException {
 
@@ -225,7 +225,7 @@ public class TareaResource{
             if(!Tareas.getUserid().equals(userid))
                 throw new ForbiddenException("Only the user that have this tarea can modify");
             UUID uuid = writeAndConvertImage(imagen);
-            Tareas = tareasDAO.updateTarea(id, idg, uuid.toString());
+            Tareas = tareasDAO.updateTarea(id, idg, uuid.toString(), userid);
         }catch(SQLException e){
             throw new InternalServerErrorException();
         }catch(NullPointerException e) {

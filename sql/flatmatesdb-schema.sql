@@ -59,7 +59,7 @@ CREATE TABLE tareas (
     tarea VARCHAR (100) NOT NULL,
     imagen VARCHAR (36),
     punts int NOT NULL,
-    hecho enum ('false','true'),
+    hecho TINYINT(1),
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade

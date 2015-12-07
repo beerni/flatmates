@@ -153,7 +153,6 @@ public class UserDAOImpl implements UserDAO{
         return user;
     }
 
-
     @Override
     public User getUserByLoginid(String loginid) throws SQLException {
         User user = null;
