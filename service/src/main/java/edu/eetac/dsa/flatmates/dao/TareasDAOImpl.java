@@ -1,6 +1,7 @@
 package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.ColeccionTareas;
+import edu.eetac.dsa.flatmates.entity.RelacionPuntosTareas;
 import edu.eetac.dsa.flatmates.entity.tareas;
 
 import java.sql.Connection;
@@ -131,6 +132,51 @@ public class TareasDAOImpl implements TareasDAO{
     }
 
     @Override
+    public boolean pointsTarea(String idg, String idt, String userid, int points) throws SQLException{
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, idt);
+            stmt.setString(3, idg);
+            stmt.executeUpdate();
+
+            tareas Tareas = getTareadById(idt, idg);
+
+            stmt.close();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.INSERT_RELATION);
+            stmt.setString(1, userid);
+            stmt.setString(2, idt);
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = connection.prepareStatement(UserDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, Tareas.getUserid());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, Tareas.getUserid());
+            stmt.setString(3, idg);
+            stmt.executeUpdate();
+            stmt.close();
+            return true;
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
     public boolean deleteTarea(String id, String idt) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -151,5 +197,61 @@ public class TareasDAOImpl implements TareasDAO{
             if (connection != null)
                 connection.close();
         }
+    }
+    @Override
+    public tareas updateTarea(String id, String idg, String uuid_imagen) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_IMAGE);
+            stmt.setString(1, uuid_imagen);
+            stmt.setString(2, id);
+            stmt.setString(3, idg);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
+
+        return getTareadById(id, idg);
+    }
+
+    @Override
+    public RelacionPuntosTareas getRelation(String userid, String tareaid) throws SQLException {
+        RelacionPuntosTareas relacionPuntosTareas = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.GET_RELATION);
+            stmt.setString(1, userid);
+            stmt.setString(2, tareaid);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                relacionPuntosTareas = new RelacionPuntosTareas();
+                relacionPuntosTareas.setUserid(rs.getString("userid"));
+                relacionPuntosTareas.setIdtarea(rs.getString("idtarea"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+        return relacionPuntosTareas;
     }
 }
