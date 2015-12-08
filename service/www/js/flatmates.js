@@ -10,6 +10,12 @@ $("#btnreload").click(function(e) {
 
 });
 
+$("#btnlogout").click(function(e){
+    e.preventDefault();
+    logout(function(){
+        window.location.replace('index.html');
+    });
+})
 
   var cont = 30; 
 setInterval(function contador(){

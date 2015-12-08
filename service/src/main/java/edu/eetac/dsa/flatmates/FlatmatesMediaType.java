@@ -13,4 +13,5 @@ public class FlatmatesMediaType {
     public final static String FLATMATES_LISTA_COLLECTION = "application/vnd.dsa.flatmates.lista.collection+json";
     public final static String FLATMATES_TAREA = "application/vnd.dsa.flatmates.tarea+json";
     public final static String FLATMATES_LISTA_TAREA = "application/vnd.dsa.flatmates.tarea.collection+json";
+    public final static String FLATMATES_ROOT = "application/vnd.dsa.flatmates.root+json";
 }
