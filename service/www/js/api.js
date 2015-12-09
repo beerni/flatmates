@@ -56,3 +56,21 @@ function logout (complete){
     }).fail(function(){console.log("Hay algun error al logout")});
         
 }
+
+function loadStings(uri, complete){
+     var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        type : 'GET',
+        url : uri,
+        headers: {"X-Auth-Token":authToken.token}
+    }).done (function(data){
+        data.links=linksToMap(data.links);
+        complete(data);
+    }).fail(function(){console.log("Algo no funciono futuro ingeniero");});
+	/*$.get(uri)
+		.done(function(stings){
+			stings.links = linksToMap(stings.links);
+			complete(stings);
+		})
+		.fail(function(){});*/
+}

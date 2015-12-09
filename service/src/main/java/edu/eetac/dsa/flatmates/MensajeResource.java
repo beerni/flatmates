@@ -40,17 +40,17 @@ public class MensajeResource {
     }
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION)
-    public ColeccionMensaje getMensaje(){
-        ColeccionMensaje mensajeCollection = null;
+    public ColeccionMensaje getMensajes(){
+        ColeccionMensaje mensajesCollection = null;
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         String userid = securityContext.getUserPrincipal().getName();
         try {
-            mensajeCollection = mensajeDAO.getMensaje();
+            mensajesCollection = mensajeDAO.getMensaje();
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
 
-        return mensajeCollection;
+        return mensajesCollection;
     }
     @Path("/{id}")
     @GET
