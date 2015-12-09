@@ -20,8 +20,8 @@ import java.util.List;
             @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
             @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
             @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-message", title = "Create message", type = FlatmatesMediaType.FLATMATES_MENSAJE),
-            @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.userid}"))
-
+            @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.userid}")),
+            @InjectLink(resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-group", title = "Create group", type = FlatmatesMediaType.FLATMATES_GRUPO)
                 })
 
         private List<Link> links;
