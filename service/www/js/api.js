@@ -20,8 +20,6 @@ function loadAPI (complete){
 }
 
 function login (loginid, password, complete){
-    console.log(loginid);
-    console.log(password);
     loadAPI(function(){
         var api = JSON.parse(sessionStorage.api);
         var uri = api.login.uri;
