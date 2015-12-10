@@ -1,23 +1,32 @@
-/*$(function(){
+$(function(){
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri; //Obtens la uri dels missatges amb el que tens a links i a current-messages; el current-messages es el rel del HATEOAS
     console.log(currentMessagesUri); //Uri obtenida
    loadStings(currentMessagesUri, function(stings){
-      $("#messages-list").empty(); //ME llegan los stings
-       var response = stings;
+      $("#message").empty(); //ME llegan los stings
+       processStingCollection(stings);
+      var response = stings;
        console.log(response); 
        $.each(response, function (i,v){
            var fichero = v;
         $.each(fichero, function(i,v){ //Uno por uno!
-            console.log(v)    
+             console.log(v);
+            if(v.subject != undefined)
+             $("#message").append("<li><div><a href='#' class='news-item-title'>"+v.subject+"</a><p class='news-item-preview'>"+v.mensaje+".</p></div></li>");
         });
-       });
-     
-      //processStingCollection(stings);
+           
+    });
   });
 });
-/*function processStingCollection(stings){
-  $.each(stings["stings"], function(i,sting){
+
+
+
+function processStingCollection(stings){
+   
+    //$.each(stings['stings"], function(i,sting){
+        
+    //});
+  /*$.each(stings["stings"], function(i,sting){
       sting.links=linksToMap(sting.links);
       console.log(sting.links);
       var edit = sting.userid ==JSON.parse(sessionStorage["auth-token"]).userid;
@@ -27,9 +36,9 @@
       if(i==lastIndex){
         $('#formPrevious').attr('action', sting["links"].previous.uri);
       }
-  });
+  });*/
 
-}*/
+}
   $("#btnhome").click(function(e) {
 	e.preventDefault();
 	window.location.replace("flatmates.html");

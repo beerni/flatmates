@@ -57,7 +57,7 @@ function logout (complete){
         
 }
 
-/*function loadStings(uri, complete){
+function loadStings(uri, complete){
      var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         type : 'GET',
@@ -68,4 +68,4 @@ function logout (complete){
         complete(data);
     }).fail(function(){console.log("Algo no funciono futuro ingeniero");});
 	
-}*/
+}
