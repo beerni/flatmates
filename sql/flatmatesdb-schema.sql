@@ -75,9 +75,8 @@ CREATE TABLE relacionPuntosTareas (
 );
 CREATE TABLE mensaje (
     id BINARY(16) NOT NULL,
-    userid BINARY(16) NOT NULL,
-    subject VARCHAR(100) NOT NULL,	
-    mensaje VARCHAR(500) NOT NULL,
+    userid BINARY(16) NOT NULL,	
+    content VARCHAR(500) NOT NULL,
     last_modified TIMESTAMP NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),

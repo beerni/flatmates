@@ -26,20 +26,11 @@
 
         private List<Link> links;
         private String id;
-        private String mensaje;
-        private String subject;
+        private String content;
         private String loginid;
         private String userid;
         private long creationTimestamp;
         private long lastModified;
-
-        public String getSubject() {
-            return subject;
-        }
-
-        public void setSubject(String subject) {
-            this.subject = subject;
-        }
 
         public String getLoginid() {
             return loginid;
@@ -65,12 +56,12 @@
             this.id = id;
         }
 
-        public String getMensaje() {
-            return mensaje;
+        public String getContent() {
+            return content;
         }
 
-        public void setMensaje(String mensaje) {
-            this.mensaje = mensaje;
+        public void setContent(String content) {
+            this.content = content;
         }
 
         public String getUserid() {

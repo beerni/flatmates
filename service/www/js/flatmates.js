@@ -4,15 +4,14 @@ $(function(){
     console.log(currentMessagesUri); //Uri obtenida
    loadStings(currentMessagesUri, function(stings){
       $("#message").empty(); //ME llegan los stings
-       processStingCollection(stings);
       var response = stings;
        console.log(response); 
        $.each(response, function (i,v){
            var fichero = v;
         $.each(fichero, function(i,v){ //Uno por uno!
              console.log(v);
-            if(v.subject != undefined)
-             $("#message").append("<li><div><a href='#' class='news-item-title'>"+v.subject+"</a><p class='news-item-preview'>"+v.mensaje+".</p></div></li>");
+            if(v.content != undefined)
+             $("#message").append("<li><div><a href='#' class='news-item-title'>"+v.loginid+"</a><p class='news-item-preview'>"+v.content+".</p></div></li>");
         });
            
     });
@@ -20,25 +19,18 @@ $(function(){
 });
 
 
-
-function processStingCollection(stings){
-   
-    //$.each(stings['stings"], function(i,sting){
-        
-    //});
-  /*$.each(stings["stings"], function(i,sting){
-      sting.links=linksToMap(sting.links);
-      console.log(sting.links);
-      var edit = sting.userid ==JSON.parse(sessionStorage["auth-token"]).userid;
-      $("#stings-list").append(listItemHTML(sting.links["self"].uri, sting.subject, sting.creator, edit));
-      if(i==0)
-        $("#buttonUpdate").click(function(){alert("I don't do anything, implement me!")});
-      if(i==lastIndex){
-        $('#formPrevious').attr('action', sting["links"].previous.uri);
-      }
-  });*/
-
-}
+  $("#crearMensaje").click(function(e) {
+   var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
+   var currentMessagesUri = authToken["links"]["current-messages"].uri;
+   event.preventDefault();
+    if(($("#txtmensaje").val())=='')
+        alert("Tienes que enviar algun mensaje culebrilla");
+      else{
+        crearMensaje($("#txtmensaje").val(), currentMessagesUri, function(){
+        console.log("Mensaje creado correctamente");
+        window.location.reload();
+    });}
+});
   $("#btnhome").click(function(e) {
 	e.preventDefault();
 	window.location.replace("flatmates.html");

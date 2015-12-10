@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class MensajeDAOImpl implements MensajeDAO {
     @Override
-    public Mensaje createMensaje(String userid, String subject, String content) throws SQLException {
+    public Mensaje createMensaje(String userid, String content) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
@@ -30,8 +30,7 @@ public class MensajeDAOImpl implements MensajeDAO {
             stmt = connection.prepareStatement(MensajeDAOQuery.CREATE_MENSAJE);
             stmt.setString(1, id);
             stmt.setString(2, userid);
-            stmt.setString(3, subject);
-            stmt.setString(4, content);
+            stmt.setString(3, content);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw e;
@@ -63,8 +62,7 @@ public class MensajeDAOImpl implements MensajeDAO {
                 Mensaje.setId(rs.getString("id"));
                 Mensaje.setUserid(rs.getString("userid"));
                 Mensaje.setLoginid(rs.getString("loginid"));
-                Mensaje.setSubject(rs.getString("subject"));
-                Mensaje.setMensaje(rs.getString("Mensaje"));
+                Mensaje.setContent(rs.getString("content"));
                 Mensaje.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 Mensaje.setLastModified(rs.getTimestamp("last_modified").getTime());
             }
@@ -92,8 +90,7 @@ public class MensajeDAOImpl implements MensajeDAO {
                 Mensaje Mensaje = new Mensaje();
                 Mensaje.setId(rs.getString("id"));
                 Mensaje.setUserid(rs.getString("userid"));
-                Mensaje.setSubject(rs.getString("subject"));
-                Mensaje.setMensaje(rs.getString("Mensaje"));
+                Mensaje.setContent(rs.getString("content"));
                 Mensaje.setLoginid(rs.getString("loginid"));
                 Mensaje.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 Mensaje.setLastModified(rs.getTimestamp("last_modified").getTime());
@@ -114,7 +111,8 @@ public class MensajeDAOImpl implements MensajeDAO {
     }
 
     @Override
-    public Mensaje updateMensaje(String id, String subject, String content) throws SQLException {
+
+    public Mensaje updateMensaje(String id, String content) throws SQLException {
         Mensaje Mensaje = null;
 
         Connection connection = null;
@@ -123,9 +121,8 @@ public class MensajeDAOImpl implements MensajeDAO {
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(MensajeDAOQuery.UPDATE_MENSAJE);
-            stmt.setString(1, subject);
-            stmt.setString(2, content);
-            stmt.setString(3, id);
+            stmt.setString(1, content);
+            stmt.setString(2, id);
 
             int rows = stmt.executeUpdate();
             if (rows == 1)

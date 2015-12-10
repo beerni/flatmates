@@ -24,14 +24,14 @@ public class MensajeResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(FlatmatesMediaType.FLATMATES_MENSAJE)
-    public Response createMensaje(@FormParam("subject") String subject, @FormParam("Mensaje") String mensaje, @Context UriInfo uriInfo) throws URISyntaxException {
-        if (subject == null || mensaje == null)
+    public Response createMensaje(@FormParam("content") String content, @Context UriInfo uriInfo) throws URISyntaxException {
+        if (content == null)
             throw new BadRequestException("All parameters are mandatory");
         String userid = securityContext.getUserPrincipal().getName();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         Mensaje mensajes = null;
         try {
-            mensajes = mensajeDAO.createMensaje(userid, subject, mensaje);
+            mensajes = mensajeDAO.createMensaje(userid, content);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
@@ -79,12 +79,14 @@ public class MensajeResource {
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
 
         String userid = securityContext.getUserPrincipal().getName();
+        System.out.println(userid);
+        System.out.print(mensaje.getUserid());
         if(!userid.equals(mensaje.getUserid()))
             throw new ForbiddenException("operation not allowed");
 
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         try {
-            mensaje = mensajeDAO.updateMensaje(id, mensaje.getSubject(), mensaje.getMensaje());
+            mensaje = mensajeDAO.updateMensaje(id, mensaje.getContent());
             if(mensaje == null)
                 throw new NotFoundException("Mensaje with id = "+id+" doesn't exist");
         } catch (SQLException e) {

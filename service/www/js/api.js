@@ -69,3 +69,33 @@ function loadStings(uri, complete){
     }).fail(function(){console.log("Algo no funciono futuro ingeniero");});
 	
 }
+
+function crearMensaje(contenido, uri,complete){
+   var authToken = JSON.parse(sessionStorage["auth-token"]);
+    objeto= {
+        content: contenido
+    }
+    var data=JSON.stringify(objeto);
+    console.log(data);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        data: data,
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        console.log('OK');
+        
+    }).fail(function(){
+        alert('ERROR');
+    });
+        /*
+    }).done(function(data){
+        data.links=linksToMap(data.links);
+        console.log(data.links);
+        complete(data);
+    }).fail(function(){console.log("Algo no funciono futuro ingeniero");});*/
+    
+}
