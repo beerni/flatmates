@@ -57,7 +57,7 @@ function logout (complete){
         
 }
 
-function loadStings(uri, complete){
+/*function loadStings(uri, complete){
      var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         type : 'GET',
@@ -67,10 +67,5 @@ function loadStings(uri, complete){
         data.links=linksToMap(data.links);
         complete(data);
     }).fail(function(){console.log("Algo no funciono futuro ingeniero");});
-	/*$.get(uri)
-		.done(function(stings){
-			stings.links = linksToMap(stings.links);
-			complete(stings);
-		})
-		.fail(function(){});*/
-}
+	
+}*/

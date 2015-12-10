@@ -1,10 +1,7 @@
    package edu.eetac.dsa.flatmates.entity;
 
     import com.fasterxml.jackson.annotation.JsonInclude;
-    import edu.eetac.dsa.flatmates.FlatmatesMediaType;
-    import edu.eetac.dsa.flatmates.LoginResource;
-    import edu.eetac.dsa.flatmates.MensajeResource;
-    import edu.eetac.dsa.flatmates.UserResource;
+    import edu.eetac.dsa.flatmates.*;
     import org.glassfish.jersey.linking.Binding;
     import org.glassfish.jersey.linking.InjectLink;
     import org.glassfish.jersey.linking.InjectLinks;
@@ -18,7 +15,7 @@
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public class Mensaje {
         @InjectLinks({
-                @InjectLink (resource = FlatmatesRootAPI.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+                @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
                 @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages"),
                 @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "creates-message", title = "Create message", type = FlatmatesMediaType.FLATMATES_MENSAJE),
                 @InjectLink (resource = MensajeResource.class, method = "getMensaje", style = InjectLink.Style.ABSOLUTE, rel = "self sting", title = "Sting", type = FlatmatesMediaType.FLATMATES_MENSAJE, bindings = @Binding(name = "id", value ="${instance.id}" )),

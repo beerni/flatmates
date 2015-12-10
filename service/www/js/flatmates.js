@@ -1,4 +1,4 @@
-$(function(){
+/*$(function(){
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri; //Obtens la uri dels missatges amb el que tens a links i a current-messages; el current-messages es el rel del HATEOAS
     console.log(currentMessagesUri); //Uri obtenida
@@ -9,8 +9,7 @@ $(function(){
        $.each(response, function (i,v){
            var fichero = v;
         $.each(fichero, function(i,v){ //Uno por uno!
-            console.log(v)   
-        $("#messages-list").append(listItemHTML(v.message, v.content));
+            console.log(v)    
         });
        });
      

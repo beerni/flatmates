@@ -2,6 +2,7 @@ package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.eetac.dsa.flatmates.FlatmatesMediaType;
+import edu.eetac.dsa.flatmates.FlatmatesRootAPIResource;
 import edu.eetac.dsa.flatmates.LoginResource;
 import edu.eetac.dsa.flatmates.MensajeResource;
 import org.glassfish.jersey.linking.InjectLink;
@@ -17,7 +18,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ColeccionMensaje {
     @InjectLinks({
-            @InjectLink (resource = FlatmatesRootAPI.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+            @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
             @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
             @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "get-messages", title = "Get messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
             @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout")
