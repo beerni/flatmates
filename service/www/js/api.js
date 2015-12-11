@@ -70,32 +70,29 @@ function loadStings(uri, complete){
 	
 }
 
-function crearMensaje(contenido, uri,complete){
-   var authToken = JSON.parse(sessionStorage["auth-token"]);
-    objeto= {
-        content: contenido
-    }
-    var data=JSON.stringify(objeto);
-    console.log(data);
+function crearMensaje(contenido, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         url: uri,
         type: 'POST',
         crossDomain: true,
         dataType: "json",
-        data: data,
+        data: { content: contenido },
         headers: {"X-Auth-Token":authToken.token}
         
         }).done(function(data, status, jqxhr){
-        console.log('OK');
+        data.links=linksToMap(data.links);
+        console.log(data.links);
+        console.log("Holi");
+        window.location.reload();
+        
         
     }).fail(function(){
         alert('ERROR');
     });
-        /*
-    }).done(function(data){
-        data.links=linksToMap(data.links);
-        console.log(data.links);
-        complete(data);
-    }).fail(function(){console.log("Algo no funciono futuro ingeniero");});*/
+}
+
+function mensajeCollection{
     
 }
+

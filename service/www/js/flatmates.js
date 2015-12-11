@@ -25,11 +25,8 @@ $(function(){
    event.preventDefault();
     if(($("#txtmensaje").val())=='')
         alert("Tienes que enviar algun mensaje culebrilla");
-      else{
-        crearMensaje($("#txtmensaje").val(), currentMessagesUri, function(){
-        console.log("Mensaje creado correctamente");
-        window.location.reload();
-    });}
+      else
+        crearMensaje($("#txtmensaje").val(), currentMessagesUri);
 });
   $("#btnhome").click(function(e) {
 	e.preventDefault();
