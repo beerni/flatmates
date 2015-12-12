@@ -19,6 +19,7 @@ $(function(){
 });
 
 
+
   $("#crearMensaje").click(function(e) {
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri;

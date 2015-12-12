@@ -92,7 +92,25 @@ function crearMensaje(contenido, uri){
     });
 }
 
-function mensajeCollection{
-    
+function crearGrupo(name, info, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        data: { nombre: name,
+              info: info},
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log(data.links);
+        console.log("Holi");
+	    window.location.replace("grupo.html");
+        
+        
+    }).fail(function(){
+        alert('ERROR');
+    });
 }
-
