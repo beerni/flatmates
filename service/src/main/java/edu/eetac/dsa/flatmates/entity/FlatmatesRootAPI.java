@@ -18,6 +18,8 @@ public class FlatmatesRootAPI {
                 ,@InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout", condition = "${!empty resource.userid}")
                 ,@InjectLink(resource = MensajeResource.class, style =InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages", condition ="${!empty resource.userid}", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION)
                 ,@InjectLink(resource =MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-message", title = "Create message", condition = "${!empty resource.userid}", type = FlatmatesMediaType.FLATMATES_MENSAJE)
+                ,@InjectLink(resource =GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-grupo", title = "Create grupo", condition = "${!empty resource.userid}", type = FlatmatesMediaType.FLATMATES_GRUPO)
+                ,@InjectLink(resource =GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-grupo", title = "Current grupo", condition = "${!empty resource.userid}", type = FlatmatesMediaType.FLATMATES_GRUPO)
                 ,@InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", condition = "${!empty resource.userid}", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${resource.userid}"))
 
                })
