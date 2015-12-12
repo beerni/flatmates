@@ -79,8 +79,6 @@ public class MensajeResource {
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
 
         String userid = securityContext.getUserPrincipal().getName();
-        System.out.println(userid);
-        System.out.print(mensaje.getUserid());
         if(!userid.equals(mensaje.getUserid()))
             throw new ForbiddenException("operation not allowed");
 

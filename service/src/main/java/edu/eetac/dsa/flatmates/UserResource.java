@@ -69,7 +69,6 @@ public class UserResource {
             user = userDAO.createUser(loginid, password, email, fullname, info, sexo, uuid.toString());
             user.setFilename(uuid.toString() + ".png");
             user.setImageURL(app.getProperties().get("imgBaseURL") + user.getFilename());
-            System.out.println(user.getImageURL());
             authenticationToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);
@@ -96,7 +95,7 @@ public class UserResource {
         String filename = uuid.toString() + ".png";
 
         try {
-            ImageIO.write(image, "png", new File("/home/bernat/dsa-projects/flatmates-project/www/images/" + filename));
+            ImageIO.write(image, "png", new File("C:/Users/Admin/flatmates/www/images/" + filename));
         } catch (IOException e) {
             throw new InternalServerErrorException(
                     "Something has been wrong when converting the file.");

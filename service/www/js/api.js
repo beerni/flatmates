@@ -113,4 +113,10 @@ function crearGrupo(name, info, uri){
     }).fail(function(){
         alert('ERROR');
     });
+
+}
+
+function mensajeCollection{
+    
+
 }
