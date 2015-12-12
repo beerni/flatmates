@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Flatmates create group</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="layout" content="main"/>
+    
+    <script src="js/jquery/jquery-1.8.2.min.js" type="text/javascript" ></script>
+    <link href="css/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
+
+    <style>
+    </style>
+</head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button class="btn btn-navbar" data-toggle="collapse" data-target="#app-nav-top-bar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="dashboard.html" class="brand"><i class="icon-globe">Flatmates</i></a>
+                    <div id="app-nav-top-bar" class="nav-collapse">
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="login.html">Logout</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div id="body-container">
+            <div id="body-content">
+                
+                    <div class="body-nav body-nav-horizontal body-nav-fixed">
+                        <div class="container">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-home icon-large"></i> Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-user icon-large"></i> Perfil
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                
+                
+        <section class="nav-page">
+            <div class="container">
+                <div class="row">
+                    <div class="span7">
+                        <header class="page-header">
+                            <h3>Crear grupo<br/><small>Cree el grupo</small></h3>
+                        </header>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="create_group" class="page container">
+            <form id="userSecurityForm" class="form-horizontal" action="dashboard.html" method="post">
+                <div class="container">
+
+                    <div class="alert alert-block alert-info">
+                        <p>
+                            Aqui nombrara al grupo y ademas podra poner informacion sobre el. Los campos con asterisco son obligatorios.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div id="group" class="span7">
+                            <fieldset>
+                                <legend>Creacion del grupo</legend><br>
+                                <div class="control-group ">
+                                    <label class="control-label">Nombre del grupo <span class="required">*</span></label>
+                                    <div class="controls">
+                                        <input id="current-pass-control" name="password" class="span4" type="text" value="" autocomplete="false">
+                                    </div>
+                            </fieldset>
+                        </div>
+                        <div id="acct-info" class="span9">
+                            <fieldset>
+                                <legend>Información</legend>
+                                 <div class="form-group">
+                                    <div class="input-group">
+                                        <textarea name="InputMessage" id="Info" class="form-control" rows="5" cols="80" placeholder="Escriba la informacion del grupo aqui" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                                
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <footer id="submit-actions" class="form-actions">
+                        <button id="submit-button" type="submit" class="btn btn-primary" name="action" value="CONFIRM">Save</button>
+                    </footer>
+                </div>
+            </form>
+        </section>
+    
+            </div>
+        </div>
+
+        <footer class="application-footer">
+            <div class="container">
+                <p>Flatmates project</p>
+                <div class="disclaimer">
+                    <p>This is an example disclaimer. All right reserved.</p>
+                    <p>Copyright © Flatmates 2015-2016</p>
+                </div>
+            </div>
+        </footer>
+
+	</body>
+</html>
