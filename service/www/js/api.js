@@ -57,17 +57,70 @@ function logout (complete){
         
 }
 
-function loadStings(uri, complete){
-     var authToken = JSON.parse(sessionStorage["auth-token"]);
+function loadStings(uri){
+    $('#message').text(''); 
+    $('#pagination').text('');
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         type : 'GET',
         url : uri,
         headers: {"X-Auth-Token":authToken.token}
-    }).done (function(data){
+    
+    }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        complete(data);
-    }).fail(function(){console.log("Algo no funciono futuro ingeniero");});
-	
+        console.log('data.links');
+        console.log(data.links);
+        var response = data;
+        var mensajeCollection = new MensajeCollection(response);
+         var linkHeader = jqxhr.getResponseHeader('Link');
+        
+        mensajeCollection.buildLinks(linkHeader);
+        var html = mensajeCollection.toHTML();
+        $("#message").html(html);
+    }).fail(function(jqXHR, textStatus){
+        alert('heeee');
+    });
+}
+
+function MensajeCollection (mensajeCollection){ 
+    this.Mensaje = mensajeCollection;
+    var instance = this;
+    this.buildLinks = function(header){
+        if(header!=null){
+            this.links=weblinking.parseHeader(header);}
+        
+        else{
+            this.links = weblinking.parseHeader('');}
+    }
+    
+    this.getLink = function (rel){
+        return this.links.getLinkValuesByRel(rel);
+        
+    }
+    
+    this.toHTML = function(){
+        var html = '';
+        $.each(this.Mensaje, function(i,v){
+            var mensaje = v;
+        $.each(mensaje, function(i,v){
+           
+            if(v.content != undefined)
+             $("#message").append("<li><div><a href='#' class='news-item-title'>"+v.loginid+"</a><p class='news-item-preview'>"+v.content+".</p></div></li>");
+    
+        });
+    });
+        /*var prev = this.getLink("prev");
+        if(prev.length==1){
+            
+            $('#pagination').append(' <a onClick="loadStings(\'' + prev[0].href + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
+        }
+        
+        var next = this.getLink("next");
+        if(next.length==1){
+            $('#pagination').append(' <a onClick="loadStings(\'' + next[0].href + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
+        }
+        return html;*/
+    }
 }
 
 function crearMensaje(contenido, uri){
@@ -116,7 +169,3 @@ function crearGrupo(name, info, uri){
 
 }
 
-function mensajeCollection{
-    
-
-}

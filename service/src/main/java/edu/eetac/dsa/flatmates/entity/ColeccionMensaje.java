@@ -5,6 +5,7 @@ import edu.eetac.dsa.flatmates.FlatmatesMediaType;
 import edu.eetac.dsa.flatmates.FlatmatesRootAPIResource;
 import edu.eetac.dsa.flatmates.LoginResource;
 import edu.eetac.dsa.flatmates.MensajeResource;
+import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
@@ -20,9 +21,12 @@ public class ColeccionMensaje {
     @InjectLinks({
             @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
             @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
+            @InjectLink (value = "/mensaje?page={previous}", style = InjectLink.Style.ABSOLUTE, rel = "previous", title = "Previous messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "previous", value = "${instance.oldestTimestamp}")}),
+            @InjectLink (value = "/mensaje?page={next}", style = InjectLink.Style.ABSOLUTE, rel = "next", title = "Next messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "next", value = "${instance.newestTimestamp}")}),
             @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "get-messages", title = "Get messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
             @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout")
     })
+
 
     private List<Link> links;
     private long newestTimestamp;

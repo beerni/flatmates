@@ -1,8 +1,8 @@
-$(function(){
+$(document).ready(function(){
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri; //Obtens la uri dels missatges amb el que tens a links i a current-messages; el current-messages es el rel del HATEOAS
     console.log(currentMessagesUri); //Uri obtenida
-   loadStings(currentMessagesUri, function(stings){
+   loadStings(currentMessagesUri);/*, function(stings){
       $("#message").empty(); //ME llegan los stings
       var response = stings;
        console.log(response); 
@@ -15,7 +15,7 @@ $(function(){
         });
            
     });
-  });
+  });*/
 });
 
 

@@ -18,7 +18,7 @@
                 @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
                 @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages"),
                 @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "creates-message", title = "Create message", type = FlatmatesMediaType.FLATMATES_MENSAJE),
-                @InjectLink (resource = MensajeResource.class, method = "getMensaje", style = InjectLink.Style.ABSOLUTE, rel = "self sting", title = "Sting", type = FlatmatesMediaType.FLATMATES_MENSAJE, bindings = @Binding(name = "id", value ="${instance.id}" )),
+                @InjectLink (resource = MensajeResource.class, method = "getMensaje", style = InjectLink.Style.ABSOLUTE, rel = "self mensaje", title = "Mensaje", type = FlatmatesMediaType.FLATMATES_MENSAJE, bindings = @Binding(name = "id", value ="${instance.id}" )),
                 @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
                 @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.userid}")),
                 @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "get-messages", title = "Get messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION)
