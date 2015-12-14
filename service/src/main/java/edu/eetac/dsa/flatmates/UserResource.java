@@ -33,6 +33,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
@@ -68,7 +70,9 @@ public class UserResource {
             UUID uuid = writeAndConvertImage(imagen);
             user = userDAO.createUser(loginid, password, email, fullname, info, sexo, uuid.toString());
             user.setFilename(uuid.toString() + ".png");
-            user.setImageURL(app.getProperties().get("imgBaseURL") + user.getFilename());
+            PropertyResourceBundle imageBaseURL = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            user.setImageURL(imageBaseURL.getString("imgBaseURL") + user.getFilename());
+            System.out.println(user.getImageURL());
             authenticationToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);
@@ -95,7 +99,8 @@ public class UserResource {
         String filename = uuid.toString() + ".png";
 
         try {
-            ImageIO.write(image, "png", new File("C:/Users/Admin/flatmates/www/images/" + filename));
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
         } catch (IOException e) {
             throw new InternalServerErrorException(
                     "Something has been wrong when converting the file.");

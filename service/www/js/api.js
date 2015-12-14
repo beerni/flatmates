@@ -72,11 +72,9 @@ function loadStings(uri){
         console.log(data.links);
         var response = data;
         var mensajeCollection = new MensajeCollection(response);
-         var linkHeader = jqxhr.getResponseHeader('Link');
         
-        mensajeCollection.buildLinks(linkHeader);
         var html = mensajeCollection.toHTML();
-        $("#message").html(html);
+        //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
         alert('heeee');
     });
@@ -85,18 +83,6 @@ function loadStings(uri){
 function MensajeCollection (mensajeCollection){ 
     this.Mensaje = mensajeCollection;
     var instance = this;
-    this.buildLinks = function(header){
-        if(header!=null){
-            this.links=weblinking.parseHeader(header);}
-        
-        else{
-            this.links = weblinking.parseHeader('');}
-    }
-    
-    this.getLink = function (rel){
-        return this.links.getLinkValuesByRel(rel);
-        
-    }
     
     this.toHTML = function(){
         var html = '';
@@ -109,17 +95,20 @@ function MensajeCollection (mensajeCollection){
     
         });
     });
-        /*var prev = this.getLink("prev");
-        if(prev.length==1){
+
+        console.log(this.Mensaje.links["prev"].uri);
+        var prev = this.Mensaje.links["prev"].uri;
+        if(prev){
             
-            $('#pagination').append(' <a onClick="loadStings(\'' + prev[0].href + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
+            $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
         }
         
-        var next = this.getLink("next");
-        if(next.length==1){
-            $('#pagination').append(' <a onClick="loadStings(\'' + next[0].href + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
+        var next = this.Mensaje.links["next"].uri;
+        console.log(this.Mensaje.links["next"].uri);
+        if(next){
+            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; ">[Next]</a>');
         }
-        return html;*/
+        return html;
     }
 }
 

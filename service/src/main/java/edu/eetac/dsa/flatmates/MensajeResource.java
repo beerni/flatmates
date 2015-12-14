@@ -40,12 +40,14 @@ public class MensajeResource {
     }
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION)
-    public ColeccionMensaje getMensajes(){
+    public ColeccionMensaje getMensajes(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before){
         ColeccionMensaje mensajesCollection = null;
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         String userid = securityContext.getUserPrincipal().getName();
         try {
-            mensajesCollection = mensajeDAO.getMensaje();
+            if(before && timestamp==0)
+                timestamp=System.currentTimeMillis();
+            mensajesCollection = mensajeDAO.getMensaje(timestamp, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }

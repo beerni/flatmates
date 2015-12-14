@@ -3,10 +3,7 @@ package edu.eetac.dsa.flatmates.dao;
 import edu.eetac.dsa.flatmates.entity.ColeccionMensaje;
 import edu.eetac.dsa.flatmates.entity.Mensaje;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by Admin on 22/11/2015.
@@ -76,19 +73,32 @@ public class MensajeDAOImpl implements MensajeDAO {
     }
 
     @Override
-    public ColeccionMensaje getMensaje() throws SQLException {
+    public ColeccionMensaje getMensaje(long timestamp, boolean before) throws SQLException {
         ColeccionMensaje coleccionMensaje = new ColeccionMensaje();
 
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
-            stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
+            if(before){
+
+                stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
+            System.out.println("before");}
+            else{
+
+                stmt=connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES_AFTER);
+                System.out.println("after");
+            }
+
+            stmt.setTimestamp(1, new Timestamp(timestamp));
+
             ResultSet rs = stmt.executeQuery();
+            System.out.println(rs.next());
             boolean first = true;
             while (rs.next()) {
                 Mensaje Mensaje = new Mensaje();
                 Mensaje.setId(rs.getString("id"));
+                System.out.println(rs.getString("id"));
                 Mensaje.setUserid(rs.getString("userid"));
                 Mensaje.setContent(rs.getString("content"));
                 Mensaje.setLoginid(rs.getString("loginid"));
