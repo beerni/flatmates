@@ -8,7 +8,7 @@ public interface MensajeDAOQuery {
     public final static String CREATE_MENSAJE = "insert into mensaje (id, userid, content) values (UNHEX(?), unhex(?),?)";
     public final static String GET_MENSAJE_BY_ID = "select hex(m.id) as id, hex(m.userid) as userid, m.content, m.creation_timestamp, m.last_modified, u.loginid from mensaje m, users u where m.id=unhex(?) and u.id = m.userid";
     public final static String GET_MENSAJES = "select hex(m.id) as id, hex(m.userid) as userid, m.content, m.creation_timestamp, m.last_modified, u.loginid from mensaje m, users u where u.id=m.userid and m.creation_timestamp < ? order by m.creation_timestamp desc limit 5";
-    public final static String GET_MENSAJES_AFTER = "select hex(m.id) as id, hex(m.userid) as userid, m.content, m.creation_timestamp, m.last_modified, u.loginid from mensaje m, users u where u.id=m.userid and m.creation_timestamp > ? order by m.creation_timestamp desc limit 5";
+    public final static String GET_MENSAJES_AFTER = "select hex(m.id) as id, hex(m.userid) as userid, m.content, m.creation_timestamp, m.last_modified, u.loginid from mensaje m, users u where u.id=m.userid and m.creation_timestamp > ? order by m.creation_timestamp desc limit 5,5";
     public final static String UPDATE_MENSAJE = "update mensaje set content=? where id=unhex(?) ";
     public final static String DELETE_MENSAJE = "delete from mensaje where id=unhex(?)";
 }

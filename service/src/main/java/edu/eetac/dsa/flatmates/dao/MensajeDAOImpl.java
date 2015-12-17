@@ -80,32 +80,33 @@ public class MensajeDAOImpl implements MensajeDAO {
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
-            if(before){
-
+            if(before)
                 stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
-            System.out.println("before");}
             else{
-
                 stmt=connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES_AFTER);
-                System.out.println("after");
             }
 
             stmt.setTimestamp(1, new Timestamp(timestamp));
 
             ResultSet rs = stmt.executeQuery();
-            System.out.println(rs.next());
+            System.out.println(timestamp);
+
             boolean first = true;
             while (rs.next()) {
                 Mensaje Mensaje = new Mensaje();
                 Mensaje.setId(rs.getString("id"));
-                System.out.println(rs.getString("id"));
                 Mensaje.setUserid(rs.getString("userid"));
                 Mensaje.setContent(rs.getString("content"));
+                System.out.println(Mensaje.getContent());
                 Mensaje.setLoginid(rs.getString("loginid"));
                 Mensaje.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 Mensaje.setLastModified(rs.getTimestamp("last_modified").getTime());
+                System.out.println("Timestamp: " + Mensaje.getLastModified());
+
                 if (first) {
+                    System.out.println("LastModifidesdd" +Mensaje.getLastModified());
                     coleccionMensaje.setNewestTimestamp(Mensaje.getLastModified());
+                    System.out.println("Hola: " + coleccionMensaje.getNewestTimestamp());
                     first = false;
                 }
                 coleccionMensaje.setOldestTimestamp(Mensaje.getLastModified());

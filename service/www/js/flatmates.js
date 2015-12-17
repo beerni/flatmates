@@ -48,7 +48,7 @@ $("#btnlogout").click(function(e){
     });
 })
 
-var cont = 30; 
+var cont = 1000; 
 setInterval(function contador(){
     if (cont == 0)
         {

@@ -47,6 +47,7 @@ public class MensajeResource {
         try {
             if(before && timestamp==0)
                 timestamp=System.currentTimeMillis();
+
             mensajesCollection = mensajeDAO.getMensaje(timestamp, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();

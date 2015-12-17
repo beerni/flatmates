@@ -96,7 +96,7 @@ function MensajeCollection (mensajeCollection){
         });
     });
 
-        console.log(this.Mensaje.links["prev"].uri);
+        console.log(this.Mensaje.links["next"].uri);
         var prev = this.Mensaje.links["prev"].uri;
         if(prev){
             
@@ -104,7 +104,7 @@ function MensajeCollection (mensajeCollection){
         }
         
         var next = this.Mensaje.links["next"].uri;
-        console.log(this.Mensaje.links["next"].uri);
+        console.log(this.Mensaje.links["prev"].uri);
         if(next){
             $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; ">[Next]</a>');
         }
