@@ -100,13 +100,13 @@ function MensajeCollection (mensajeCollection){
         var prev = this.Mensaje.links["prev"].uri;
         if(prev){
             
-            $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; ">[Prev]</a>');
+            $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Previous</button></div></a>');
         }
         
         var next = this.Mensaje.links["next"].uri;
         console.log(this.Mensaje.links["prev"].uri);
         if(next){
-            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; ">[Next]</a>');
+           $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Next</button></div></a>');
         }
         return html;
     }
