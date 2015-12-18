@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public interface MensajeDAO {
     public Mensaje createMensaje(String userid, String content) throws SQLException;
     public Mensaje getMensajeById(String id) throws SQLException;
-    public ColeccionMensaje getMensaje(long timestamp, boolean before) throws SQLException;
+    public ColeccionMensaje getMensaje(int pag, boolean before) throws SQLException;
     public Mensaje updateMensaje(String id, String content) throws SQLException;
     public boolean deleteMensaje(String id) throws SQLException;
 }

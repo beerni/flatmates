@@ -73,23 +73,37 @@ public class MensajeDAOImpl implements MensajeDAO {
     }
 
     @Override
-    public ColeccionMensaje getMensaje(long timestamp, boolean before) throws SQLException {
+    public ColeccionMensaje getMensaje(int pag, boolean before) throws SQLException {
         ColeccionMensaje coleccionMensaje = new ColeccionMensaje();
 
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
+            int pa = pag;
+            int pa1 = pag;
+            int pa2=pag;
             connection = Database.getConnection();
-            if(before)
-                stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
-            else{
-                stmt=connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES_AFTER);
+            stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
+
+            if (!before){
+                if (pag==0)
+                {
+                    pa2 = 0;
+                    pa1 = pa1+1;
+                }
+                else
+                {
+                    pa2=pa2-1;
+                    pag = pag - 1;
+
+                }
             }
-
-            stmt.setTimestamp(1, new Timestamp(timestamp));
-
+            else{
+                pa1=pa1+1;
+            }
+            pag = pag * 5;
+            stmt.setInt(1, pag);
             ResultSet rs = stmt.executeQuery();
-            System.out.println(timestamp);
 
             boolean first = true;
             while (rs.next()) {
@@ -97,18 +111,17 @@ public class MensajeDAOImpl implements MensajeDAO {
                 Mensaje.setId(rs.getString("id"));
                 Mensaje.setUserid(rs.getString("userid"));
                 Mensaje.setContent(rs.getString("content"));
-                System.out.println(Mensaje.getContent());
                 Mensaje.setLoginid(rs.getString("loginid"));
                 Mensaje.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 Mensaje.setLastModified(rs.getTimestamp("last_modified").getTime());
-                System.out.println("Timestamp: " + Mensaje.getLastModified());
 
                 if (first) {
-                    System.out.println("LastModifidesdd" +Mensaje.getLastModified());
                     coleccionMensaje.setNewestTimestamp(Mensaje.getLastModified());
-                    System.out.println("Hola: " + coleccionMensaje.getNewestTimestamp());
                     first = false;
                 }
+                Mensaje.setPag(pa);
+                coleccionMensaje.setPag(pa1);
+                coleccionMensaje.setPagbefore(pa2);
                 coleccionMensaje.setOldestTimestamp(Mensaje.getLastModified());
                 coleccionMensaje.getMensajes().add(Mensaje);
             }
@@ -122,7 +135,6 @@ public class MensajeDAOImpl implements MensajeDAO {
     }
 
     @Override
-
     public Mensaje updateMensaje(String id, String content) throws SQLException {
         Mensaje Mensaje = null;
 
