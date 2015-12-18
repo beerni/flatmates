@@ -16,7 +16,15 @@ public class GrupoUsuario {
     private String grupoid;
     private String userid;
     private int puntos;
+    private String loginid;
 
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
 
     public int getPuntos() {
         return puntos;

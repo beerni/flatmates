@@ -83,7 +83,20 @@ public class MensajeDAOImpl implements MensajeDAO {
             int pa1 = pag;
             int pa2=pag;
             connection = Database.getConnection();
+            stmt = connection.prepareStatement(MensajeDAOQuery.GET_COUNT);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int pagin = rs.getInt("count");
+            int pag_total = 0;
+            double total = pagin/5;
+            int paginas = pagin/5;
+            if (total > pagin)
+                pag_total = paginas+1;
+            else
+                pag_total = paginas;
+            stmt.close();
             stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
+
 
             if (!before){
                 if (pag==0)
@@ -99,11 +112,12 @@ public class MensajeDAOImpl implements MensajeDAO {
                 }
             }
             else{
-                pa1=pa1+1;
+                if (pag_total != pag)
+                    pa1=pa1+1;
             }
             pag = pag * 5;
             stmt.setInt(1, pag);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
             boolean first = true;
             while (rs.next()) {
@@ -122,6 +136,7 @@ public class MensajeDAOImpl implements MensajeDAO {
                 Mensaje.setPag(pa);
                 coleccionMensaje.setPag(pa1);
                 coleccionMensaje.setPagbefore(pa2);
+                coleccionMensaje.setPagtotal(pag_total);
                 coleccionMensaje.setOldestTimestamp(Mensaje.getLastModified());
                 coleccionMensaje.getMensajes().add(Mensaje);
             }

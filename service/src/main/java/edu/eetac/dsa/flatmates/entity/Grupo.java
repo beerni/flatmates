@@ -9,6 +9,7 @@ import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,16 @@ public class Grupo {
     private String info;
     private long creationTimestamp;
     private long lastModified;
+    private List<GrupoUsuario> usuarios = new ArrayList<>();
+
+
+    public List<GrupoUsuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<GrupoUsuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public String getUserlogin() {
         return userlogin;

@@ -76,6 +76,19 @@ public class GrupoDAOImpl implements GrupoDAO {
                 grupo.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 grupo.setLastModified(rs.getTimestamp("last_modified").getTime());
             }
+            rs.close();
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_USER);
+            stmt.setString(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                GrupoUsuario grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setUserid(rs.getString("userid"));
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setPuntos(rs.getInt("puntos"));
+                grupoUsuario.setLoginid(rs.getString("loginid"));
+                grupo.getUsuarios().add(grupoUsuario);
+            }
         } catch (SQLException e) {
             throw e;
         } finally {
