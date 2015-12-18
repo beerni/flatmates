@@ -21,8 +21,8 @@ public class ColeccionMensaje {
     @InjectLinks({
             @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
             @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
-            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "prev", title = "Newest messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "timestamp", value = "${instance.oldestTimestamp}"), @Binding(name = "before", value = "false")}),
-            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "next", title = "Oldest messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "timestamp", value = "${instance.oldestTimestamp}"), @Binding(name = "before", value = "true")}),
+            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "prev", title = "Newest messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pagbefore}"), @Binding(name = "before", value = "false")}),
+            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "next", title = "Oldest messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pag}"), @Binding(name = "before", value = "true")}),
             @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout")
     })
 
@@ -30,7 +30,25 @@ public class ColeccionMensaje {
     private List<Link> links;
     private long newestTimestamp;
     private long oldestTimestamp;
+    private int pag;
+    private int pagbefore;
     private List<Mensaje> mensajes = new ArrayList<>();
+
+    public int getPagbefore() {
+        return pagbefore;
+    }
+
+    public void setPagbefore(int pagbefore) {
+        this.pagbefore = pagbefore;
+    }
+
+    public int getPag() {
+        return pag;
+    }
+
+    public void setPag(int pag) {
+        this.pag = pag;
+    }
 
     public List<Link> getLinks() {
         return links;
