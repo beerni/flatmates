@@ -2,6 +2,7 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.User;
 
+import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import java.math.BigInteger;
@@ -108,6 +109,30 @@ public class UserDAOImpl implements UserDAO{
         return user;
     }
 
+    @Override
+    public User updatePassword (String id, String password) throws SQLException{
+        User user = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.UPDATE_PASSWORD);
+            stmt.setString(1, password);
+            stmt.setString(2, id);
+            int rows = stmt.executeUpdate();
+            if (rows == 1)
+                user = getUserById(id);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return user;
+    }
     @Override
     public User getUserById(String id) throws SQLException {
         // Modelo a devolver

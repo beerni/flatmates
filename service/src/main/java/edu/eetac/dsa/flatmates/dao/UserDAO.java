@@ -12,6 +12,8 @@ public interface UserDAO {
 
     public User updateProfile(String id, String email, String fullname, String info) throws SQLException;
 
+    public User updatePassword (String id, String password) throws SQLException;
+
     public User getUserById(String id) throws SQLException;
 
     public User getUserByLoginid(String loginid) throws SQLException;

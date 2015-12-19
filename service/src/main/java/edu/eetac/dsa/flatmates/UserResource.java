@@ -11,6 +11,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 
 import javax.imageio.ImageIO;
+import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -150,6 +151,33 @@ public class UserResource {
         }
         return user;
     }
+
+    @Path("/password-{id}")
+    @PUT
+    @Consumes(FlatmatesMediaType.FLATMATES_USER)
+    @Produces(FlatmatesMediaType.FLATMATES_USER)
+    public User updatePassword(@PathParam("id") String id, User user) {
+        if(user == null)
+            throw new BadRequestException("entity is null");
+        if(!id.equals(user.getId()))
+            throw new BadRequestException("path parameter id and entity parameter id doesn't match");
+
+        String userid = securityContext.getUserPrincipal().getName();
+        if(!userid.equals(id))
+            throw new ForbiddenException("operation not allowed");
+
+        UserDAO userDAO = new UserDAOImpl();
+        try {
+            user = userDAO.updatePassword(userid,user.getPassword());
+            if(user == null)
+                throw new NotFoundException("User with id = "+id+" doesn't exist");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return user;
+    }
+
+
     @Path("/{id}")
     @DELETE
     public void deleteUser(@PathParam("id") String id){
