@@ -32,6 +32,16 @@ public class ColeccionMensaje {
     private long oldestTimestamp;
     private int pag;
     private int pagbefore;
+    private int pagtotal;
+
+    public int getPagtotal() {
+        return pagtotal;
+    }
+
+    public void setPagtotal(int pagtotal) {
+        this.pagtotal = pagtotal;
+    }
+
     private List<Mensaje> mensajes = new ArrayList<>();
 
     public int getPagbefore() {
