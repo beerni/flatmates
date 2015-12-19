@@ -113,6 +113,7 @@ function MensajeCollection (mensajeCollection){
 }
 
 function crearMensaje(contenido, uri){
+    console.log("asla");
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         url: uri,

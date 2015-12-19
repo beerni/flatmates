@@ -1,10 +1,8 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.eetac.dsa.flatmates.FlatmatesMediaType;
-import edu.eetac.dsa.flatmates.FlatmatesRootAPIResource;
-import edu.eetac.dsa.flatmates.GrupoResource;
-import edu.eetac.dsa.flatmates.LoginResource;
+import edu.eetac.dsa.flatmates.*;
+import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
@@ -18,6 +16,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Grupo {
     @InjectLinks({
+            @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+            @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-grupo", title = "Current grupo"),
+            @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-grupo", title = "Create grupo", type = FlatmatesMediaType.FLATMATES_GRUPO),
+            @InjectLink (resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self mensaje", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.id}" )),
+            @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
+            @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.admin}")),
     })
     private List<Link> links;
     private String id;

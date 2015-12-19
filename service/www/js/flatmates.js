@@ -35,6 +35,12 @@ $(document).ready(function(){
 
 });
 
+$("#btnnuevogrupo").click(function(e) {
+	e.preventDefault();
+	window.location.replace("creargrupo.html");
+
+});
+
 $("#btnreload").click(function(e) {
 	e.preventDefault();
 	window.location.reload();

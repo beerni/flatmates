@@ -297,15 +297,18 @@ public class GrupoDAOImpl implements GrupoDAO {
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
+
             stmt = connection.prepareStatement(GrupoDAOQuery.GET_USERGRUPO);
             stmt.setString(1, id);
+
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 grupoUsuario = new GrupoUsuario();
                 grupoUsuario.setGrupoid(rs.getString("grupoid"));
                 grupoUsuario.setUserid(rs.getString("userid"));
-                grupoUsuario.setPuntos(rs.getInt("puntos"));
             }
+
         } catch (SQLException e) {
             throw e;
         } finally {

@@ -23,7 +23,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="dashboard.html" class="brand"><i class="icon-globe">Flatmates</i></a>
+                    <a class="brand"><i class="icon-globe">Flatmates</i></a>
                     <div id="app-nav-top-bar" class="nav-collapse">
                         <ul class="nav pull-right">
                             <li>
@@ -43,7 +43,7 @@
                             <ul>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-home icon-large"></i> Home
+                                        <i id="btnhome" class="icon-home icon-large"></i> Home
                                     </a>
                                 </li>
                                 <li>
@@ -68,7 +68,7 @@
             </div>
         </section>
         <section id="create_group" class="page container">
-            <form id="userSecurityForm" class="form-horizontal" action="dashboard.html" method="post">
+            <form id="userSecurityForm" class="form-horizontal">
                 <div class="container">
 
                     <div class="alert alert-block alert-info">
@@ -77,7 +77,7 @@
                         </p>
                     </div>
                     <div class="row">
-                        <div id="group" class="span7">
+                        <div id="group" class="span12">
                             <fieldset>
                                 <legend>Creacion del grupo</legend><br>
                                 <div class="control-group ">
@@ -87,12 +87,12 @@
                                     </div>
                             </fieldset>
                         </div>
-                        <div id="acct-info" class="span9">
+                        <div id="acct-info" class="span12">
                             <fieldset>
                                 <legend>Información</legend>
                                  <div class="form-group">
                                     <div class="input-group">
-                                        <textarea name="InputMessage" id="Info" class="form-control" rows="5" cols="80" placeholder="Escriba la informacion del grupo aqui" maxlength="500"></textarea>
+                                        <textarea id="Info" class="span12" rows="5" cols="80" placeholder="Escriba la informacion del grupo aqui" maxlength="500"></textarea>
                                     </div>
                                 </div>
                                 
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <footer id="submit-actions" class="form-actions">
-                        <button id="btn-crear" type="submit" class="btn btn-primary" name="action" value="CONFIRM">Crear</button>
+                        <button id="btn-crear" type="buttin" class="btn btn-primary">Crear</button>
                     </footer>
                 </div>
             </form>
@@ -118,8 +118,9 @@
                 </div>
             </div>
         </footer>
-    <script type = "text/javascript" src="js/creargrupo.js"></script>
+    
     <script type = "text/javascript" src="js/api.js"></script>
+    <script type = "text/javascript" src="js/creargrupo.js"></script>
 
 
 	</body>

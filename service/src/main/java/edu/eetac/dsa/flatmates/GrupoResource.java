@@ -35,6 +35,7 @@ public class GrupoResource {
         AuthToken authenticationToken = null;
         try{
             grupoUsuario = grupoDAO.getUserGrupoById(users);
+
             if (grupoUsuario!=null)
             {
                 throw new ForbiddenException("You aren't allowed for create group, because you have group");
