@@ -19,7 +19,7 @@ public class Grupo {
             @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
             @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-grupo", title = "Current grupo"),
             @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-grupo", title = "Create grupo", type = FlatmatesMediaType.FLATMATES_GRUPO),
-            @InjectLink (resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self mensaje", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.id}" )),
+            @InjectLink (resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self grupo", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.id}" )),
             @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
             @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.admin}")),
     })

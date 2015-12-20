@@ -3,10 +3,13 @@ $("#btn-crear").click(function(e) {
     var currentMessagesUri = authToken["links"]["create-group"].uri;
         console.log(currentMessagesUri); 
      e.preventDefault();
-    if(($("#name").val())=='')
-        alert("Tienes que escribir un nombre");
+    if(/^\s+|\s+$/.test($("#name").val())||$("#name").val()=="")
+        {
+         $("#vacios").text("");
+        $("#vacios").append("<p><span style='color:red'>Los campos con asterisco son obligatorios.</span></p>");   
+        }
     else
-    crearGrupo($("#name").val(),
+     crearGrupo($("#name").val(),
      $("#Info").val(),currentMessagesUri);
 });
   $("#btnhome").click(function(e) {
@@ -14,4 +17,3 @@ $("#btn-crear").click(function(e) {
 	window.location.replace("flatmates.html");
 
 });
-

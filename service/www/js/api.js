@@ -80,6 +80,54 @@ function loadStings(uri){
     });
 }
 
+function loadGrupo(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        type : 'GET',
+        url : uri,
+        headers: {"X-Auth-Token":authToken.token}
+    
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log('data.links');
+        console.log(data.links.grupo.uri);
+        loadGrupo2step(data.links.grupo.uri);
+        //$("#message").html(html);
+    }).fail(function(jqXHR, textStatus){
+        alert('heeee');
+    });
+}
+function loadGrupo2step(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        type : 'GET',
+        url : uri,
+        headers: {"X-Auth-Token":authToken.token}
+    
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log('data.links');
+        console.log(data);
+        
+        $("#lblNombreGrupo").text('');
+        $("#lblNombreGrupo").text(data.nombre);
+        $("#info").text('');
+        $("#tabla").text('');
+        $("#info").text(data.info);
+        
+        var usuarios = data.usuarios;
+        
+         $.each(usuarios, function(i,v){
+                 $("#tabla").append("<tr><td>"+v.loginid+"</td><td>"+v.puntos+"</td></tr>");
+         });
+        
+        
+        //$("#message").html(html);
+    }).fail(function(jqXHR, textStatus){
+        alert('heeee');
+    });
+}
+
 function MensajeCollection (mensajeCollection){ 
     this.Mensaje = mensajeCollection;
     var instance = this;

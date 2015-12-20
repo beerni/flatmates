@@ -1,6 +1,10 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.eetac.dsa.flatmates.FlatmatesMediaType;
+import edu.eetac.dsa.flatmates.GrupoResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
@@ -11,7 +15,10 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GrupoUsuario {
-    @InjectLinks({})
+    @InjectLinks({
+            @InjectLink(resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self grupo", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.grupoid}" ))
+
+    })
     private List<Link> links;
     private String grupoid;
     private String userid;

@@ -107,6 +107,20 @@ public class GrupoResource {
         return grupo;
     }
 
+    @GET
+    @Produces(FlatmatesMediaType.FLATMATES_GRUPO)
+    public GrupoUsuario getGrupoUsuario(){
+        GrupoDAO grupoDAO = new GrupoDAOImpl();
+        String userid = securityContext.getUserPrincipal().getName();
+        GrupoUsuario grupoUsuario = null;
+        try {
+            grupoUsuario = grupoDAO.getUserGrupoById(userid);
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return grupoUsuario;
+    }
+
     @Path("/{id}")
     @DELETE
     public void deleteGrupo(@PathParam("id") String id) {
