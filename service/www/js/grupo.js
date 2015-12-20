@@ -10,4 +10,13 @@ console.log(authToken);
 	window.location.replace("flatmates.html");
 
 });
+$("#add").click(function(e) {
+	e.preventDefault();
+    console.log("llega");
+    var grupoas = JSON.parse(sessionStorage["grupo"]);
+    console.log(grupoas);
+    var currentGrupoUru = grupoas["grupo"].uri;
+    addGrupo($("#txtuser").val(),currentGrupoUru);
+
+});
 

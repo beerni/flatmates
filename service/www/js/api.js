@@ -108,13 +108,20 @@ function loadGrupo2step(uri){
         data.links=linksToMap(data.links);
         console.log('data.links');
         console.log(data);
-        
+        sessionStorage["grupo"]=JSON.stringify(data.links);
+        var grupoas = JSON.parse(sessionStorage["grupo"]);
+        console.log(grupoas);
+
         $("#lblNombreGrupo").text('');
         $("#lblNombreGrupo").text(data.nombre);
         $("#info").text('');
         $("#tabla").text('');
         $("#info").text(data.info);
         
+        if (authToken.userid != data.admin)
+            {
+                $("#addUser").text('');
+            }
         var usuarios = data.usuarios;
         
          $.each(usuarios, function(i,v){
@@ -200,8 +207,31 @@ function crearGrupo(name, info, uri){
 	    window.location.replace("grupo.html");
         
         
-    }).fail(function(){
+    }).fail(function(xhr, textstatus){
         alert('ERROR');
+        alert(xhr.status);
+    });
+}
+
+function addGrupo(name, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        data: { loginid: name},
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+        console.log("Holi");
+	    window.location.replace("grupo.html");
+        
+        
+    }).fail(function(xhr, textstatus){
+        alert('ERROR');
+        alert(xhr.status);
     });
 }
 
