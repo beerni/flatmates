@@ -152,7 +152,7 @@ public class UserResource {
         return user;
     }
 
-    @Path("/password-{id}")
+    @Path("/{id}-password")
     @PUT
     @Consumes(FlatmatesMediaType.FLATMATES_USER)
     @Produces(FlatmatesMediaType.FLATMATES_USER)
@@ -161,13 +161,15 @@ public class UserResource {
             throw new BadRequestException("entity is null");
         if(!id.equals(user.getId()))
             throw new BadRequestException("path parameter id and entity parameter id doesn't match");
-
         String userid = securityContext.getUserPrincipal().getName();
         if(!userid.equals(id))
             throw new ForbiddenException("operation not allowed");
-
         UserDAO userDAO = new UserDAOImpl();
         try {
+            boolean okPass;
+            okPass=userDAO.checkPassword(userid, user.getOldPassword());
+            if(!okPass)
+                throw new BadRequestException("Las contraseñas no coinciden");
             user = userDAO.updatePassword(userid,user.getPassword());
             if(user == null)
                 throw new NotFoundException("User with id = "+id+" doesn't exist");

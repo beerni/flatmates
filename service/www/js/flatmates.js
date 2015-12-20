@@ -54,6 +54,11 @@ $("#btnlogout").click(function(e){
     });
 })
 
+$("#btnPerfil").click(function(e){
+    e.preventDefault();
+    window.location.replace('editProfile.html');
+})
+
 var cont = 1000; 
 setInterval(function contador(){
     if (cont == 0)

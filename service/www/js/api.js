@@ -113,7 +113,6 @@ function MensajeCollection (mensajeCollection){
 }
 
 function crearMensaje(contenido, uri){
-    console.log("asla");
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         url: uri,
@@ -156,6 +155,41 @@ function crearGrupo(name, info, uri){
     }).fail(function(){
         alert('ERROR');
     });
+}
 
+function changePassword(newPass, oldPass){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var uri = authToken["links"]["user-profile"].uri;
+    var changepassUri = uri+'-password';
+    var userid = authToken.userid;
+      objeto = {
+          "id": userid,
+          "oldPassword": oldPass,
+          "password" : newPass
+      }
+      var data = JSON.stringify(objeto);
+    console.log(data);
+    $.ajax({
+        url: changepassUri,
+        type: 'PUT',
+        crossDomain: true,
+        contentType: "application/vnd.dsa.flatmates.user+json",
+        dataType: "json",
+        data: data, /*{
+            id: userid,
+            oldPassword: oldPass,
+            password: newPass
+        },*/
+        headers: {"X-Auth-Token" : authToken.token
+                  //"Content-Type" : application/vnd.dsa.flatmates.user+json
+                 }
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log(data.links);
+        console.log("Holi");
+    }).fail(function(){
+        alert("ERROR");
+    });
+    
 }
 
