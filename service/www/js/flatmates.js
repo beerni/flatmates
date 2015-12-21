@@ -1,8 +1,16 @@
 $(document).ready(function(){
+    try{
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri; //Obtens la uri dels missatges amb el que tens a links i a current-messages; el current-messages es el rel del HATEOAS
     console.log(currentMessagesUri); //Uri obtenida
-   loadStings(currentMessagesUri);/*, function(stings){
+   loadStings(currentMessagesUri);
+    var currentGrupoUri = authToken["links"]["create-group"].uri; 
+    loadGru(currentGrupoUri);
+        }catch (e){
+        $("#estoseve").text("");
+
+        $("#estoseve").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must to be login to see this page.</span></p></div>");
+        }/*, function(stings){
       $("#message").empty(); //ME llegan los stings
       var response = stings;
        console.log(response); 
@@ -24,8 +32,11 @@ $(document).ready(function(){
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri;
    event.preventDefault();
-    if(($("#txtmensaje").val())=='')
-        alert("Tienes que enviar algun mensaje culebrilla");
+    if(/^\s+|\s+$/.test($("#txtmensaje").val())||$("#txtmensaje").val()=="")
+        {
+         $("#culebrilla").text("");   
+         $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must to write something.</span></p></div>");
+        }
       else
         crearMensaje($("#txtmensaje").val(), currentMessagesUri);
 });
@@ -46,12 +57,15 @@ $("#btnlogout").click(function(e){
 
 var cont = 1000; 
 setInterval(function contador(){
+    try{
     if (cont == 0)
         {
             window.location.reload();
         }
     document.getElementById("demo").innerHTML = cont;
     cont--;
-    
+    }
+    catch (e){
+    }
 }, 1000);
 

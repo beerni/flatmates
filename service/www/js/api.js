@@ -76,10 +76,32 @@ function loadStings(uri){
         var html = mensajeCollection.toHTML();
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
-        alert('heeee');
+        $("#estoseve").text("");
+
+        $("#estoseve").append("<div class='alert alert-block alert-info'><p>You have to be login for see this page.</p></div>");
+
     });
 }
-
+function loadGru(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        type : 'GET',
+        url : uri,
+        headers: {"X-Auth-Token":authToken.token}
+    
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log('estoooo');
+        console.log(data);
+        if (data.userid==authToken.userid)
+            {
+                $("#btncambio").text("");
+                $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Grupo</a>");
+            }
+        //$("#message").html(html);
+    }).fail(function(jqXHR, textStatus){
+    });
+}
 function loadGrupo(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({

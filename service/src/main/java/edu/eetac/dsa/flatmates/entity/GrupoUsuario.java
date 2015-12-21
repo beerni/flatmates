@@ -16,8 +16,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GrupoUsuario {
     @InjectLinks({
-            @InjectLink(resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self grupo", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.grupoid}" ))
-
+            @InjectLink(resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self grupo", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.grupoid}" )),
+            @InjectLink(resource = GrupoResource.class, method = "eliminaruserGrupo", style = InjectLink.Style.ABSOLUTE, rel = "delete-user", title = "delete-user", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = {@Binding(name = "id", value ="${instance.grupoid}"), @Binding(name = "userid", value="${instance.userid}")})
     })
     private List<Link> links;
     private String grupoid;
