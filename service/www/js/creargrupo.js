@@ -12,8 +12,4 @@ $("#btn-crear").click(function(e) {
      crearGrupo($("#name").val(),
      $("#Info").val(),currentMessagesUri);
 });
-  $("#btnhome").click(function(e) {
-	e.preventDefault();
-	window.location.replace("flatmates.html");
-
-});
+ 
