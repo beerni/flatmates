@@ -68,12 +68,12 @@ public class UserResource {
         User user = null;
         AuthToken authenticationToken = null;
         try{
-            UUID uuid = writeAndConvertImage(imagen);
-            user = userDAO.createUser(loginid, password, email, fullname, info, sexo, uuid.toString());
-            user.setFilename(uuid.toString() + ".png");
-            PropertyResourceBundle imageBaseURL = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
-            user.setImageURL(imageBaseURL.getString("imgBaseURL") + user.getFilename());
-            System.out.println(user.getImageURL());
+           // UUID uuid = writeAndConvertImage(imagen);
+            user = userDAO.createUser(loginid, password, email, fullname, info, sexo, imagen);
+            //user.setFilename(uuid.toString() + ".png");
+            //PropertyResourceBundle imageBaseURL = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            //user.setImageURL(imageBaseURL.getString("imgBaseURL") + user.getFilename());
+            //System.out.println(user.getImageURL());
             authenticationToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);

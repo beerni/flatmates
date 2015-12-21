@@ -2,9 +2,15 @@ package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.User;
 
+import javax.imageio.ImageIO;
 import javax.jws.soap.SOAPBinding;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,6 +18,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * Created by Admin on 09/11/2015.
@@ -20,12 +29,12 @@ public class UserDAOImpl implements UserDAO{
     @Context
     private Application app;
     @Override
-    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo, String uuid_imagen) throws SQLException, UserAlreadyExistsException {
+    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo, InputStream imagen) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
         User user=null;
-
+        UUID uuid =writeAndConvertImage(imagen);
         try {
 
             user = getUserByLoginid(loginid);
@@ -55,7 +64,7 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(4, email);
             stmt.setString(5, fullname);
             stmt.setString(6, info);
-            stmt.setString(7, uuid_imagen);
+            stmt.setString(7, uuid.toString());
 
             stmt.executeUpdate();
 
@@ -81,7 +90,28 @@ public class UserDAOImpl implements UserDAO{
         return getUserById(id);
     }
 
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
 
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when reading the file.");
+        }
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString() + ".png";
+
+        try {
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
+    }
     @Override
     public User updateProfile(String id, String email, String fullname, String info) throws SQLException {
         User user = null;
@@ -137,7 +167,7 @@ public class UserDAOImpl implements UserDAO{
     public User getUserById(String id) throws SQLException {
         // Modelo a devolver
         User user = null;
-
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -162,8 +192,8 @@ public class UserDAOImpl implements UserDAO{
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
                 user.setPuntos(rs.getInt("puntos"));
-                user.setFilename(rs.getString("imagen") + ".png");
-                //user.setImageURL(app.getProperties().get("imgBaseURL")+ user.getFilename());
+                user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+                //user.setImageURL(prb.getString("imgBaseURL")+ rs.getString("imageURL") + ".png");
             }
         } catch (SQLException e) {
             // Relanza la excepción
