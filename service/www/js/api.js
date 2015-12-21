@@ -207,13 +207,38 @@ function crearGrupo(name, info, uri){
 	    window.location.replace("grupo.html");
         
         
-    }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+    }).fail(function(data, status, jqxhr){
+        var error = JSON.parse(data.responseText);
+         $("#vacios").text("");
+        $("#vacios").append("<p><span style='color:red'>"+error.reason+ ".</span></p>");   
     });
 }
 
 function addGrupo(name, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        data: { loginid: name},
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+        console.log("Holi");
+	    window.location.replace("grupo.html");
+        
+        
+    }).fail(function(data, status, jqxhr){
+        alert('ERROR');
+    
+        console.log(data);
+        console.log(xhr.statusText);
+        console.log(textstatus);
+    });
+}
+function foraGrupo(name, uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
         url: uri,

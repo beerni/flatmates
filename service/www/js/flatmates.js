@@ -29,17 +29,6 @@ $(document).ready(function(){
       else
         crearMensaje($("#txtmensaje").val(), currentMessagesUri);
 });
-  $("#btnhome").click(function(e) {
-	e.preventDefault();
-	window.location.replace("flatmates.html");
-
-});
-
-$("#btnnuevogrupo").click(function(e) {
-	e.preventDefault();
-	window.location.replace("creargrupo.html");
-
-});
 
 $("#btnreload").click(function(e) {
 	e.preventDefault();
@@ -54,10 +43,6 @@ $("#btnlogout").click(function(e){
     });
 })
 
-$("#btnPerfil").click(function(e){
-    e.preventDefault();
-    window.location.replace('editProfile.html');
-})
 
 var cont = 1000; 
 setInterval(function contador(){
