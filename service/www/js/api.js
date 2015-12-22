@@ -77,7 +77,7 @@ function loadStings(uri){
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
         $("#estoseve").text("");
-
+        
         $("#estoseve").append("<div class='alert alert-block alert-info'><p>You have to be login for see this page.</p></div>");
 
     });
