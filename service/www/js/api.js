@@ -90,6 +90,8 @@ function loadGru(uri){
         headers: {"X-Auth-Token":authToken.token}
     
     }).done(function(data, status, jqxhr){
+        if (data.grupoid!=null)
+        {
         data.links=linksToMap(data.links);
         console.log('estoooo');
         console.log(data);
@@ -98,6 +100,7 @@ function loadGru(uri){
                 $("#btncambio").text("");
                 $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Grupo</a>");
             }
+        }
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
     });
@@ -145,9 +148,31 @@ function loadGrupo2step(uri){
                 $("#addUser").text('');
             }
         var usuarios = data.usuarios;
-        
+          if(authToken.userid==data.admin)
+                    $("#tablado").append("<th class = 'span2'>Delete user</th>");
          $.each(usuarios, function(i,v){
+                console.log(v.links[1].uri);
+                if(authToken.userid==v.userid){
+                    if (authToken.userid==data.admin){
+                        $("#btnIrse").text('');                        
+                         $("#btnIrse").append('<a href="#" onClick="todosforaGrupo(\''+grupoas["grupo"].uri+'\');"><i class="icon-remove-sign icon-large"></i> Delete group</a>');
+                    }
+                    else{
+                            $("#btnIrse").text(''); 
+                            $("#btnIrse").append('<a href="#" onClick="todosforaGrupo(\''+v.links[1].uri+'\');"><i class="icon-remove-sign icon-large"></i>Leave the group</a>');
+                    }
+                }
+                if(authToken.userid==data.admin){
+                    if(authToken.userid==v.userid){
+                    $("#tabla").append('<tr><td>'+v.loginid+'</td><td>'+v.puntos+'</td><td><a href="#" onClick="todosforaGrupo(\''+v.links[1].uri+'\');" class="btn btn-small btn-danger"><i class="btn-icon-only icon-remove"></i></a></td></tr>');
+                    }
+                    else{
+                    $("#tabla").append('<tr><td>'+v.loginid+'</td><td>'+v.puntos+'</td><td><a href="#" onClick="foraGrupo(\''+v.links[1].uri+'\');" class="btn btn-small btn-danger"><i class="btn-icon-only icon-remove"></i></a></td></tr>');
+                    }
+                }
+                else{
                  $("#tabla").append("<tr><td>"+v.loginid+"</td><td>"+v.puntos+"</td></tr>");
+                }
          });
         
         
@@ -260,20 +285,45 @@ function addGrupo(name, uri){
         console.log(textstatus);
     });
 }
-function foraGrupo(name, uri){
+function foraGrupo(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
+
+    console.log("llega");
+    console.log(uri);
     $.ajax({
         url: uri,
-        type: 'POST',
+        type: 'DELETE',
         crossDomain: true,
         dataType: "json",
-        data: { loginid: name},
         headers: {"X-Auth-Token":authToken.token}
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
         console.log("Holi");
 	    window.location.replace("grupo.html");
+        
+        
+    }).fail(function(xhr, textstatus){
+        alert('ERROR');
+        alert(xhr.status);
+    });
+}
+function todosforaGrupo(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+
+    console.log("llega");
+    console.log(uri);
+    $.ajax({
+        url: uri,
+        type: 'DELETE',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+        console.log("Holi");
+	    window.location.replace("flatmates.html");
         
         
     }).fail(function(xhr, textstatus){
