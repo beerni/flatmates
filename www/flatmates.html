@@ -37,24 +37,25 @@
                         <div class="container">
                             <ul>
                                 <li>
-                                    <a id= "btnhome">
+                                    <a id= "btnhome" href="flatmates.html">
                                         <i class="icon-home icon-large"></i> Home
                                     </a>
                                 </li>
-                                <li>
-                                    <a id = "btnnuevogrupo">
+                                <li id = "btncambio">
+                                    <a id = "btnnuevogrupo" href="creargrupo.html">
                                         <i class="icon-plus-sign icon-large" ></i> Crear grupo
                                     </a>
                                 </li>
                                 <li>
-                                    <a id = "btnPerfil">
+                                    <a id = "btnPerfil" href="editProfile.html">
                                         <i class="icon-user icon-large"></i> Perfil
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-    <section class="page container">
+    <section class="page container" id = "estoseve">
+        <div id="messages">
         <div class="row">
             <div class="span8">
                 <div class="box pattern pattern-sandstone">
@@ -69,8 +70,8 @@
   
                         </div>
                     </div>
-                    <div class="box-content box-list collapse in">
-                        <ul>
+                    <div class="box-content box-list collapse in" id="messages-list">
+                        <ul id="message">
                             <li>
                                 <div>
                                     <a href="#" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
@@ -102,6 +103,20 @@
                                 </div>
                             </li>
                         </ul>
+                        
+                        <div class="box-collapse" id="pagination">
+                        <div class="span3">
+                            <button class="btn btn-box">
+                                Previous
+                            </button>
+                            </div>
+                             <div class="span3">
+                             <button class="btn btn-box">
+                                Next
+                            </button>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
@@ -113,16 +128,18 @@
                         <h5>Escribir mensaje</h5>
                     </div>
                     <div class="box-content">   
-                                <textarea id="txtmensaje" class="form-control" placeholder="Mensaje" maxlength="255" rows = "3" ></textarea>
-                        <button type="submit" class="btn btn-primary btn-lg">
+                                <textarea id="txtmensaje" class="span7" placeholder="Mensaje" maxlength="255" rows = "3"></textarea>
+                        <button type="submit" class="btn btn-primary btn-lg" id="crearMensaje">
                             <i class= "icon-ok"></i> 
                             Enviar</button>
                                     </div>
 
                 </div>
             </div>
+            <div class="span8" id = "culebrilla">
+            </div>
         </div>
-            
+    </div>
             
 
     </section>
@@ -145,8 +162,9 @@
                 </div>
             </div>
         </footer>
-<script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/api.js" ></script>
 <script type="text/javascript" src="js/flatmates.js"></script>
+        <script type="text/javascript" src="js/weblinking.js" ></script>
 
 
     </body>

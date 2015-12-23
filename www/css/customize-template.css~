@@ -1252,13 +1252,11 @@ legend small {
 label,
 input,
 button,
-select{
+select,
+textarea {
   font-size: 14px;
   font-weight: normal;
   line-height: 20px;
-}
-textarea {
-    resize: none;
 }
 input,
 button,
@@ -1299,11 +1297,11 @@ input[type="color"],
   border-radius: 3px;
 }
 input,
+textarea,
 .uneditable-input {
   width: 206px;
 }
 textarea {
-  width: auto;
   height: auto;
 }
 textarea,

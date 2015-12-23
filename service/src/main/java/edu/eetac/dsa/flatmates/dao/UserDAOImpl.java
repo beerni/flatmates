@@ -192,7 +192,10 @@ public class UserDAOImpl implements UserDAO{
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
                 user.setPuntos(rs.getInt("puntos"));
-                user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+                //user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+
                 //user.setImageURL(prb.getString("imgBaseURL")+ rs.getString("imageURL") + ".png");
             }
         } catch (SQLException e) {

@@ -96,7 +96,7 @@ public class MensajeDAOImpl implements MensajeDAO {
                 pag_total = paginas;
             stmt.close();
             stmt = connection.prepareStatement(MensajeDAOQuery.GET_MENSAJES);
-
+            pag_total --;
 
             if (!before){
                 if (pag==0)
