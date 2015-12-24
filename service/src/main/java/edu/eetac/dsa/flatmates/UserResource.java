@@ -97,8 +97,7 @@ System.out.print(imagen);
             PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
             ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
         } catch (IOException e) {
-            throw new InternalServerErrorException(
-                    "Something has been wrong when converting the file.");
+            throw new InternalServerErrorException("Something has been wrong when converting the file.");
         }
 
         return uuid;
