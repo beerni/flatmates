@@ -1,3 +1,4 @@
-$("#signup").submit(function(event){
-    console.log("HOLA");
-})
+$("#form-register").submit(function(event){
+    event.preventDefault();
+    console.log('HOLA');
+});
