@@ -388,7 +388,7 @@ function getUser(){
         var filename=data.filename;
         $("#img_src").text('');
         console.log("/images/"+filename);
-        $("#img_src").append('<img src="/images/'+filename+'" class="img-rounded img-responsive" />');
+        $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
     }).fail(function(){
         alert("ERROR");
     });

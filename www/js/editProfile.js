@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    getUser();
+});
+                  
 var incorrectPassInput;
 $('#InputNewPass2').on('input', function() {
         if($('#InputNewPass2').val() == $('#InputNewPass').val()){

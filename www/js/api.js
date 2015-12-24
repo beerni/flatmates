@@ -285,6 +285,7 @@ function addGrupo(name, uri){
         console.log(textstatus);
     });
 }
+
 function foraGrupo(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
 
@@ -366,5 +367,30 @@ function changePassword(newPass, oldPass){
         alert("ERROR");
     });
     
+}
+
+function getUser(){
+    console.log('Arribo??');
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var uri = authToken["links"]["user-profile"].uri;
+    var userid = authToken.userid;
+    var getuserURI = uri;
+    console.log(getuserURI);
+    $.ajax({
+        url: getuserURI,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log("TODO BIEN");
+        var filename=data.filename;
+        $("#img_src").text('');
+        console.log("/images/"+filename);
+        $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
+    }).fail(function(){
+        alert("ERROR");
+    });
 }
 

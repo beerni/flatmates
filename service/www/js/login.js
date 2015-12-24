@@ -5,3 +5,8 @@ $("#form-signin").submit(function(event){
         window.location.replace('flatmates.html');
     });
 });
+
+$("#registrarse_btn").click(function(event){
+    event.preventDefault();
+    window.location.replace('register.html');
+})
