@@ -1,5 +1,14 @@
 $(document).ready(function(){
+    try{
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var currentGrupoUri = authToken["links"]["create-group"].uri;
+    console.log(currentGrupoUri);
+    console.log("hola");
+    loadGru(currentGrupoUri);
     getUser();
+    }catch(e){
+        console.log(e);
+    }
 });
                   
 var incorrectPassInput;
@@ -25,3 +34,9 @@ $("#form-pass").submit(function(event){
         window.location.reload();
     });}    
 });
+$("#btnlogout").click(function(e){
+    e.preventDefault();
+    logout(function(){
+        window.location.replace('index.html');
+    });
+})
