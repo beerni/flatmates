@@ -40,6 +40,45 @@ function login (loginid, password, complete){
     });
 }
 
+function registrarUsuario (formdata){
+    loadAPI(function(){
+        var api = JSON.parse(sessionStorage.api);
+        var uri=api.user.uri;
+        $.ajax({
+            url: uri,
+		    type: 'POST',
+            xhr: function(){
+                var myXhr=$.ajaxSettings.xhr();
+                if(myXhr.upload){
+                    myXhr.upload.addEventListener('progress',progressHandlingFunction,false);
+                }
+                return myXhr;
+            },
+            crossDomain: true,
+            data: formdata,
+            cache: false,
+		    contentType: false,
+            processData: false
+        }).done(function(data, status,jqxhr){
+            console.log('YE');
+            var response = $.parseJSON(jqxhr.responseText);
+            var lastfilename = response.filname;
+            alert('Todo OK');
+            $('progress').toggle();
+            window.location.replace('index.html');
+        }).fail(function(jqXHR, textStatus) {
+            alert('textStatus');
+        });
+        
+    });
+}
+
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        $('progress').attr({value:e.loaded,max:e.total});
+    }
+}
+
 function logout (complete){
     
     var authToken = JSON.parse(sessionStorage["auth-token"]);
