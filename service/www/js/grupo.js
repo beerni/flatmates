@@ -28,3 +28,10 @@ $("#delete").click(function(e) {
     //addGrupo($("#txtuser").val(),currentGrupoUru);
 
 });
+
+$("#btnlogout").click(function(e){
+    e.preventDefault();
+    logout(function(){
+        window.location.replace('index.html');
+    });
+})

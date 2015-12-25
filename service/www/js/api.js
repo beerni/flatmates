@@ -408,6 +408,35 @@ function changePassword(newPass, oldPass){
     
 }
 
+function changeDetails(info, fullname, email){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var uri = authToken["links"]["user-profile"].uri;
+    var userid = authToken.userid;
+    console.log(uri);
+    objeto = {
+        "id": userid,
+        "email":email,
+        "fullname":fullname,
+        "info":info
+    }
+    
+    var data = JSON.stringify(objeto);
+    $.ajax({
+        url: uri,
+        type:'PUT',
+        crossDomain: true,
+        contentType: "application/vnd.dsa.flatmates.user+json",
+        dataType: "json",
+        data: data,
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log('Cambiado correctamente');
+    }).fail(function(){
+        alert('Algo no ha hecho bien mi señoria');
+    });
+}
+
 function getUser(){
     console.log('Arribo??');
     var authToken = JSON.parse(sessionStorage["auth-token"]);
