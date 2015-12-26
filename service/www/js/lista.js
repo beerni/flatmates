@@ -6,30 +6,13 @@ console.log(authToken);
    loadGrupo(currentMessagesUri);
     var grupoas = JSON.parse(sessionStorage["grupo"]);
     var currentListaUri = grupoas["lista"].uri;
-    loadList(currentListaUri);   
+    loadLists(currentListaUri);
 });
 $("#add").click(function(e) {
 	e.preventDefault();
     console.log("llega");
     var grupoas = JSON.parse(sessionStorage["grupo"]);
     console.log(grupoas);
-    var currentGrupoUru = grupoas["grupo"].uri;
-    addGrupo($("#txtuser").val(),currentGrupoUru);
-
+    var currentListaUri = grupoas["lista"].uri;
+    addItem($("#txtitem").val(),currentListaUri);
 });
-$("#delete").click(function(e) {
-	e.preventDefault();
-    console.log("llega");
-    var grupoas = JSON.parse(sessionStorage["grupo"]);
-    console.log(grupoas);
-    //var currentGrupoUru = grupoas["grupo"].uri;
-    //addGrupo($("#txtuser").val(),currentGrupoUru);
-
-});
-
-$("#btnlogout").click(function(e){
-    e.preventDefault();
-    logout(function(){
-        window.location.replace('index.html');
-    });
-})
