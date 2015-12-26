@@ -43,17 +43,17 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-tasks icon-large"></i> Elegir tarea
+                                        <i class="icon-tasks icon-large"></i> Choose task
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-ok icon-large"></i> Evaluar tarea
+                                        <i class="icon-ok icon-large"></i> Evaluate task
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        <i class="icon-list-alt icon-large"></i> Lista compra
+                                    <a href="grupo.html">
+                                        <i class="icon-check icon-large"></i>Group
                                     </a>
                                 </li>
                                  <li id = "btnIrse">
@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="span7">
                     <header class="page-header">
-                        <h3>Grupo<br/>
+                        <h3>Group<br/>
                             <small id="lblNombreGrupo">Nombre grupo</small>
                         </h3>
                     </header>
@@ -80,31 +80,88 @@
         </div>
     </section>
     <section class="page container">
-       <div class="row">
-                        <div class="box">
-                            <div class="box-header">
-                                <h5>Información</h5>
-                            </div>
-                            <div class="box-content">
-                                <p id = "info">
-                                Aqui ira la informacion del grupo.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
         <div class="row">
-            <div class="span8">
+            <div class="span6">
                 <div class="box pattern pattern-sandstone">
                     <div class="box-header">
                         <i class="icon-list"></i>
-                        <h5>Lista compra</h5>
+                        <h5>To Do</h5>
                     </div>
                     <div class="box-content box-list collapse in">
-                        <ul id = "listacomprar">
+                        <ul id = "Todo">
+                            <li>
+                                <div>
+                                    <p class="news-item-preview "></p>
+                                    <div align="right">
+                                    <a href="javascript:;" class="btn btn-mini btn-info" >
+                                                    <i class="btn-icon-only icon-ok"></i>
+                                    </a>
+                                        </div>
+                                </div>
+                            </li>
                             <li>
                                 <div>
                                     <a href="#" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
                                     <p class="news-item-preview">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                                </div>
+                            </li>
+                             <li>
+                                <div>
+                                    <a href="#" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
+                                    <p class="news-item-preview">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                                </div>
+                            </li>
+                             <li>
+                                <div>
+                                    <a href="#" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
+                                    <p class="news-item-preview">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    
+                    </div>
+
+                </div>
+            </div>
+              <div class="span4" id= "addItem">
+                      <div class="box">
+                        <div class="box-header">
+                            <i class="icon-book"></i>
+                            <h5>Add item</h5>
+                        </div>
+                        <div class="box-content">   
+                                <input id="txtitem" class="span3" placeholder="Item to add" maxlength="100" rows = "3"></input>
+                        <div class="span12">
+                          </div>
+                          <div class="span12">
+                          </div>
+                         <div class="span12">
+                          </div>
+                                <button type="submit" class="btn btn-primary btn-lg" id="add">
+                                    <i class= "icon-ok"></i> 
+                                    Add</button>
+                        </div>
+
+                        </div>
+                </div>
+            <div class="row">
+            <div class="span6">
+                <div class="box pattern pattern-sandstone">
+                    <div class="box-header">
+                        <i class="icon-list"></i>
+                        <h5>Done</h5>
+                    </div>
+                    <div class="box-content box-list collapse in">
+                        <ul id = "Done">
+                            <li>
+                                <div>
+                                    <p class="news-item-preview">Comprar manzanas.</p>
+                                    <div align="right">
+                                     <a href="javascript:;" class="btn btn-mini btn-danger" >
+                                                    <i class="btn-icon-only icon-remove"></i>
+                                    </a>
+                                    </div>
                                 </div>
                             </li>
                             <li>
@@ -138,66 +195,6 @@
 
                 </div>
             </div>
-             <div class="span8">
-                        <div class="box pattern pattern-sandstone">
-                            <div class="box-content box-table">
-                                <table id="sample-table" class="table table-hover table-bordered tablesorter">
-                                    <thead>
-                                        <tr id="tablado">
-                                            <th>Usuario</th>
-                                            <th>Puntos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id = "tabla">
-                                        <tr>
-                                            <td>User1</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User2</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User3</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User4</td>
-                                            <td>0</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td>User5</td>
-                                            <td>
-                                            0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-              <div class="span6" id= "addUser">
-                      <div class="box">
-                        <div class="box-header">
-                            <i class="icon-book"></i>
-                            <h5>Añadir usuario</h5>
-                        </div>
-                        <div class="box-content">   
-                                <input id="txtuser" class="span3" placeholder="Login user to add/delete" maxlength="255" rows = "3"></input>
-                        <div class="span12">
-                          </div>
-                          <div class="span12">
-                          </div>
-                         <div class="span12">
-                          </div>
-                                <button type="submit" class="btn btn-primary btn-lg" id="add">
-                                    <i class= "icon-ok"></i> 
-                                    Añadir</button>
-                        </div>
-
-                        </div>
-                </div>
-            
             
 
     </section>
