@@ -40,6 +40,45 @@ function login (loginid, password, complete){
     });
 }
 
+function registrarUsuario (formdata){
+    loadAPI(function(){
+        var api = JSON.parse(sessionStorage.api);
+        var uri=api.user.uri;
+        $.ajax({
+            url: uri,
+		    type: 'POST',
+            xhr: function(){
+                var myXhr=$.ajaxSettings.xhr();
+                if(myXhr.upload){
+                    myXhr.upload.addEventListener('progress',progressHandlingFunction,false);
+                }
+                return myXhr;
+            },
+            crossDomain: true,
+            data: formdata,
+            cache: false,
+		    contentType: false,
+            processData: false
+        }).done(function(data, status,jqxhr){
+            console.log('YE');
+            var response = $.parseJSON(jqxhr.responseText);
+            var lastfilename = response.filname;
+            alert('Todo OK');
+            $('progress').toggle();
+            window.location.replace('index.html');
+        }).fail(function(jqXHR, textStatus) {
+            alert('textStatus');
+        });
+        
+    });
+}
+
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        $('progress').attr({value:e.loaded,max:e.total});
+    }
+}
+
 function logout (complete){
     
     var authToken = JSON.parse(sessionStorage["auth-token"]);
@@ -368,113 +407,32 @@ function changePassword(newPass, oldPass){
     });
     
 }
-function loadList(uri){
+function changeDetails(info, fullname, email){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
-    $.ajax({
-        url: uri,
-        type: 'GET',
-        crossDomain: true,
-        dataType: "json",
-        headers: {"X-Auth-Token" : authToken.token}
-    }).done(function(data, status, jqxhr){
-        data.links=linksToMap(data.links);
-        var listas = data.listaCompras;
-        console.log(data);
-           $('#listacomprar').text("");
-        $.each(listas, function(i,v){
-            if(v.hecho==false){
-            $('#listacomprar').append('<li><div><p class="news-item-preview">'+v.item+'</p></div></li>');
-            }
-        });
-    }).fail(function(){
-        alert("ERROR");
-    });
-}
-function addItem(item, uri){
-    var authToken = JSON.parse(sessionStorage["auth-token"]);
-    $.ajax({
-        url: uri,
-        type: 'POST',
-        crossDomain: true,
-        dataType: "json",
-        data: { item: item},
-        headers: {"X-Auth-Token":authToken.token}
-        
-        }).done(function(data, status, jqxhr){
-        //data.links=linksToMap(data.links);
-        console.log("Holi");
-	    window.location.replace("lista.html");
-        
-        
-    }).fail(function(data, status, jqxhr){
-        alert('ERROR');
+    var uri = authToken["links"]["user-profile"].uri;
+    var userid = authToken.userid;
+    console.log(uri);
+    objeto = {
+        "id": userid,
+        "email":email,
+        "fullname":fullname,
+        "info":info
+    }
     
-        console.log(data);
-        console.log(xhr.statusText);
-        console.log(textstatus);
-    });
-}
-function loadLists(uri){
-    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var data = JSON.stringify(objeto);
     $.ajax({
         url: uri,
-        type: 'GET',
+        type:'PUT',
         crossDomain: true,
+        contentType: "application/vnd.dsa.flatmates.user+json",
         dataType: "json",
+        data: data,
         headers: {"X-Auth-Token" : authToken.token}
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        var listas = data.listaCompras;
-        $('#Todo').text("");
-        $('#Done').text("");
-
-        $.each(listas, function(i,v){
-            console.log(v);
-             if(v.hecho==false){
-                $('#Todo').append('<li><div><p class="news-item-preview ">'+v.item+'</p><div align="right"><a href="#" onClick="listaHecho(\''+v.links[0].uri+'\');" class="btn btn-mini btn-info" ><i class="btn-icon-only icon-ok"></i></a></div></div></li>');
-             }
-            else{
-                $('#Done').append('<li><div><p class="news-item-preview">'+v.item+'</p><div align="right"><a href="#" onClick="DeleteItem(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>')
-            }
-        });
+        console.log('Cambiado correctamente');
     }).fail(function(){
-        alert("ERROR");
-    });
-}
-function listaHecho(uri){
-    var authToken = JSON.parse(sessionStorage["auth-token"]);
-    $.ajax({
-        url: uri,
-        type: 'POST',
-        crossDomain: true,
-        dataType: "json",
-        headers: {"X-Auth-Token":authToken.token}
-        
-        }).done(function(data, status, jqxhr){
-        //data.links=linksToMap(data.links);
-	    window.location.replace("lista.html");
-        
-    }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
-    });
-}
-function DeleteItem(uri){
-    var authToken = JSON.parse(sessionStorage["auth-token"]);
-    $.ajax({
-        url: uri,
-        type: 'DELETE',
-        crossDomain: true,
-        dataType: "json",
-        headers: {"X-Auth-Token":authToken.token}
-        
-        }).done(function(data, status, jqxhr){
-        //data.links=linksToMap(data.links);
-	    window.location.replace("lista.html");
-        
-    }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+        alert('Algo no ha hecho bien mi señoria');
     });
 }
 function getUser(){

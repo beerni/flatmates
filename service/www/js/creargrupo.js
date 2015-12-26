@@ -12,4 +12,12 @@ $("#btn-crear").click(function(e) {
      crearGrupo($("#name").val(),
      $("#Info").val(),currentMessagesUri);
 });
+
+$("#btnlogout").click(function(e){
+    e.preventDefault();
+    logout(function(){
+        window.location.replace('index.html');
+    });
+})
+
  

@@ -19,7 +19,8 @@ public class User {
             @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages", type= FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
             @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
             @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-sting", title = "Create sting", type=FlatmatesMediaType.FLATMATES_MENSAJE),
-            @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "self user-profile", title = "User profile", type= FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.id}"))
+            @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "self user-profile", title = "User profile", type= FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.id}")),
+            @InjectLink(resource = UserResource.class, style = InjectLink.Style.ABSOLUTE, rel = "user", title = "Users", type = FlatmatesMediaType.FLATMATES_USER)
     })
 
     private List<Link> links;

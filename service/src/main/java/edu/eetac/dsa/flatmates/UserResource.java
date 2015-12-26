@@ -60,8 +60,6 @@ public class UserResource {
                                  @FormDataParam("imagen") InputStream imagen,
                                  @FormDataParam("imagen") FormDataContentDisposition fileDetail,
                                  @Context UriInfo uriInfo) throws URISyntaxException {
-
-
         if(loginid == null || password == null || email == null || fullname == null || imagen==null)
             throw new BadRequestException("all parameters are mandatory");
         UserDAO userDAO = new UserDAOImpl();

@@ -9,7 +9,7 @@ $(document).ready(function(){
         }catch (e){
         $("#estoseve").text("");
 
-        $("#estoseve").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must to be login to see this page.</span></p></div>");
+        $("#estoseve").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must login to see this page.</span></p></div>");
         }/*, function(stings){
       $("#message").empty(); //ME llegan los stings
       var response = stings;

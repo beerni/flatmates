@@ -25,7 +25,6 @@ $('#InputNewPass2').on('input', function() {
     });
 $("#form-pass").submit(function(event){
     event.preventDefault();
-    console.log(incorrectPassInput);
     if($('#InputNewPass2').val() != $('#InputNewPass').val())
         alert('Los nuevos passwords no coinciden');
     else{
@@ -34,6 +33,16 @@ $("#form-pass").submit(function(event){
         window.location.reload();
     });}    
 });
+
+$('#form-datails').submit(function(event){
+    event.preventDefault();
+    changeDetails($('#InputInfo').val(),$('#InputFullname').val(),$('#InputEmail').val(), function(){
+        window.location.reload();
+    });
+});
+
+
+
 $("#btnlogout").click(function(e){
     e.preventDefault();
     logout(function(){
