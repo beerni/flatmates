@@ -6,6 +6,7 @@ package edu.eetac.dsa.flatmates;
 public interface FlatmatesMediaType {
     public final static String FLATMATES_AUTH_TOKEN = "application/vnd.dsa.flatmates.auth-token+json";
     public final static String FLATMATES_USER = "application/vnd.dsa.flatmates.user+json";
+    public final static String FLATMATES_USER_COLLECTION = "application/vnd.dsa.flatmates.user.collection+json";
     public final static String FLATMATES_GRUPO = "application/vnd.dsa.flatmates.grupo+json";
     public final static String FLATMATES_MENSAJE = "application/vnd.dsa.flatmates.mensaje+json";
     public final static String FLATMATES_MENSAJE_COLLECTION = "application/vnd.dsa.flatmates.mensaje.collection+json";

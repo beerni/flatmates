@@ -5,6 +5,7 @@ import edu.eetac.dsa.flatmates.dao.UserAlreadyExistsException;
 import edu.eetac.dsa.flatmates.dao.UserDAO;
 import edu.eetac.dsa.flatmates.dao.UserDAOImpl;
 import edu.eetac.dsa.flatmates.entity.AuthToken;
+import edu.eetac.dsa.flatmates.entity.ColeccionUser;
 import edu.eetac.dsa.flatmates.entity.User;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -115,6 +116,38 @@ public class UserResource {
         if(user == null)
             throw new NotFoundException("User with id = "+id+" doesn't exist");
         return user;
+    }
+
+    @Path("/by-{login}")
+    @GET
+    @Produces(FlatmatesMediaType.FLATMATES_USER)
+    public User getUserByLogin(@PathParam("login") String login){
+        User user = null;
+        try{
+            user=(new UserDAOImpl()).getUserByLoginid(login);
+        } catch (SQLException e){
+            throw  new InternalServerErrorException(e.getMessage());
+        }
+        if(user == null)
+            throw new NotFoundException("User with login = "+login+" doesn't exist");
+        return user;
+    }
+
+    @Path("/by-raiz-{loginid}")
+    @GET
+    @Produces(FlatmatesMediaType.FLATMATES_USER_COLLECTION)
+    public ColeccionUser getUsersByLogin(@PathParam("loginid") String loginid){
+
+        ColeccionUser coleccionUser = null;
+        try{
+            coleccionUser = (new UserDAOImpl()).getUsersByLogin_root(loginid);
+
+        }catch (SQLException e){
+            throw new InternalServerErrorException(e.getMessage());
+        }
+        if(coleccionUser==null)
+            throw new NotFoundException("No users related to login"+loginid);
+        return coleccionUser;
     }
     @Context
     private SecurityContext securityContext;

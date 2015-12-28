@@ -1,5 +1,6 @@
 package edu.eetac.dsa.flatmates.dao;
 
+import edu.eetac.dsa.flatmates.entity.ColeccionUser;
 import edu.eetac.dsa.flatmates.entity.User;
 
 import java.io.InputStream;
@@ -18,6 +19,8 @@ public interface UserDAO {
     public User getUserById(String id) throws SQLException;
 
     public User getUserByLoginid(String loginid) throws SQLException;
+
+    public ColeccionUser getUsersByLogin_root(String loginid) throws SQLException;
 
     public boolean deleteUser(String id) throws SQLException;
 

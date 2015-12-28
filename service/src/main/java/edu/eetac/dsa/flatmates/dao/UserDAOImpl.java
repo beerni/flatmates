@@ -1,5 +1,6 @@
 package edu.eetac.dsa.flatmates.dao;
 
+import edu.eetac.dsa.flatmates.entity.ColeccionUser;
 import edu.eetac.dsa.flatmates.entity.User;
 
 import javax.imageio.ImageIO;
@@ -26,6 +27,7 @@ import java.util.UUID;
  * Created by Admin on 09/11/2015.
  */
 public class UserDAOImpl implements UserDAO{
+
     @Context
     private Application app;
     @Override
@@ -212,9 +214,55 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+
+    public ColeccionUser getUsersByLogin_root (String login) throws SQLException{
+        ColeccionUser coleccionUser = new ColeccionUser();
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            String QUERY = "select hex(id) as id, loginid, email, fullname, sexo, info, tareas, puntos, imagen from users ";
+            QUERY = QUERY.concat("where loginid like '%").concat(login)
+                    .concat("%' ");
+            System.out.println(QUERY);
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(QUERY);
+            //stmt.setString(1, login);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setLoginid(rs.getString("loginid"));
+                user.setEmail(rs.getString("email"));
+                user.setFullname(rs.getString("fullname"));
+                user.setTareas(rs.getInt("tareas"));
+                user.setSexo(rs.getString("sexo"));
+                user.setInfo(rs.getString("info"));
+                user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+                coleccionUser.getUsers().add(user);
+                //user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+
+                //user.setImageURL(prb.getString("imgBaseURL")+ rs.getString("imageURL") + ".png");
+            }
+        } catch (SQLException e) {
+            // Relanza la excepción
+            throw e;
+        } finally {
+            // Libera la conexión
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        // Devuelve el modelo
+        return coleccionUser;
+    }
+
+    @Override
     public User getUserByLoginid(String loginid) throws SQLException {
         User user = null;
-
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -234,6 +282,9 @@ public class UserDAOImpl implements UserDAO{
                 user.setInfo(rs.getString("info"));
                 user.setTareas(rs.getInt("tareas"));
                 user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+
             }
         } catch (SQLException e) {
             throw e;
