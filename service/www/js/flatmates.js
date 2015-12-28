@@ -6,6 +6,7 @@ $(document).ready(function(){
    loadStings(currentMessagesUri);
     var currentGrupoUri = authToken["links"]["create-group"].uri; 
     loadGru(currentGrupoUri);
+        $("#sample-table").text("");
         }catch (e){
         $("#estoseve").text("");
 
