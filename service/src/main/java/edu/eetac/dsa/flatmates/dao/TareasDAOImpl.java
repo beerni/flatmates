@@ -65,6 +65,7 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
                 Tarea.setImage(rs.getString("imagen"));
+                Tarea.setGrupoid(rs.getString("grupoid"));
                 Tarea.setPuntos(rs.getInt("punts"));
                 Tarea.setHecho(rs.getBoolean("hecho"));
             }
@@ -95,6 +96,7 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
                 Tarea.setHecho(rs.getBoolean("hecho"));
+                Tarea.setGrupoid(rs.getString("grupoid"));
                 coleccionTareas.getTareas().add(Tarea);
             }
         } catch (SQLException e) {

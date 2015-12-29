@@ -23,6 +23,7 @@ public class Grupo {
             @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
             @InjectLink (resource = ListaCompraResource.class, method = "getListas", style = InjectLink.Style.ABSOLUTE, rel = "self lista", title = "Lista", type = FlatmatesMediaType.FLATMATES_LISTA_COLLECTION, bindings = @Binding(name = "id", value ="${instance.id}" )),
             @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.admin}")),
+            @InjectLink (resource = TareaResource.class , method = "añadirTarea", style = InjectLink.Style.ABSOLUTE, rel = "self tarea", title = "Tarea", type = FlatmatesMediaType.FLATMATES_LISTA_TAREA, bindings = @Binding(name = "id", value ="${instance.id}" ))
     })
     private List<Link> links;
     private String id;

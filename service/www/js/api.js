@@ -173,6 +173,8 @@ function loadGrupo2step(uri){
         console.log('data.links');
         console.log(data);
         sessionStorage["grupo"]=JSON.stringify(data.links);
+        sessionStorage["grupoadmin"]=JSON.stringify(data);
+        var admin = JSON.parse(sessionStorage["grupoadmin"]);
         var grupoas = JSON.parse(sessionStorage["grupo"]);
         console.log(grupoas);
 
@@ -185,6 +187,8 @@ function loadGrupo2step(uri){
         if (authToken.userid != data.admin)
             {
                 $("#addUser").text('');
+                $("#addTask").text('');
+                
             }
         var usuarios = data.usuarios;
           if(authToken.userid==data.admin)
@@ -449,7 +453,30 @@ function addItem(item, uri){
         alert('ERROR');
     
         console.log(data);
-        console.log(xhr.statusText);
+        //console.log(xhr.statusText);
+        console.log(textstatus);
+    });
+}
+function addTask(task, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        data: {tarea: task},
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+	    window.location.replace("tareas.html");
+        
+        
+    }).fail(function(data, status, jqxhr){
+        alert('ERROR');
+    
+        console.log(data);
+        //console.log(xhr.statusText);
         console.log(textstatus);
     });
 }
@@ -480,6 +507,89 @@ function loadLists(uri){
         alert("ERROR");
     });
 }
+function loadTarea(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        var tareas = data.tareas;
+        $('#Task').text("");
+        var admin = JSON.parse(sessionStorage["grupoadmin"]);
+        $.each(tareas, function(i,v){
+            if(admin.admin == authToken.userid){
+                if(v.hecho==false){
+                if(v.userid==null){
+                $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><a href="#" onClick="TareaAdd(\''+v.links[0].uri+'\');" class="btn btn-mini btn-info" ><i class="btn-icon-only icon-plus"></i></a><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                }
+                else{
+                    if(v.userid==authToken.userid){
+                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                    }
+                    else{
+                    $('#Task').append('<li><div><a class="news-item-title">This task is being doing by another user</a><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                    }
+                }
+             }
+            else{
+                if(v.userid==authToken.userid){
+                 $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                }
+                else{
+                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                }
+            }
+            }
+            else{
+            if(v.hecho==false){
+                if(v.userid==null){
+                $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><a href="#" onClick="TareaAdd(\''+v.links[0].uri+'\');" class="btn btn-mini btn-info" ><i class="btn-icon-only icon-plus"></i></a></div></div></li>');
+                }
+                else{
+                    if(v.userid==authToken.userid){
+                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button></div></div></li>');
+                    }
+                    else{
+                    $('#Task').append('<li><div><a class="news-item-title">This task is being doing by another user</a><p class="news-item-preview ">'+v.tarea+'</p><div align="right"></div></div></li>');
+                    }
+                }
+             }
+            else{
+                if(v.userid==authToken.userid){
+                 $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"></div></div></li>');
+                }
+                else{
+                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button></div></div></li>');
+                }
+            }
+        }
+        });
+    }).fail(function(){
+        alert("ERROR");
+    });
+}
+function TareaAdd(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+	    window.location.replace("tareas.html");
+        
+    }).fail(function(xhr, textstatus){
+        alert('ERROR');
+        alert(xhr.status);
+    });
+}
 function listaHecho(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     $.ajax({
@@ -492,6 +602,24 @@ function listaHecho(uri){
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
 	    window.location.replace("lista.html");
+        
+    }).fail(function(xhr, textstatus){
+        alert('ERROR');
+        alert(xhr.status);
+    });
+}
+function DeleteTask(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'DELETE',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+	    window.location.replace("tareas.html");
         
     }).fail(function(xhr, textstatus){
         alert('ERROR');
