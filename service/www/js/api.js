@@ -34,8 +34,9 @@ function login (loginid, password, complete){
             complete();
         }).fail(function(jqXHR, textStatus, errorThrown){
             console.log("Fail");
-            var error = jqXHR.responseJSON;
-            alert("Introduce un login y/o contraseña valida");
+            var error = JSON.parse(jqXHR.responseText);
+            $("#vacios").text("");
+            $("#vacios").append('<div class="alert alert-block alert-info"><p><span style="color:red">'+error.reason+'</span></p></div>');   
         });
     });
 }
