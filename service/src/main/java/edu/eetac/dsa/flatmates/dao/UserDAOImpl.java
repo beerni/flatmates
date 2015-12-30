@@ -224,10 +224,8 @@ public class UserDAOImpl implements UserDAO{
             String QUERY = "select hex(id) as id, loginid, email, fullname, sexo, info, tareas, puntos, imagen from users ";
             QUERY = QUERY.concat("where loginid like '%").concat(login)
                     .concat("%' ");
-            System.out.println(QUERY);
             connection = Database.getConnection();
             stmt = connection.prepareStatement(QUERY);
-            //stmt.setString(1, login);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 User user = new User();

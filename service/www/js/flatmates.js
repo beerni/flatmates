@@ -55,6 +55,11 @@ $("#btnlogout").click(function(e){
     });
 })
 
+$('#form-buscar').submit(function(e){
+    e.preventDefault();
+    buscarUsers($("#searchUsers").val());
+})
+
 
 var cont = 1000; 
 setInterval(function contador(){

@@ -697,3 +697,27 @@ function getUser(){
     });
 }
 
+function buscarUsers(login){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    var uri = authToken["links"]["home"].uri;
+    var uri_user = uri+"users/by-raiz-"+login;
+    var userid = authToken.userid;
+    $("#tabla").text('');
+    $.ajax({
+        url: uri_user,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        var usuarios = data.users;
+        console.log(usuarios);
+        $.each(usuarios,function(i,v){
+           $("#tabla").append('<tr><td>'+v.loginid+ '</td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>')
+        });
+    }).fail(function(){
+        alert('Error');
+    });
+   
+}
+
