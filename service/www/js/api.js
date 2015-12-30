@@ -64,11 +64,12 @@ function registrarUsuario (formdata){
             console.log('YE');
             var response = $.parseJSON(jqxhr.responseText);
             var lastfilename = response.filname;
-            alert('Todo OK');
             $('progress').toggle();
             window.location.replace('index.html');
         }).fail(function(jqXHR, textStatus) {
-            alert('textStatus');
+           var error = JSON.parse(jqXHR.responseText);
+            $("#vacios2").text("");
+            $("#vacios2").append('<div class="alert alert-block alert-info"><p><span style="color:red">'+error.reason+'</span></p></div>'); 
         });
         
     });
