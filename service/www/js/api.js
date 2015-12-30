@@ -175,9 +175,9 @@ function loadGrupo2step(uri){
         console.log('data.links');
         console.log(data);
         sessionStorage["grupo"]=JSON.stringify(data.links);
+        var grupoas = JSON.parse(sessionStorage["grupo"]);
         sessionStorage["grupoadmin"]=JSON.stringify(data);
         var admin = JSON.parse(sessionStorage["grupoadmin"]);
-        var grupoas = JSON.parse(sessionStorage["grupo"]);
         console.log(grupoas);
 
         $("#lblNombreGrupo").text('');
@@ -294,6 +294,8 @@ function crearGrupo(name, info, uri){
         
         }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
+        sessionStorage["grupo"]=JSON.stringify(data.links);
+        var grupoas = JSON.parse(sessionStorage["grupo"]);
         console.log(data.links);
         console.log("Holi");
 	    window.location.replace("grupo.html");
@@ -431,8 +433,9 @@ function loadList(uri){
             $('#listacomprar').append('<li><div><p class="news-item-preview">'+v.item+'</p></div></li>');
             }
         });
-    }).fail(function(){
-        alert("ERROR");
+    }).fail(function(jqXHR, textStatus) {
+        var error = JSON.parse(jqXHR.responseText);
+        alert(error.reason);
     });
 }
 function addItem(item, uri){
