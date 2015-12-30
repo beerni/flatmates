@@ -1,38 +1,21 @@
+$(document).ready(function(){
+   var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
+console.log(authToken);
+   var currentMessagesUri = authToken["links"]["create-group"].uri; 
+    console.log(currentMessagesUri); 
+   loadGrupo(currentMessagesUri);
+    var tareas = JSON.parse(sessionStorage["tarea"]);
+    var Uri = tareas["links"]["Update"].uri; 
 
-("#imageForm").submit(function(e){
+    console.log(tareas);
+    getMyT(Uri);
+});
+$("#add").click(function(e){
     $('progress').toggle();
     var formData = new FormData();
+     var tareas = JSON.parse(sessionStorage["tarea"]);
+    var Uri = tareas["links"]["Update"].uri; 
     formData.append('imagen', $('#inputFile')[0].files[0]);  
-    updateTarea(formData);
-}
+    updateTarea(formData, Uri);
+});
                       
-function updateTarea (formdata){
-    var authToken = JSON.parse(sessionStorage["auth-token"]);
-    console.log(authToken);
-     //var uri=api.user.uri;
-        $.ajax({
-            url: uri,
-		    type: 'PUT',
-            xhr: function(){
-                var myXhr=$.ajaxSettings.xhr();
-                if(myXhr.upload){
-                    myXhr.upload.addEventListener('progress',progressHandlingFunction,false);
-                }
-                return myXhr;
-            },
-            crossDomain: true,
-            data: formdata,
-            cache: false,
-		    contentType: false,
-            processData: false
-        }).done(function(data, status,jqxhr){
-            console.log('YE');
-            var response = $.parseJSON(jqxhr.responseText);
-            var lastfilename = response.filname;
-            alert('Todo OK');
-            $('progress').toggle();
-            window.location.reload();
-        }).fail(function(jqXHR, textStatus) {
-            alert('textStatus');
-        });
-}

@@ -521,6 +521,7 @@ function loadTarea(uri){
         data.links=linksToMap(data.links);
         var tareas = data.tareas;
         $('#Task').text("");
+        console.log(data);
         var admin = JSON.parse(sessionStorage["grupoadmin"]);
         $.each(tareas, function(i,v){
             if(admin.admin == authToken.userid){
@@ -530,7 +531,7 @@ function loadTarea(uri){
                 }
                 else{
                     if(v.userid==authToken.userid){
-                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button onClick="getMyTarea(\''+v.links[2].uri+'\');" class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
                     }
                     else{
                     $('#Task').append('<li><div><a class="news-item-title">This task is being doing by another user</a><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
@@ -553,7 +554,7 @@ function loadTarea(uri){
                 }
                 else{
                     if(v.userid==authToken.userid){
-                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button></div></div></li>');
+                     $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button onClick="getMyTarea(\''+v.links[2].uri+'\');" class="btn btn-info btn-mini" id="add"><i class= "icon-pencil"></i>Upload task</button></div></div></li>');
                     }
                     else{
                     $('#Task').append('<li><div><a class="news-item-title">This task is being doing by another user</a><p class="news-item-preview ">'+v.tarea+'</p><div align="right"></div></div></li>');
@@ -672,6 +673,68 @@ function changeDetails(info, fullname, email){
         console.log('Cambiado correctamente');
     }).fail(function(){
         alert('Algo no ha hecho bien mi señoria');
+    });
+}
+function updateTarea (formdata, uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    console.log(authToken);
+     //var uri=api.user.uri;
+        $.ajax({
+            url: uri,
+		    type: 'PUT',
+            xhr: function(){
+                var myXhr=$.ajaxSettings.xhr();
+                if(myXhr.upload){
+                    myXhr.upload.addEventListener('progress',progressHandlingFunction,false);
+                }
+                return myXhr;
+            },
+            crossDomain: true,
+            data: formdata,
+            cache: false,
+		    contentType: false,
+            processData: false
+        }).done(function(data, status,jqxhr){
+            console.log('YE');
+            var response = $.parseJSON(jqxhr.responseText);
+            var lastfilename = response.filname;
+            alert('Todo OK');
+            $('progress').toggle();
+            window.location.reload();
+        }).fail(function(jqXHR, textStatus) {
+            alert('textStatus');
+        });
+}
+function getMyTarea(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        sessionStorage["tarea"]=JSON.stringify(data);
+        window.location.replace("evaluate.html")
+        
+    }).fail(function(){
+        alert("ERROR");
+    });
+}
+function getMyT(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        $('#lbltarea').text(data.tarea);
+    }).fail(function(){
+        alert("ERROR");
     });
 }
 function getUser(){
