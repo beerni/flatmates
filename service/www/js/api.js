@@ -678,6 +678,8 @@ function changeDetails(info, fullname, email){
 function updateTarea (formdata, uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     console.log(authToken);
+    console.log(uri);
+    console.log('LLego');
      //var uri=api.user.uri;
         $.ajax({
             url: uri,
@@ -693,7 +695,8 @@ function updateTarea (formdata, uri){
             data: formdata,
             cache: false,
 		    contentType: false,
-            processData: false
+            processData: false,
+             headers: {"X-Auth-Token" : authToken.token}
         }).done(function(data, status,jqxhr){
             console.log('YE');
             var response = $.parseJSON(jqxhr.responseText);
@@ -702,7 +705,9 @@ function updateTarea (formdata, uri){
             $('progress').toggle();
             window.location.reload();
         }).fail(function(jqXHR, textStatus) {
-            alert('textStatus');
+            var error = JSON.parse(jqXHR.responseText);
+            alert(error.reason);
+            
         });
 }
 function getMyTarea(uri){
