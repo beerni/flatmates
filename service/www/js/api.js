@@ -711,10 +711,16 @@ function buscarUsers(login){
         headers: {"X-Auth-Token" : authToken.token}
     }).done(function(data, status, jqxhr){
         var usuarios = data.users;
-        console.log(usuarios);
+        $("#info").text("");
+        console.log(data.users.length);
+        if(data.users.length==0){
+            $("#info").append('<div class="alert alert-block alert-info"><p><span style="color:red">We do not find any user that contains this words. </span></p></div>');
+        }
+        else{
         $.each(usuarios,function(i,v){
-           $("#tabla").append('<tr><td>'+v.loginid+ '</td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>')
+           $("#tabla").append('<tr><td>'+v.loginid+'</td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>');
         });
+        }
     }).fail(function(){
         alert('Error');
     });
