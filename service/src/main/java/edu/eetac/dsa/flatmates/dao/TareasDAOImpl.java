@@ -4,10 +4,19 @@ import edu.eetac.dsa.flatmates.entity.ColeccionTareas;
 import edu.eetac.dsa.flatmates.entity.RelacionPuntosTareas;
 import edu.eetac.dsa.flatmates.entity.tareas;
 
+import javax.imageio.ImageIO;
+import javax.ws.rs.InternalServerErrorException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * Created by Admin on 28/11/2015.
@@ -201,10 +210,11 @@ public class TareasDAOImpl implements TareasDAO{
         }
     }
     @Override
-    public tareas updateTarea(String id, String idg, String uuid_imagen, String userid) throws SQLException {
+    public tareas updateTarea(String id, String idg, InputStream imagen, String userid) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         tareas Tareas = null;
+        UUID uuid =writeAndConvertImage(imagen);
         try {
             connection = Database.getConnection();
             Tareas = getTareadById(id, idg);
@@ -215,8 +225,7 @@ public class TareasDAOImpl implements TareasDAO{
                 stmt.close();
             }
             stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_IMAGE);
-            stmt.setString(1, uuid_imagen);
-            stmt.setString(1, uuid_imagen);
+            stmt.setString(1, uuid.toString());
             stmt.setString(2, id);
             stmt.setString(3, idg);
             stmt.executeUpdate();
@@ -233,6 +242,28 @@ public class TareasDAOImpl implements TareasDAO{
         }
 
         return getTareadById(id, idg);
+    }
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
+
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when reading the file.");
+        }
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString() + ".png";
+
+        try {
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
     }
 
     @Override

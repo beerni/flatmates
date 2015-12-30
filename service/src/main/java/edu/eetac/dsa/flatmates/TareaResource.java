@@ -224,8 +224,8 @@ public class TareaResource{
                 throw new ForbiddenException("Only the user that have this tarea can modify");
             if(!Tareas.getUserid().equals(userid))
                 throw new ForbiddenException("Only the user that have this tarea can modify");
-            UUID uuid = writeAndConvertImage(imagen);
-            Tareas = tareasDAO.updateTarea(id, idg, uuid.toString(), userid);
+            //UUID uuid = writeAndConvertImage(imagen);
+            Tareas = tareasDAO.updateTarea(id, idg, imagen, userid);
         }catch(SQLException e){
             throw new InternalServerErrorException();
         }catch(NullPointerException e) {
