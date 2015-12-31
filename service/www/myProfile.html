@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="span7">
                         <header class="page-header">
-                            <h3>Información de usuario<br/><small>Este soy yo!</small></h3>
+                            <h3>Información de usuario<br/><small id = "lbllogin">Este soy yo!</small></h3>
                         </header>
                     </div>
                 </div>
@@ -69,24 +69,10 @@
         <section style="padding-bottom: 50px; padding-top: 50px;">
             <div class="row">
                 <div class="col-md-4">
-                    <div id = "img_src">
-                    </div>
-                    <br />
-                    <br />
-                    
-                    <div id="fullname">
-                    <label> <h3>Fullname: </h3></label>
-                    </div>
-                        <div id="email">
-                    <label> <h3>Email: </h3></label>
-                    </div>
-                    <br>
-                    <br /><br/>
-                </div>
-                <div class="col-md-8">
+                    <div class="span12">
                     <div class="alert alert-info">
-                        <h2>Bienvenido a mi página : </h2>
-                        <h4>Bio: </h4>
+                        <h2>Welcome to my page : </h2>
+                        <h4>Aditional information of me: </h4>
                          <div>
                           <p id="bio" class="news-item-preview">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
                         </div>
@@ -95,6 +81,32 @@
                         </form>
                     
                 </div>
+                    <div id = "img_src" class="col-md-8">
+                    </div>
+                    <br />
+                    <br />
+                <div class="col-md-4">
+                    <div class="span6">
+                    <div id="fullname">
+                        <label><h3><span style='color:blue'>Fullname:</span></h3><h3 id = "full"></h3></label>
+                    </div>
+                        <div id="email">
+                    <label><h3><span style='color:blue'>Email: </span></h3><h3 id = "e"></h3></label>
+                    </div>
+                    </div>
+                    <div class="span6">
+                    <div id="Points">
+                    <label> <h3><span style='color:blue'>Points:</span><h3 id = "point"></h3></h3></label>
+                    </div>
+                        <div id="o">
+                    <label><h3><span style='color:blue'>Tasks done: </span></h3> <h3 id = "task"></h3></label>
+                    </div>
+                </div>
+                </div>
+                    <br>
+                    <br /><br/>
+                </div>
+                
             </div>
             <!-- ROW END -->
 
@@ -113,7 +125,7 @@
         </footer>
                 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
                 <script type="text/javascript" src="js/api.js" ></script>
-                <script type="text/javascript" src="js/editProfile.js"></script>
+                <script type="text/javascript" src="js/myProfile.js"></script>
     </body>
     
     

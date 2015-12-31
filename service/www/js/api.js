@@ -236,9 +236,8 @@ function MensajeCollection (mensajeCollection){
         $.each(this.Mensaje, function(i,v){
             var mensaje = v;
         $.each(mensaje, function(i,v){
-           
             if(v.content != undefined)
-             $("#message").append("<li><div><a href='#' class='news-item-title'>"+v.loginid+"</a><p class='news-item-preview'>"+v.content+".</p></div></li>");
+             $("#message").append('<li><div><a href="#" onClick="getProfile(\''+v.links[5].uri+'\');" class="news-item-title">'+v.loginid+'</a><p class="news-item-preview">'+v.content+'</p></div></li>');
     
         });
     });
@@ -765,7 +764,7 @@ function getTareaE(uri){
         console.log("Aqui esta la tarea");
         console.log(data);
         sessionStorage["tareaE"]=JSON.stringify(data);
-        window.location.replace("punctuate.html")
+        window.location.replace("punctuate.html");
         
     }).fail(function(){
         alert("ERROR");
@@ -831,6 +830,22 @@ function getUser(){
         alert("ERROR");
     });
 }
+function getProfile(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        sessionStorage["profile"]=JSON.stringify(data);
+        window.location.replace("myProfile.html")
+    }).fail(function(){
+        alert("ERROR");
+    });
+}
 
 function buscarUsers(login){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
@@ -853,7 +868,9 @@ function buscarUsers(login){
         }
         else{
         $.each(usuarios,function(i,v){
-           $("#tabla").append('<tr><td>'+v.loginid+'</td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>');
+            console.log("Aqui va el usuario");
+            console.log(v.links[4].uri);
+           $("#tabla").append('<tr><td><a href="#" onClick="getProfile(\''+v.links[4].uri+'\');">'+v.loginid+'</a></td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>');
         });
         }
     }).fail(function(){
