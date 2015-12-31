@@ -66,7 +66,7 @@
                     </div>
                 
                 
-        <section class="nav nav-page">
+    <section class="nav nav-page">
         <div class="container">
             <div class="row">
                 <div class="span7">
@@ -80,48 +80,32 @@
         </div>
     </section>
     <section class="page container">
-        <div class="row">
-            <div class="span11">
-                <div class="box pattern pattern-sandstone">
-                    <div class="box-header">
-                        <i class="icon-list"></i>
-                        <h5>Tasks</h5>
+            <div class="span8">
+                <div class="alert alert-block alert-info" id = "vacios">
+                      <p><span style='color:red'>This task doesn't have image, select the image for validate that you have done this task.</span></p>
                     </div>
-                    <div class="box-content box-list collapse in">
-                        <ul id = "Task">
-                        </ul>
-                    </div>
-
-                </div>
             </div>
-              <div class="span4" id= "addTask">
+              <div class="span6" id= "addTask">
                       <div class="box">
                         <div class="box-header">
                             <i class="icon-book"></i>
-                            <h5>Add task</h5>
+                            <h5 id = "lbltarea">Add task</h5>
                         </div>
+                          <form id="imageForm" class="form-horizontal col-md-6" role="form"> 
                         <div class="box-content">   
-                                <input id="txttask" class="span3" placeholder="Task to add" maxlength="100" rows = "3"></input>
-                        <div class="span12">
-                          </div>
-                          <div class="span12">
-                          </div>
-                         <div class="span12">
-                          </div>
-                                <button type="submit" class="btn btn-primary btn-lg" id="add">
+                            <label for="inputFile">Chose the photo that corresponds with this task to demostrate that you have done</label>
+                                    <input name="image" type="file" id="inputFile" required="required">
+                             <button type="submit" class="btn btn-primary btn-lg" id="add">
                                     <i class= "icon-ok"></i> 
-                                    Add</button>
+                                    Upload image</button>
                         </div>
+                          </form>
 
                         </div>
                 </div>
 
     </section>
 
-    
-
-            </div>
-        </div>
 
         <div id="spinner" class="spinner" style="display:none;">
             Loading&hellip;
@@ -136,7 +120,7 @@
                 </div>
             </div>
         </footer>
-    <script src="js/tareas.js" type="text/javascript" ></script>
+    <script src="js/evaluate.js" type="text/javascript" ></script>
     <script src="js/api.js" type="text/javascript" ></script>
 
 

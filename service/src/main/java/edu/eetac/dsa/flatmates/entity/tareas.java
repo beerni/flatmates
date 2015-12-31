@@ -18,8 +18,7 @@ public class tareas {
     @InjectLinks({
             @InjectLink(resource = TareaResource.class, method = "selectTarea", style = InjectLink.Style.ABSOLUTE, rel = "select", title = "Select", type = FlatmatesMediaType.FLATMATES_TAREA, bindings = {@Binding(name = "id", value ="${instance.id}"), @Binding(name = "idg", value="${instance.grupoid}")}),
             @InjectLink(resource = TareaResource.class, method = "deleteTarea", style = InjectLink.Style.ABSOLUTE, rel = "Delete", title = "Delete", type = FlatmatesMediaType.FLATMATES_TAREA, bindings = {@Binding(name = "idt", value ="${instance.id}"), @Binding(name = "id", value="${instance.grupoid}")}),
-            @InjectLink(resource = TareaResource.class, method = "getTarea", style = InjectLink.Style.ABSOLUTE, rel = "Update", title = "update", type = FlatmatesMediaType.FLATMATES_TAREA, bindings = {@Binding(name = "idt", value ="${instance.id}"), @Binding(name = "id", value="${instance.grupoid}")}),
-
+            @InjectLink(resource = TareaResource.class, method = "getTarea", style = InjectLink.Style.ABSOLUTE, rel = "Update", title = "update", type = FlatmatesMediaType.FLATMATES_TAREA, bindings = {@Binding(name = "idt", value ="${instance.id}"), @Binding(name = "id", value="${instance.grupoid}")})
 
     })
     private List<Link> links;
@@ -27,6 +26,7 @@ public class tareas {
     private String userid;
     private String grupoid;
     private String tarea;
+    private String filename;
     private String image;
     private int puntos;
     private boolean hecho;

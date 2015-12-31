@@ -543,10 +543,11 @@ function loadTarea(uri){
              }
             else{
                 if(v.userid==authToken.userid){
+                    console.log(v);
                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
                 }
                 else{
-                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
+                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button href="#" onClick="getTareaE(\''+v.links[2].uri+'\');" class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
                 }
             }
             }
@@ -565,11 +566,12 @@ function loadTarea(uri){
                 }
              }
             else{
+                console.log(v);
                 if(v.userid==authToken.userid){
                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"></div></div></li>');
                 }
                 else{
-                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button></div></div></li>');
+                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><div align="right"><button href="#" onClick="getTareaE(\''+v.links[2].uri+'\');" class="btn btn-info btn-mini"><i class= "icon-ok"></i> Evaluate</button></div></div></li>');
                 }
             }
         }
@@ -612,6 +614,26 @@ function listaHecho(uri){
     }).fail(function(xhr, textstatus){
         alert('ERROR');
         alert(xhr.status);
+    });
+}
+function points(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token":authToken.token}
+        
+        }).done(function(data, status, jqxhr){
+        //data.links=linksToMap(data.links);
+	    window.location.replace("tareas.html");
+        
+    }).fail(function(jqXHR, textStatus, errorThrown){
+        alert('Error');    
+        console.log("Fail");
+        var error = JSON.parse(jqXHR.responseText); 
+        alert(error.reason);
     });
 }
 function DeleteTask(uri){
@@ -724,7 +746,26 @@ function getMyTarea(uri){
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
         sessionStorage["tarea"]=JSON.stringify(data);
-        window.location.replace("evaluate.html")
+        window.location.replace("uptask.html")
+        
+    }).fail(function(){
+        alert("ERROR");
+    });
+}
+function getTareaE(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        console.log("Aqui esta la tarea");
+        console.log(data);
+        sessionStorage["tareaE"]=JSON.stringify(data);
+        window.location.replace("punctuate.html")
         
     }).fail(function(){
         alert("ERROR");
@@ -741,6 +782,27 @@ function getMyT(uri){
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
         $('#lbltarea').text(data.tarea);
+    }).fail(function(){
+        alert("ERROR");
+    });
+}
+function getMyTa(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        url: uri,
+        type: 'GET',
+        crossDomain: true,
+        dataType: "json",
+        headers: {"X-Auth-Token" : authToken.token}
+    }).done(function(data, status, jqxhr){
+        data.links=linksToMap(data.links);
+        var filename=data.image;
+        $("#img").text('');
+        var a = "/images/"+filename+".png";
+        console.log("/images/"+filename+".jpg");
+        $("#img").append('<img src="'+a+'" class="img-rounded img-responsive" />');
+        $('#lbltarea').text(data.tarea);
+        
     }).fail(function(){
         alert("ERROR");
     });

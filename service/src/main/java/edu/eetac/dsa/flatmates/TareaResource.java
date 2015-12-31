@@ -136,7 +136,7 @@ public class TareaResource{
 
     @Path("/{id}/grupo/{idg}/points/{points}")
     @POST
-    public void puntuarTarea(@PathParam("id") String id, @PathParam("idg") String idg, @PathParam("points") int points)  {
+    public RelacionPuntosTareas puntuarTarea(@PathParam("id") String id, @PathParam("idg") String idg, @PathParam("points") int points)  {
 
         GrupoDAO grupoDAO = new GrupoDAOImpl();
         Grupo grupo = null;
@@ -146,7 +146,6 @@ public class TareaResource{
         tareas Tareas = null;
         RelacionPuntosTareas relacionPuntosTareas = null;
         try{
-            System.out.println("1");
             if (points <0 || points > 10)
                 throw new ForbiddenException("Use a puntuation betwen 0 and 10");
             grupo = grupoDAO.getGrupoById(idg);
@@ -175,6 +174,7 @@ public class TareaResource{
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
+        return relacionPuntosTareas;
     }
     @Path("/{idt}/grupo/{id}")
     @DELETE
