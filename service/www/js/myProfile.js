@@ -21,6 +21,8 @@ $(document).ready(function(){
     $("#point").text(profile.puntos);
     $("#task").text('');
     $("#task").text(profile.tareas);
+    $("#sexo").text('');
+    $("#sexo").text(profile.sexo);
     $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
     }catch(e){
         console.log(e);
