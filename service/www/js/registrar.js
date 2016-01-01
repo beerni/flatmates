@@ -17,6 +17,7 @@ $("#imageForm").submit(function(e){
     formData.append('fullname', fullname);
     formData.append('sexo', sexo);
     formData.append('imagen', $('#inputFile')[0].files[0]);    
+    console.log(formData);
     registrarUsuario(formData);
     console.log('Usuario creado');
 });
