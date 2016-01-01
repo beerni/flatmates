@@ -131,7 +131,7 @@ function loadGru(uri){
         headers: {"X-Auth-Token":authToken.token}
     
     }).done(function(data, status, jqxhr){
-        if (data.grupoid!=null)
+        if (data!=undefined)
         {
         data.links=linksToMap(data.links);
         console.log('estoooo');
@@ -142,7 +142,6 @@ function loadGru(uri){
                 $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Grupo</a>");
             }
         }
-        //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
     });
 }
