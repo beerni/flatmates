@@ -32,8 +32,9 @@ $(document).ready(function(){
   $("#crearMensaje").click(function(e) {
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
    var currentMessagesUri = authToken["links"]["current-messages"].uri;
-   event.preventDefault();
-    if(/^\s+|\s+$/.test($("#txtmensaje").val())||$("#txtmensaje").val()=="")
+      e.preventDefault();
+      console.log("estonova");
+      if(/^\s+|\s+$/.test($("#txtmensaje").val())||$("#txtmensaje").val()=="")
         {
          $("#culebrilla").text("");   
          $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must to write something.</span></p></div>");
