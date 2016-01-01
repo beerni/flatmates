@@ -5,6 +5,7 @@ $("#imageForm").submit(function(e){
     var email=$("#emailsignup").val();
     var info=$("#descriptionsignup").val();
     var sexo =$("#check11").val();
+    console.log($("#check11").val());
     e.preventDefault();
     $('progress').toggle();
     //var formData = new FormData($('imageForm')[0]);
