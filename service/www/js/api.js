@@ -15,7 +15,7 @@ function loadAPI (complete){
         sessionStorage["api"]=JSON.stringify(api);
         complete();
     }).fail(function(data){
-       console.log("Y voló");
+       console.log("Error");
     });
 }
 
@@ -143,6 +143,7 @@ function loadGru(uri){
             }
         }
     }).fail(function(jqXHR, textStatus){
+        console.log("Error");
     });
 }
 function loadGrupo(uri){
@@ -159,7 +160,7 @@ function loadGrupo(uri){
         loadGrupo2step(data.links.grupo.uri);
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
-        alert('heeee');
+        console.log("Error");
     });
 }
 function loadGrupo2step(uri){
