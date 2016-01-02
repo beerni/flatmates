@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Flatmates --> modificar perfil</title>
+    <title>Flatmates profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta name="layout" content="main"/>
@@ -46,7 +46,7 @@
                                 </li>
                                 <li id = "btncambio">
                                     <a id = "btnnuevogrupo" href="creargrupo.html">
-                                        <i class="icon-plus-sign icon-large" ></i> Crear grupo
+                                        <i class="icon-plus-sign icon-large" ></i> Create group
                                     </a>
                                 </li>
                             </ul>
@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="span7">
                         <header class="page-header">
-                            <h3>Información de usuario<br/><small>Aquí puedes modificar tus datos</small></h3>
+                            <h3>Your details<br/><small>Here you can change your personal details</small></h3>
                         </header>
                     </div>
                 </div>
@@ -76,39 +76,43 @@
                     <br />
                     <form id='form-datails' class='form-datails' autocomplete='off'>
                     <label>Fullname</label>
-                    <input type="text" id="InputFullname" class="form-control" placeholder="Nombre completo" required autofocus/>
+                    <input type="text" id="InputFullname" class="form-control" placeholder="Your fullname" required autofocus/>
                     <label>Email</label>
-                    <input type="text" id="InputEmail" class="form-control" placeholder="rrhh@flatmates.com" required autofocus/>
-                    <label for="InputMessage">Descripción</label>
-                    <textarea name="InputMessage" id="InputInfo" class="form-control" rows="3" placeholder="Soy alérgico a los gatos y me gustan los perros" required autofocus/></textarea>
+                    <input type="email" id="InputEmail" class="form-control" placeholder="rrhh@flatmates.com" required autofocus/>
+                    <label for="InputMessage"> Description </label>
+                    <textarea name="InputMessage" id="InputInfo" class="form-control" rows="3" placeholder="Your personal description" required autofocus/></textarea>
                     <br>
-                    <input class="btn btn-info" id="changeDetails" type="submit" value="Guardar cambios">
+                    <input class="btn btn-info" id="changeDetails" type="submit" value="Save personal changes">
+                    <div id = "culebrilla2">
+            </div>
                     <br /><br/>
                     </form>
                 </div>
                 <div class="col-md-8">
                     <div class="alert alert-info">
-                        <h2>Bienvenido a tu página : </h2>
-                        <h4>Editar usuario </h4>
+                        <h2>This is your profile: </h2>
+                        <h4>Change you details and much more </h4>
                        
                         <p>
-                            Aquí usted puede modificar sus datos personales y además la contraseña. Si no quieres modificar algun dato de tu información personal, dejalo tal y como lo quieres. También puedes modificar tu contraseña para hacerla más segura.
+                           Here you can moficate your personal details and if you want your password. The other users will see the information below.
                         </p>
                     </div>
                     <div class="form-group col-md-8">
                        <br>
                         
-                        <h3>Cambiar contraseña</h3>
+                        <h3>Change password</h3>
                         <br />
                         <form id='form-pass' class='form-pass' autocomplete='off'>
-                        <label>Contraseña actual</label>
+                        <label>Actual password</label>
                         <input type="password" id="InputOldPass" class="form-control" required autofocus />
-                        <label>Nueva</label>
+                        <label>New password</label>
                         <input type="password" class="form-control" id="InputNewPass" required autofocus />
-                        <label>Vuelve a escribir la contraseña nueva</label>
+                        <label>New password again</label>
                         <input type="password" class="form-control" id="InputNewPass2" required autofocus />
                         <br>
-                        <input class="btn btn-warning" id="changePassword" type="submit" value="Guardar cambios">
+                        <input class="btn btn-warning" id="changePassword" type="submit" value="Save changes">
+                            <div id = "culebrilla">
+            </div>
                     </div>
                         </form>
                     

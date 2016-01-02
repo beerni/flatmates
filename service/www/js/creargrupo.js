@@ -1,3 +1,11 @@
+$(document).ready(function(){
+    try{
+    var authToken = JSON.parse(sessionStorage["auth-token"]); 
+    }catch(e){
+        window.location.replace('index.html');
+    }
+});
+
 $("#btn-crear").click(function(e) {
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     var currentMessagesUri = authToken["links"]["create-group"].uri;

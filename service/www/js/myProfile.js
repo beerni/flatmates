@@ -24,8 +24,8 @@ $(document).ready(function(){
     $("#sexo").text('');
     $("#sexo").text(profile.sexo);
     $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
-    }catch(e){
-        console.log(e);
+      }catch(e){
+        window.location.replace('index.html');
     }
 });
 $("#btnlogout").click(function(e){

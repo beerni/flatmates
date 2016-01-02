@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    try{
    var authToken = JSON.parse(sessionStorage["auth-token"]); //Guardes a la variable authtoken tot 
 console.log(authToken);
    var currentMessagesUri = authToken["links"]["create-group"].uri; 
@@ -7,6 +8,9 @@ console.log(authToken);
     var grupoas = JSON.parse(sessionStorage["grupo"]);
     var currentListaUri = grupoas["lista"].uri;
     loadList(currentListaUri);   
+    }catch(e){
+        window.location.replace('index.html');
+    }
 });
 $("#add").click(function(e) {
 	e.preventDefault();

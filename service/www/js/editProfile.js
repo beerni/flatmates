@@ -7,7 +7,7 @@ $(document).ready(function(){
     loadGru(currentGrupoUri);
     getUser();
     }catch(e){
-        console.log(e);
+        window.location.replace('index.html');
     }
 });
                   
@@ -25,11 +25,11 @@ $('#InputNewPass2').on('input', function() {
     });
 $("#form-pass").submit(function(event){
     event.preventDefault();
-    if($('#InputNewPass2').val() != $('#InputNewPass').val())
-        alert('Los nuevos passwords no coinciden');
+    if($('#InputNewPass2').val() != $('#InputNewPass').val()){
+        $("#culebrilla").text("");   
+         $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>The new password do not match</span></p></div>");}
     else{
         changePassword($('#InputNewPass').val(),$('#InputOldPass').val(), function(){
-        console.log("Password cambiado");
         window.location.reload();
     });}    
 });

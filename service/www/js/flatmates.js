@@ -8,9 +8,8 @@ $(document).ready(function(){
     loadGru(currentGrupoUri);
         $("#tabla").text("");
         }catch (e){
-        $("#estoseve").text("");
-
-        $("#estoseve").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must login to see this page.</span></p></div>");
+       window.location.replace('index.html');
+            
         }/*, function(stings){
       $("#message").empty(); //ME llegan los stings
       var response = stings;
@@ -37,7 +36,7 @@ $(document).ready(function(){
       if(/^\s+|\s+$/.test($("#txtmensaje").val())||$("#txtmensaje").val()=="")
         {
          $("#culebrilla").text("");   
-         $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>You must to write something.</span></p></div>");
+         $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>Error writing the message. Hint: Be careful with de blank spaces at the beginning and all messages must finish with a dot or a letter, not a blank.</span></p></div>");
         }
       else
         crearMensaje($("#txtmensaje").val(), currentMessagesUri);

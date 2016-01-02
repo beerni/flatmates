@@ -270,12 +270,11 @@ function crearMensaje(contenido, uri){
         }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
         console.log(data.links);
-        console.log("Holi");
         window.location.reload();
         
         
     }).fail(function(){
-        alert('ERROR');
+        alert('Error creating the message.');
     });
 }
 
@@ -318,16 +317,13 @@ function addGrupo(name, uri){
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
-        console.log("Holi");
 	    window.location.replace("grupo.html");
         
         
     }).fail(function(data, status, jqxhr){
-        alert('ERROR');
-    
-        console.log(data);
-        console.log(xhr.statusText);
-        console.log(textstatus);
+        var error = JSON.parse(data.responseText);
+         $("#culebrilla").text("");
+        $("#culebrilla").append("<p><span style='color:red'>"+error.reason+ ".</span></p>");    
     });
 }
 
@@ -406,10 +402,14 @@ function changePassword(newPass, oldPass){
                  }
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log(data.links);
-        console.log("Holi");
+        $("#culebrilla").text("");   
+        $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:green'>Password changed</span></p></div>");
+        $("#InputOldPass").val("");
+        $("#InputNewPass").val("");
+        $("#InputNewPass2").val("");
     }).fail(function(){
-        alert("ERROR");
+        $("#culebrilla").text("");   
+         $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>Your actual password is not this</span></p></div>");
     });
     
 }
@@ -693,9 +693,14 @@ function changeDetails(info, fullname, email){
         headers: {"X-Auth-Token" : authToken.token}
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log('Cambiado correctamente');
+         $("#culebrilla2").text("");   
+         $("#culebrilla2").append("<div class='alert alert-block alert-info'><p><span style='color:green'>Details changed correctly</span></p></div>");
+        $("#InputFullname").val("");
+        $("#InputEmail").val("");
+        $("#InputInfo").val("");
     }).fail(function(){
-        alert('Algo no ha hecho bien mi señoria');
+         $("#culebrilla2").text("");   
+         $("#culebrilla2").append("<div class='alert alert-block alert-info'><p><span style='color:red'>Something was wrong at change yout details</span></p></div>");
     });
 }
 function updateTarea (formdata, uri){
