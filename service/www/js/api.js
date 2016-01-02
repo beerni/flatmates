@@ -131,15 +131,36 @@ function loadGru(uri){
         headers: {"X-Auth-Token":authToken.token}
     
     }).done(function(data, status, jqxhr){
-        if (data!=undefined)
-        {
+        if (data!=undefined){
         data.links=linksToMap(data.links);
         console.log('estoooo');
         console.log(data);
         if (data.userid==authToken.userid)
             {
                 $("#btncambio").text("");
-                $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Grupo</a>");
+                $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Group</a>");
+            }
+        }
+    }).fail(function(jqXHR, textStatus){
+        console.log("Error");
+    });
+}
+function loadGrus(uri){
+    var authToken = JSON.parse(sessionStorage["auth-token"]);
+    $.ajax({
+        type : 'GET',
+        url : uri,
+        headers: {"X-Auth-Token":authToken.token}
+    
+    }).done(function(data, status, jqxhr){
+        if (data!=""){
+        data.links=linksToMap(data.links);
+        console.log('estoooo');
+        console.log(data);
+        if (data.userid==authToken.userid)
+            {
+                $("#btncambio").text("");
+                $("#btncambio").append("<a href='grupo.html'><i class='icon-check icon-large'></i>Group</a>");
             }
         }
     }).fail(function(jqXHR, textStatus){

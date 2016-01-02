@@ -5,7 +5,7 @@ $(document).ready(function(){
     console.log(currentMessagesUri); //Uri obtenida
    loadStings(currentMessagesUri);
     var currentGrupoUri = authToken["links"]["create-group"].uri; 
-    loadGru(currentGrupoUri);
+    loadGrus(currentGrupoUri);
         $("#tabla").text("");
         }catch (e){
        window.location.replace('index.html');
