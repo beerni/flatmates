@@ -46,20 +46,6 @@ public class Main {
 
          return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
 
-      //Para hacerlo estatico el apache
-
-     /* HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
-        //HttpHandler httpHandler = new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "/web/");
-        HttpHandler httpHandler = new StaticHttpHandler("./www/");
-
-        httpServer.getServerConfiguration().addHttpHandler(httpHandler, "/");
-
-        for (NetworkListener l : httpServer.getListeners()) {
-            l.getFileCache().setEnabled(false);
-        }
-
-        return httpServer;*/
-
     }
 
     /**
@@ -69,10 +55,6 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", getBaseURI()));
-        System.in.read();
-        server.shutdownNow();
     }
 }
 
