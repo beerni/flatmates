@@ -463,7 +463,6 @@ function addTask(task, uri){
         
         
     }).fail(function(data, status, jqxhr){
-        alert('ERROR');
         console.log('ERROR');
     
         console.log(data);
@@ -610,10 +609,7 @@ function points(uri){
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
-	    window.location.replace("tareas.html");
-
-    }).fail(function(jqXHR, textStatus, errorThrown){
-        alert('Error');    
+	    window.location.replace("tareas.html");   
     }).fail(function(jqXHR, textStatus, errorThrown){    
         console.log("Fail");
         var error = JSON.parse(jqXHR.responseText); 
@@ -715,7 +711,8 @@ function updateTarea (formdata, uri){
             window.location.reload();
         }).fail(function(jqXHR, textStatus) {
             var error = JSON.parse(jqXHR.responseText);
-            console.log(error.reason);
+            $("#culebrilla").text("");   
+            $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>"+error.reason+"</span></p></div>");
             
         });
 }
@@ -764,6 +761,15 @@ function getMyT(uri){
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
         $('#lbltarea').text(data.tarea);
+        if(data.image!=null){
+        $('#vacios2').text('');
+        var filename =data.image;
+        var a = "/images/"+filename+".png";
+        $("#img_src").text('');
+        $("#img_src").append('<img src="'+a+'" class="img-rounded img-responsive" />');
+        
+        }
+            
     }).fail(function(){
          console.log("ERROR");
     });

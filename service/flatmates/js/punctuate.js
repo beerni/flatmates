@@ -14,9 +14,15 @@ console.log(authToken);
     }
 });
 $("#adds").click(function(e){
-     var tareas = JSON.parse(sessionStorage["tareaE"]);
+    var tareas = JSON.parse(sessionStorage["tareaE"]);
     var Uri = tareas["links"]["Delete"].uri; 
    $("#points").val();
     points(Uri+/points/+$("#points").val());
 });
+$("#btnlogout").click(function(e){
+    e.preventDefault();
+    logout(function(){
+        window.location.replace('index.html');
+    });
+})
                       

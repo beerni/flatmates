@@ -169,7 +169,7 @@ public class TareaResource{
             relacionPuntosTareas = tareasDAO.getRelation(userid, id);
 
             if (relacionPuntosTareas !=null)
-                throw  new ForbiddenException("You have pointed this tarea");
+                throw  new ForbiddenException("You have pointed this task");
             tareasDAO.pointsTarea(idg, id, userid, points);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
