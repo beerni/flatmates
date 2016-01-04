@@ -79,7 +79,6 @@
             <version>2.3.9</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency><!-- Libreria SLF4J -->
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
