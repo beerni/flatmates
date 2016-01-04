@@ -24,14 +24,14 @@ public class MensajeResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(FlatmatesMediaType.FLATMATES_MENSAJE)
-    public Response createMensaje(@FormParam("subject") String subject, @FormParam("Mensaje") String mensaje, @Context UriInfo uriInfo) throws URISyntaxException {
-        if (subject == null || mensaje == null)
+    public Response createMensaje(@FormParam("content") String content, @Context UriInfo uriInfo) throws URISyntaxException {
+        if (content == null)
             throw new BadRequestException("All parameters are mandatory");
         String userid = securityContext.getUserPrincipal().getName();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         Mensaje mensajes = null;
         try {
-            mensajes = mensajeDAO.createMensaje(userid, subject, mensaje);
+            mensajes = mensajeDAO.createMensaje(userid, content);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
@@ -40,17 +40,18 @@ public class MensajeResource {
     }
     @GET
     @Produces(FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION)
-    public ColeccionMensaje getMensaje(){
-        ColeccionMensaje mensajeCollection = null;
+    public ColeccionMensaje getMensajes(@DefaultValue("0") @QueryParam("pag") int pag, @DefaultValue("true") @QueryParam("before") boolean before){
+
+        ColeccionMensaje mensajesCollection = null;
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         String userid = securityContext.getUserPrincipal().getName();
         try {
-            mensajeCollection = mensajeDAO.getMensaje();
+            mensajesCollection = mensajeDAO.getMensaje(pag, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
 
-        return mensajeCollection;
+        return mensajesCollection;
     }
     @Path("/{id}")
     @GET
@@ -84,7 +85,7 @@ public class MensajeResource {
 
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
         try {
-            mensaje = mensajeDAO.updateMensaje(id, mensaje.getSubject(), mensaje.getMensaje());
+            mensaje = mensajeDAO.updateMensaje(id, mensaje.getContent());
             if(mensaje == null)
                 throw new NotFoundException("Mensaje with id = "+id+" doesn't exist");
         } catch (SQLException e) {

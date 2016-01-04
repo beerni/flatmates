@@ -3,7 +3,6 @@ package edu.eetac.dsa.flatmates.dao;
 import edu.eetac.dsa.flatmates.entity.ColeccionGrupo;
 import edu.eetac.dsa.flatmates.entity.Grupo;
 import edu.eetac.dsa.flatmates.entity.GrupoUsuario;
-import edu.eetac.dsa.flatmates.entity.PuntosGrupo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,12 +34,6 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.setString(4, userid);
             stmt.executeUpdate();
 
-            stmt.close();
-
-            stmt = connection.prepareStatement(GrupoDAOQuery.PUNTOS);
-            stmt.setString(1, userid);
-            stmt.setString(2, id);
-            stmt.executeUpdate();
 
             stmt.close();
 
@@ -82,6 +75,19 @@ public class GrupoDAOImpl implements GrupoDAO {
                 grupo.setAdmin(rs.getString("admin"));
                 grupo.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 grupo.setLastModified(rs.getTimestamp("last_modified").getTime());
+            }
+            rs.close();
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_USER);
+            stmt.setString(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                GrupoUsuario grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setUserid(rs.getString("userid"));
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setPuntos(rs.getInt("puntos"));
+                grupoUsuario.setLoginid(rs.getString("loginid"));
+                grupo.getUsuarios().add(grupoUsuario);
             }
         } catch (SQLException e) {
             throw e;
@@ -163,10 +169,6 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.executeUpdate();
 
             stmt.close();
-            stmt = connection.prepareStatement(GrupoDAOQuery.PUNTOS);
-            stmt.setString(1, idu);
-            stmt.setString(2, id);
-            stmt.executeUpdate();
 
             return true;
 
@@ -192,10 +194,6 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = connection.prepareStatement(GrupoDAOQuery.DEL_PUNTOS);
-            stmt.setString(1, idu);
-            stmt.setString(2, id);
-            stmt.executeUpdate();
             return true;
 
         } catch (SQLException e) {
@@ -207,8 +205,8 @@ public class GrupoDAOImpl implements GrupoDAO {
     }
 
     @Override
-    public PuntosGrupo getPuntos(String loginid, String grupoid) throws SQLException {
-        PuntosGrupo puntosGrupo = null;
+    public GrupoUsuario getPuntos(String loginid, String grupoid) throws SQLException {
+        GrupoUsuario grupoUsuario = null;
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -221,10 +219,10 @@ public class GrupoDAOImpl implements GrupoDAO {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                puntosGrupo = new PuntosGrupo();
-                puntosGrupo.setLoginid(rs.getString("loginid"));
-                puntosGrupo.setGrupoid(rs.getString("grupoid"));
-                puntosGrupo.setPuntos(rs.getInt("puntos"));
+                grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setUserid(rs.getString("userid"));
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setPuntos(rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             throw e;
@@ -233,12 +231,12 @@ public class GrupoDAOImpl implements GrupoDAO {
             if (connection != null) connection.close();
         }
 
-        return puntosGrupo;
+        return grupoUsuario;
     }
 
     @Override
-    public PuntosGrupo updatePuntos(String loginid, String grupoid, int puntos) throws SQLException {
-        PuntosGrupo puntosTotales = null;
+    public GrupoUsuario updatePuntos(String loginid, String grupoid, int puntos) throws SQLException {
+        GrupoUsuario grupoUsuario = null;
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -251,7 +249,7 @@ public class GrupoDAOImpl implements GrupoDAO {
             stmt.setString(3, grupoid);
             int rows = stmt.executeUpdate();
             if (rows == 1)
-                puntosTotales = getPuntos(loginid, grupoid);
+                grupoUsuario = getPuntos(loginid, grupoid);
         } catch (SQLException ex){
             throw ex;
         } finally {
@@ -259,11 +257,11 @@ public class GrupoDAOImpl implements GrupoDAO {
             if (connection != null) connection.close();
         }
 
-        return puntosTotales;
+        return grupoUsuario;
     }
 
     @Override
-    public GrupoUsuario getGrupoUserById(String id) throws SQLException {
+    public GrupoUsuario getGrupoUserById(String id, String loginid) throws SQLException {
         GrupoUsuario grupoUsuario = null;
 
         Connection connection = null;
@@ -273,12 +271,44 @@ public class GrupoDAOImpl implements GrupoDAO {
 
             stmt = connection.prepareStatement(GrupoDAOQuery.GET_GRUPOUSER);
             stmt.setString(1, id);
+            stmt.setString(2, loginid);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 grupoUsuario = new GrupoUsuario();
                 grupoUsuario.setGrupoid(rs.getString("grupoid"));
                 grupoUsuario.setUserid(rs.getString("userid"));
+                grupoUsuario.setPuntos(rs.getInt("puntos"));
             }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return grupoUsuario;
+    }
+
+    @Override
+    public GrupoUsuario getUserGrupoById(String id) throws SQLException {
+        GrupoUsuario grupoUsuario = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.GET_USERGRUPO);
+            stmt.setString(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                grupoUsuario = new GrupoUsuario();
+                grupoUsuario.setGrupoid(rs.getString("grupoid"));
+                grupoUsuario.setUserid(rs.getString("userid"));
+            }
+
         } catch (SQLException e) {
             throw e;
         } finally {

@@ -1,6 +1,9 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.eetac.dsa.flatmates.*;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
@@ -12,7 +15,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @InjectLinks({
-           })
+            @InjectLink(resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+            @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages", type= FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
+            @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
+            @InjectLink(resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-sting", title = "Create sting", type=FlatmatesMediaType.FLATMATES_MENSAJE),
+            @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "self user-profile", title = "User profile", type= FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.id}")),
+            @InjectLink(resource = UserResource.class, style = InjectLink.Style.ABSOLUTE, rel = "user", title = "Users", type = FlatmatesMediaType.FLATMATES_USER)
+    })
+
     private List<Link> links;
     private String id;
     private String loginid;
@@ -21,6 +31,51 @@ public class User {
     private String sexo;
     private String info;
     private int tareas;
+    private String imageURL;
+    private String filename;
+    private int puntos;
+    private String password;
+    private String oldPassword;
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getSexo() {
         return sexo;

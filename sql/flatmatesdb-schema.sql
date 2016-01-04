@@ -12,6 +12,8 @@ CREATE TABLE users (
     sexo ENUM ('hombre','mujer'),
     info VARCHAR(255),
     tareas int NOT NULL,
+    imagen VARCHAR (36),
+    puntos int NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -29,6 +31,7 @@ CREATE TABLE grupo (
 CREATE TABLE grupousuario (
     userid BINARY(16) NOT NULL,
     grupoid BINARY(16) NOT NULL,
+    puntos INT NOT NULL,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade,
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     PRIMARY KEY (userid, grupoid)
@@ -49,28 +52,14 @@ CREATE TABLE auth_tokens (
     PRIMARY KEY (token)
 );
 
-CREATE TABLE puntos_totales (
-    id BINARY (16) NOT NULL,
-    puntos INT NOT NULL,	
-    FOREIGN KEY (id) REFERENCES users(id) on delete cascade,
-    PRIMARY KEY (id, puntos)
-);
-
-CREATE TABLE puntos_grupo (
-    id BINARY (16) NOT NULL,
-    grupoid BINARY(16) NOT NULL,
-    puntos INT NOT NULL,	
-    FOREIGN KEY (id) REFERENCES users(id) on delete cascade,
-    FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
-    PRIMARY KEY (id, grupoid, puntos)
-);
 CREATE TABLE tareas (
     id BINARY (16) NOT NULL,
     grupoid BINARY (16) NOT NULL,
     userid BINARY (16),	
     tarea VARCHAR (100) NOT NULL,
-    image CHAR (32),
+    imagen VARCHAR (36),
     punts int NOT NULL,
+    hecho TINYINT(1),
     PRIMARY KEY (id),
     FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade,
     FOREIGN KEY (userid) REFERENCES users(id) on delete cascade
@@ -86,9 +75,8 @@ CREATE TABLE relacionPuntosTareas (
 );
 CREATE TABLE mensaje (
     id BINARY(16) NOT NULL,
-    userid BINARY(16) NOT NULL,
-    subject VARCHAR(100) NOT NULL,	
-    mensaje VARCHAR(500) NOT NULL,
+    userid BINARY(16) NOT NULL,	
+    content VARCHAR(500) NOT NULL,
     last_modified TIMESTAMP NOT NULL,
     creation_timestamp DATETIME not null default current_timestamp,
     PRIMARY KEY (id),
@@ -100,7 +88,7 @@ CREATE TABLE listacompra (
 	id BINARY (16) NOT NULL,
 	item VARCHAR (100) NOT NULL,
 	grupoid BINARY (16) NOT NULL,
-        hecho BOOLEAN NOT NULL,
+    hecho TINYINT(1),
 	PRIMARY KEY (id),
 	FOREIGN KEY (grupoid) REFERENCES grupo(id) on delete cascade
 );

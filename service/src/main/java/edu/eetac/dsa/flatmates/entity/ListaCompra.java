@@ -1,6 +1,10 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.eetac.dsa.flatmates.FlatmatesMediaType;
+import edu.eetac.dsa.flatmates.ListaCompraResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
@@ -11,7 +15,11 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ListaCompra {
-       @InjectLinks({})
+       @InjectLinks({
+               @InjectLink(resource = ListaCompraResource.class, method = "hecho", style = InjectLink.Style.ABSOLUTE, rel = "self lista", title = "Lista", type = FlatmatesMediaType.FLATMATES_LISTA, bindings = {@Binding(name = "id", value ="${instance.id}"), @Binding(name = "idgrupo", value="${instance.grupoid}")}),
+               @InjectLink(resource = ListaCompraResource.class, method = "deleteLista", style = InjectLink.Style.ABSOLUTE, rel = "delete", title = "Delete", type = FlatmatesMediaType.FLATMATES_LISTA, bindings = {@Binding(name = "idt", value ="${instance.id}"), @Binding(name = "id", value="${instance.grupoid}")})
+
+       })
         private List<Link> links;
         private String id;
         private String grupoid;
@@ -21,7 +29,6 @@ public class ListaCompra {
     public List<Link> getLinks() {
         return links;
     }
-
 
     public boolean isHecho() {
         return hecho;

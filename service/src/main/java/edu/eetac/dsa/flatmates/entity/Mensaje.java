@@ -1,6 +1,9 @@
    package edu.eetac.dsa.flatmates.entity;
 
     import com.fasterxml.jackson.annotation.JsonInclude;
+    import edu.eetac.dsa.flatmates.*;
+    import org.glassfish.jersey.linking.Binding;
+    import org.glassfish.jersey.linking.InjectLink;
     import org.glassfish.jersey.linking.InjectLinks;
 
     import javax.ws.rs.core.Link;
@@ -11,22 +14,32 @@
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public class Mensaje {
-        @InjectLinks({})
+        @InjectLinks({
+                @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+                @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages"),
+                @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "creates-message", title = "Create message", type = FlatmatesMediaType.FLATMATES_MENSAJE),
+                @InjectLink (resource = MensajeResource.class, method = "getMensaje", style = InjectLink.Style.ABSOLUTE, rel = "self mensaje", title = "Mensaje", type = FlatmatesMediaType.FLATMATES_MENSAJE, bindings = @Binding(name = "id", value ="${instance.id}" )),
+                @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
+                @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.userid}")),
+                @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "next", title = "Newest messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pag}"), @Binding(name = "before", value = "false")}),
+                @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "prev", title = "Oldest messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pag}"), @Binding(name = "before", value = "true")})
+        })
+
         private List<Link> links;
         private String id;
-        private String mensaje;
-        private String subject;
+        private String content;
         private String loginid;
         private String userid;
+        private int pag;
         private long creationTimestamp;
         private long lastModified;
 
-        public String getSubject() {
-            return subject;
+        public int getPag() {
+            return pag;
         }
 
-        public void setSubject(String subject) {
-            this.subject = subject;
+        public void setPag(int pag) {
+            this.pag = pag;
         }
 
         public String getLoginid() {
@@ -53,12 +66,12 @@
             this.id = id;
         }
 
-        public String getMensaje() {
-            return mensaje;
+        public String getContent() {
+            return content;
         }
 
-        public void setMensaje(String mensaje) {
-            this.mensaje = mensaje;
+        public void setContent(String content) {
+            this.content = content;
         }
 
         public String getUserid() {

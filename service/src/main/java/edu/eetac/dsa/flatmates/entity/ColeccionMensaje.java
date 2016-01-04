@@ -1,6 +1,12 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.eetac.dsa.flatmates.FlatmatesMediaType;
+import edu.eetac.dsa.flatmates.FlatmatesRootAPIResource;
+import edu.eetac.dsa.flatmates.LoginResource;
+import edu.eetac.dsa.flatmates.MensajeResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
@@ -12,11 +18,47 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ColeccionMensaje {
-    @InjectLinks({})
+    @InjectLinks({
+            @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+            @InjectLink (resource = MensajeResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-messages", title = "Current messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION),
+            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "prev", title = "Newest messages", type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pagbefore}"), @Binding(name = "before", value = "false")}),
+            @InjectLink (resource = MensajeResource.class, method = "getMensajes", style = InjectLink.Style.ABSOLUTE, rel = "next", title = "Oldest messages",type = FlatmatesMediaType.FLATMATES_MENSAJE_COLLECTION, bindings = {@Binding(name = "pag", value = "${instance.pag}"), @Binding(name = "before", value = "true")}),
+            @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout")
+    })
+
+
     private List<Link> links;
     private long newestTimestamp;
     private long oldestTimestamp;
+    private int pag;
+    private int pagbefore;
+    private int pagtotal;
+
+    public int getPagtotal() {
+        return pagtotal;
+    }
+
+    public void setPagtotal(int pagtotal) {
+        this.pagtotal = pagtotal;
+    }
+
     private List<Mensaje> mensajes = new ArrayList<>();
+
+    public int getPagbefore() {
+        return pagbefore;
+    }
+
+    public void setPagbefore(int pagbefore) {
+        this.pagbefore = pagbefore;
+    }
+
+    public int getPag() {
+        return pag;
+    }
+
+    public void setPag(int pag) {
+        this.pag = pag;
+    }
 
     public List<Link> getLinks() {
         return links;

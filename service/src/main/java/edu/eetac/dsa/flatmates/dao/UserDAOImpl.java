@@ -1,8 +1,17 @@
 package edu.eetac.dsa.flatmates.dao;
 
-import edu.eetac.dsa.flatmates.entity.PuntosTotales;
+import edu.eetac.dsa.flatmates.entity.ColeccionUser;
 import edu.eetac.dsa.flatmates.entity.User;
 
+import javax.imageio.ImageIO;
+import javax.jws.soap.SOAPBinding;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,20 +19,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * Created by Admin on 09/11/2015.
  */
 public class UserDAOImpl implements UserDAO{
+
+    @Context
+    private Application app;
     @Override
-    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo) throws SQLException, UserAlreadyExistsException {
+    public User createUser(String loginid, String password, String email, String fullname, String info, boolean sexo, InputStream imagen) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
-
+        User user=null;
+        UUID uuid =writeAndConvertImage(imagen);
         try {
 
-            User user = getUserByLoginid(loginid);
+            user = getUserByLoginid(loginid);
             if (user != null)
                 throw new UserAlreadyExistsException();
             connection = Database.getConnection();
@@ -50,6 +66,7 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(4, email);
             stmt.setString(5, fullname);
             stmt.setString(6, info);
+            stmt.setString(7, uuid.toString());
 
             stmt.executeUpdate();
 
@@ -61,10 +78,6 @@ public class UserDAOImpl implements UserDAO{
             connection.commit();
 
             stmt.close();
-            stmt = connection.prepareStatement(UserDAOQuery.PUNTOS);
-            stmt.setString(1, id);
-            stmt.executeUpdate();
-            connection.commit();
 
         } catch (SQLException e) {
             throw e;
@@ -75,9 +88,32 @@ public class UserDAOImpl implements UserDAO{
                 connection.close();
             }
         }
+
         return getUserById(id);
     }
 
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
+
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when reading the file.");
+        }
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString() + ".png";
+
+        try {
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
+    }
     @Override
     public User updateProfile(String id, String email, String fullname, String info) throws SQLException {
         User user = null;
@@ -106,10 +142,34 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public User updatePassword (String id, String password) throws SQLException{
+        User user = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(UserDAOQuery.UPDATE_PASSWORD);
+            stmt.setString(1, password);
+            stmt.setString(2, id);
+            int rows = stmt.executeUpdate();
+            if (rows == 1)
+                user = getUserById(id);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        return user;
+    }
+    @Override
     public User getUserById(String id) throws SQLException {
         // Modelo a devolver
         User user = null;
-
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -133,6 +193,12 @@ public class UserDAOImpl implements UserDAO{
                 user.setTareas(rs.getInt("tareas"));
                 user.setSexo(rs.getString("sexo"));
                 user.setInfo(rs.getString("info"));
+                user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+                //user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+
+                //user.setImageURL(prb.getString("imgBaseURL")+ rs.getString("imageURL") + ".png");
             }
         } catch (SQLException e) {
             // Relanza la excepción
@@ -148,9 +214,53 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+
+    public ColeccionUser getUsersByLogin_root (String login) throws SQLException{
+        ColeccionUser coleccionUser = new ColeccionUser();
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            String QUERY = "select hex(id) as id, loginid, email, fullname, sexo, info, tareas, puntos, imagen from users ";
+            QUERY = QUERY.concat("where loginid like '%").concat(login)
+                    .concat("%' ");
+            connection = Database.getConnection();
+            stmt = connection.prepareStatement(QUERY);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setLoginid(rs.getString("loginid"));
+                user.setEmail(rs.getString("email"));
+                user.setFullname(rs.getString("fullname"));
+                user.setTareas(rs.getInt("tareas"));
+                user.setSexo(rs.getString("sexo"));
+                user.setInfo(rs.getString("info"));
+                user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+                coleccionUser.getUsers().add(user);
+                //user.setFilename(prb.getString("imgBaseURL")+ rs.getString("imagen") + ".png");
+
+                //user.setImageURL(prb.getString("imgBaseURL")+ rs.getString("imageURL") + ".png");
+            }
+        } catch (SQLException e) {
+            // Relanza la excepción
+            throw e;
+        } finally {
+            // Libera la conexión
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        // Devuelve el modelo
+        return coleccionUser;
+    }
+
+    @Override
     public User getUserByLoginid(String loginid) throws SQLException {
         User user = null;
-
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -168,6 +278,11 @@ public class UserDAOImpl implements UserDAO{
                 user.setEmail(rs.getString("email"));
                 user.setFullname(rs.getString("fullname"));
                 user.setInfo(rs.getString("info"));
+                user.setTareas(rs.getInt("tareas"));
+                user.setPuntos(rs.getInt("puntos"));
+                user.setFilename(rs.getString("imagen")+ ".png");
+                user.setImageURL(prb.getString("imgBaseURL")+ user.getFilename());
+
             }
         } catch (SQLException e) {
             throw e;
@@ -230,38 +345,9 @@ public class UserDAOImpl implements UserDAO{
         }
 
     }
-
     @Override
-    public PuntosTotales getPuntos(String loginid) throws SQLException {
-        PuntosTotales puntosTotales = null;
-
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        try {
-            connection = Database.getConnection();
-
-            stmt = connection.prepareStatement(UserDAOQuery.GET_PUNTOS);
-            stmt.setString(1, loginid);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                puntosTotales = new PuntosTotales();
-                puntosTotales.setLoginid(rs.getString("loginid"));
-                puntosTotales.setPuntos(rs.getInt("puntos"));
-            }
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (stmt != null) stmt.close();
-            if (connection != null) connection.close();
-        }
-
-        return puntosTotales;
-    }
-
-    @Override
-    public PuntosTotales updatePuntos(String loginid, int puntos) throws SQLException {
-        PuntosTotales puntosTotales = null;
+    public User updatePuntos(String loginid, int puntos) throws SQLException {
+        User user = null;
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -273,7 +359,7 @@ public class UserDAOImpl implements UserDAO{
             stmt.setString(2, loginid);
             int rows = stmt.executeUpdate();
             if (rows == 1)
-               puntosTotales = getPuntos(loginid);
+                user= getUserById(loginid);
         } catch (SQLException ex){
             throw ex;
         } finally {
@@ -281,7 +367,7 @@ public class UserDAOImpl implements UserDAO{
             if (connection != null) connection.close();
         }
 
-        return puntosTotales;
+        return user;
     }
 
 

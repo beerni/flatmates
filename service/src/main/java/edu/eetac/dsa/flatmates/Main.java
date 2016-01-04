@@ -1,6 +1,9 @@
 package edu.eetac.dsa.flatmates;
 
+import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -27,6 +30,8 @@ public class Main {
         }
         return baseURI;
     }
+
+
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
      * @return Grizzly HTTP server.
@@ -38,7 +43,23 @@ public class Main {
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+
+         return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+
+      //Para hacerlo estatico el apache
+
+     /* HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        //HttpHandler httpHandler = new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "/web/");
+        HttpHandler httpHandler = new StaticHttpHandler("./www/");
+
+        httpServer.getServerConfiguration().addHttpHandler(httpHandler, "/");
+
+        for (NetworkListener l : httpServer.getListeners()) {
+            l.getFileCache().setEnabled(false);
+        }
+
+        return httpServer;*/
+
     }
 
     /**

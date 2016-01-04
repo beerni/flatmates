@@ -1,9 +1,13 @@
 package edu.eetac.dsa.flatmates.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.eetac.dsa.flatmates.*;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +15,16 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Grupo {
-    @InjectLinks({})
+    @InjectLinks({
+            @InjectLink (resource = FlatmatesRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Flatmates Root API"),
+            @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-grupo", title = "Current grupo"),
+            @InjectLink (resource = GrupoResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-grupo", title = "Create grupo", type = FlatmatesMediaType.FLATMATES_GRUPO),
+            @InjectLink (resource = GrupoResource.class, method = "getGrupo", style = InjectLink.Style.ABSOLUTE, rel = "self grupo", title = "Grupo", type = FlatmatesMediaType.FLATMATES_GRUPO, bindings = @Binding(name = "id", value ="${instance.id}" )),
+            @InjectLink (resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
+            @InjectLink (resource = ListaCompraResource.class, method = "getListas", style = InjectLink.Style.ABSOLUTE, rel = "self lista", title = "Lista", type = FlatmatesMediaType.FLATMATES_LISTA_COLLECTION, bindings = @Binding(name = "id", value ="${instance.id}" )),
+            @InjectLink (resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = FlatmatesMediaType.FLATMATES_USER, bindings = @Binding(name = "id", value = "${instance.admin}")),
+            @InjectLink (resource = TareaResource.class , method = "añadirTarea", style = InjectLink.Style.ABSOLUTE, rel = "self tarea", title = "Tarea", type = FlatmatesMediaType.FLATMATES_LISTA_TAREA, bindings = @Binding(name = "id", value ="${instance.id}" ))
+    })
     private List<Link> links;
     private String id;
     private String nombre;
@@ -20,6 +33,16 @@ public class Grupo {
     private String info;
     private long creationTimestamp;
     private long lastModified;
+    private List<GrupoUsuario> usuarios = new ArrayList<>();
+
+
+    public List<GrupoUsuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<GrupoUsuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public String getUserlogin() {
         return userlogin;

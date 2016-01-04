@@ -1,12 +1,22 @@
 package edu.eetac.dsa.flatmates.dao;
 
 import edu.eetac.dsa.flatmates.entity.ColeccionTareas;
+import edu.eetac.dsa.flatmates.entity.RelacionPuntosTareas;
 import edu.eetac.dsa.flatmates.entity.tareas;
 
+import javax.imageio.ImageIO;
+import javax.ws.rs.InternalServerErrorException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * Created by Admin on 28/11/2015.
@@ -63,8 +73,10 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setId(rs.getString("id"));
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
-                Tarea.setImage(rs.getString("Image"));
+                Tarea.setImage(rs.getString("imagen"));
+                Tarea.setGrupoid(rs.getString("grupoid"));
                 Tarea.setPuntos(rs.getInt("punts"));
+                Tarea.setHecho(rs.getBoolean("hecho"));
             }
         } catch (SQLException e) {
             throw e;
@@ -92,6 +104,9 @@ public class TareasDAOImpl implements TareasDAO{
                 Tarea.setId(rs.getString("id"));
                 Tarea.setUserid(rs.getString("userid"));
                 Tarea.setTarea(rs.getString("tarea"));
+                Tarea.setHecho(rs.getBoolean("hecho"));
+                Tarea.setPuntos(rs.getInt("punts"));
+                Tarea.setGrupoid(rs.getString("grupoid"));
                 coleccionTareas.getTareas().add(Tarea);
             }
         } catch (SQLException e) {
@@ -104,14 +119,85 @@ public class TareasDAOImpl implements TareasDAO{
     }
 
     @Override
-    public boolean deleteTarea(String id) throws SQLException {
+    public boolean selectTarea(String idg, String idt, String userid) throws SQLException{
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+
+            stmt = connection.prepareStatement(TareasDAOQuery.SELECT_TAREA);
+            stmt.setString(1, userid);
+            stmt.setString(2, idg);
+            stmt.setString(3, idt);
+            stmt.executeUpdate();
+
+            stmt.close();
+            return true;
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
+    public boolean pointsTarea(String idg, String idt, String userid, int points) throws SQLException{
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, idt);
+            stmt.setString(3, idg);
+            stmt.executeUpdate();
+
+            tareas Tareas = getTareadById(idt, idg);
+
+            stmt.close();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.INSERT_RELATION);
+            stmt.setString(1, userid);
+            stmt.setString(2, idt);
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = connection.prepareStatement(UserDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, Tareas.getUserid());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.SET_PUNTOS);
+            stmt.setInt(1, points);
+            stmt.setString(2, Tareas.getUserid());
+            stmt.setString(3, idg);
+            stmt.executeUpdate();
+            stmt.close();
+            return true;
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
+    public boolean deleteTarea(String id, String idt) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(TareasDAOQuery.DELETE_TAREA);
-            stmt.setString(1, id);
+            stmt.setString(1, idt);
+            stmt.setString(2, id);
 
             int rows = stmt.executeUpdate();
             return (rows == 1);
@@ -123,5 +209,89 @@ public class TareasDAOImpl implements TareasDAO{
             if (connection != null)
                 connection.close();
         }
+    }
+    @Override
+    public tareas updateTarea(String id, String idg, InputStream imagen, String userid) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        tareas Tareas = null;
+        UUID uuid =writeAndConvertImage(imagen);
+        try {
+            connection = Database.getConnection();
+            Tareas = getTareadById(id, idg);
+            if (!Tareas.isHecho()) {
+                stmt = connection.prepareStatement(UserDAOQuery.SET_TAREAS);
+                stmt.setString(1, userid);
+                stmt.executeUpdate();
+                stmt.close();
+            }
+            stmt = connection.prepareStatement(TareasDAOQuery.UPDATE_IMAGE);
+            stmt.setString(1, uuid.toString());
+            stmt.setString(2, id);
+            stmt.setString(3, idg);
+            stmt.executeUpdate();
+
+            stmt.close();
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
+
+        return getTareadById(id, idg);
+    }
+    private UUID writeAndConvertImage(InputStream file) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
+
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when reading the file.");
+        }
+        UUID uuid = UUID.randomUUID();
+        String filename = uuid.toString() + ".png";
+
+        try {
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("flatmates");
+            ImageIO.write(image, "png", new File(prb.getString("uploadFolder") + filename));
+        } catch (IOException e) {
+            throw new InternalServerErrorException(
+                    "Something has been wrong when converting the file.");
+        }
+
+        return uuid;
+    }
+
+    @Override
+    public RelacionPuntosTareas getRelation(String userid, String tareaid) throws SQLException {
+        RelacionPuntosTareas relacionPuntosTareas = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(TareasDAOQuery.GET_RELATION);
+            stmt.setString(1, userid);
+            stmt.setString(2, tareaid);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                relacionPuntosTareas = new RelacionPuntosTareas();
+                relacionPuntosTareas.setUserid(rs.getString("userid"));
+                relacionPuntosTareas.setIdtarea(rs.getString("idtarea"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+        return relacionPuntosTareas;
     }
 }
