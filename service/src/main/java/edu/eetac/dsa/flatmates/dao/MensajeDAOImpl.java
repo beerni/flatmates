@@ -86,12 +86,15 @@ public class MensajeDAOImpl implements MensajeDAO {
             stmt = connection.prepareStatement(MensajeDAOQuery.GET_COUNT);
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            int pagin = rs.getInt("count");
+            double pagin = rs.getInt("count");
             int pag_total = 0;
             double total = pagin/5;
-            int paginas = pagin/5;
-            if (total > pagin)
+            int paginas = (int)pagin/5;
+            if (total > paginas)
                 pag_total = paginas+1;
+            else if (total == paginas){
+                pag_total = paginas-1;
+            }
             else
                 pag_total = paginas;
             stmt.close();

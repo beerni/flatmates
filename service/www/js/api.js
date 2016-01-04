@@ -15,7 +15,6 @@ function loadAPI (complete){
         sessionStorage["api"]=JSON.stringify(api);
         complete();
     }).fail(function(data){
-       console.log("Error");
     });
 }
 
@@ -28,12 +27,10 @@ function login (loginid, password, complete){
             password : password
             
         }).done(function(authToken){
-            console.log("Done login");
             authToken.links=linksToMap(authToken.links);
             sessionStorage["auth-token"]=JSON.stringify(authToken);
             complete();
         }).fail(function(jqXHR, textStatus, errorThrown){
-            console.log("Fail");
             var error = JSON.parse(jqXHR.responseText);
             $("#vacios").text("");
             $("#vacios").append('<div class="alert alert-block alert-info"><p><span style="color:red">'+error.reason+'</span></p></div>');   
@@ -61,7 +58,6 @@ function registrarUsuario (formdata){
 		    contentType: false,
             processData: false
         }).done(function(data, status,jqxhr){
-            console.log('YE');
             var response = $.parseJSON(jqxhr.responseText);
             var lastfilename = response.filname;
             $('progress').toggle();
@@ -85,7 +81,6 @@ function logout (complete){
     
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     var uri = authToken["links"]["logout"].uri;
-    console.log(authToken.token);
     $.ajax({
         type : 'DELETE',
         url : uri,
@@ -94,7 +89,8 @@ function logout (complete){
         sessionStorage.removeItem("api");
         sessionStorage.removeItem("auth-token");
         complete();
-    }).fail(function(){console.log("Hay algun error al logout")});
+    }).fail(function(){
+       });
         
 }
 
@@ -109,8 +105,6 @@ function loadStings(uri){
     
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log('data.links');
-        console.log(data.links);
         var response = data;
         var mensajeCollection = new MensajeCollection(response);
         
@@ -133,8 +127,6 @@ function loadGru(uri){
     }).done(function(data, status, jqxhr){
         if (data!=undefined){
         data.links=linksToMap(data.links);
-        console.log('estoooo');
-        console.log(data);
         if (data.userid==authToken.userid)
             {
                 $("#btncambio").text("");
@@ -142,7 +134,6 @@ function loadGru(uri){
             }
         }
     }).fail(function(jqXHR, textStatus){
-        console.log("Error");
     });
 }
 function loadGrus(uri){
@@ -155,8 +146,6 @@ function loadGrus(uri){
     }).done(function(data, status, jqxhr){
         if (data!=""){
         data.links=linksToMap(data.links);
-        console.log('estoooo');
-        console.log(data);
         if (data.userid==authToken.userid)
             {
                 $("#btncambio").text("");
@@ -164,7 +153,6 @@ function loadGrus(uri){
             }
         }
     }).fail(function(jqXHR, textStatus){
-        console.log("Error");
     });
 }
 function loadGrupo(uri){
@@ -176,12 +164,9 @@ function loadGrupo(uri){
     
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log('data.links');
-        console.log(data.links.grupo.uri);
         loadGrupo2step(data.links.grupo.uri);
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
-        console.log("Error");
     });
 }
 function loadGrupo2step(uri){
@@ -193,14 +178,10 @@ function loadGrupo2step(uri){
     
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log('data.links');
-        console.log(data);
         sessionStorage["grupo"]=JSON.stringify(data.links);
         var grupoas = JSON.parse(sessionStorage["grupo"]);
         sessionStorage["grupoadmin"]=JSON.stringify(data);
         var admin = JSON.parse(sessionStorage["grupoadmin"]);
-        console.log(grupoas);
-
         $("#lblNombreGrupo").text('');
         $("#lblNombreGrupo").text(data.nombre);
         $("#info").text('');
@@ -217,7 +198,6 @@ function loadGrupo2step(uri){
           if(authToken.userid==data.admin)
                     $("#tablado").append("<th class = 'span2'>Delete user</th>");
          $.each(usuarios, function(i,v){
-                console.log(v.links[1].uri);
                 if(authToken.userid==v.userid){
                     if (authToken.userid==data.admin){
                         $("#btnIrse").text('');                        
@@ -262,18 +242,23 @@ function MensajeCollection (mensajeCollection){
     
         });
     });
-
-        console.log(this.Mensaje.links["next"].uri);
+        console.log(mensajeCollection);
         var prev = this.Mensaje.links["prev"].uri;
+           var next = this.Mensaje.links["next"].uri;
+        if(mensajeCollection.pagbefore==0){
+            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Next</button></div></a>');
+        }
+        else if (mensajeCollection.pagbefore==mensajeCollection.pagtotal){
+             $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Previous</button></div></a>');
+        }
+        else{
         if(prev){
             
             $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Previous</button></div></a>');
         }
-        
-        var next = this.Mensaje.links["next"].uri;
-        console.log(this.Mensaje.links["prev"].uri);
         if(next){
            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Next</button></div></a>');
+        }
         }
         return html;
     }
@@ -291,7 +276,6 @@ function crearMensaje(contenido, uri){
         
         }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log(data.links);
         window.location.reload();
         
         
@@ -315,8 +299,6 @@ function crearGrupo(name, info, uri){
         data.links=linksToMap(data.links);
         sessionStorage["grupo"]=JSON.stringify(data.links);
         var grupoas = JSON.parse(sessionStorage["grupo"]);
-        console.log(data.links);
-        console.log("Holi");
 	    window.location.replace("grupo.html");
         
         
@@ -351,9 +333,6 @@ function addGrupo(name, uri){
 
 function foraGrupo(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
-
-    console.log("llega");
-    console.log(uri);
     $.ajax({
         url: uri,
         type: 'DELETE',
@@ -363,7 +342,6 @@ function foraGrupo(uri){
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
-        console.log("Holi");
 	    window.location.replace("grupo.html");
         
         
@@ -375,8 +353,6 @@ function foraGrupo(uri){
 function todosforaGrupo(uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
 
-    console.log("llega");
-    console.log(uri);
     $.ajax({
         url: uri,
         type: 'DELETE',
@@ -386,7 +362,6 @@ function todosforaGrupo(uri){
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
-        console.log("Holi");
 	    window.location.replace("flatmates.html");
         
         
@@ -407,7 +382,6 @@ function changePassword(newPass, oldPass){
           "password" : newPass
       }
       var data = JSON.stringify(objeto);
-    console.log(data);
     $.ajax({
         url: changepassUri,
         type: 'PUT',
@@ -446,7 +420,6 @@ function loadList(uri){
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
         var listas = data.listaCompras;
-        console.log(data);
            $('#listacomprar').text("");
         $.each(listas, function(i,v){
             if(v.hecho==false){
@@ -470,16 +443,11 @@ function addItem(item, uri){
         
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
-        console.log("Holi");
 	    window.location.replace("lista.html");
         
         
     }).fail(function(data, status, jqxhr){
         alert('ERROR');
-    
-        console.log(data);
-        //console.log(xhr.statusText);
-        console.log(textstatus);
     });
 }
 function addTask(task, uri){
@@ -499,10 +467,6 @@ function addTask(task, uri){
         
     }).fail(function(data, status, jqxhr){
         alert('ERROR');
-    
-        console.log(data);
-        //console.log(xhr.statusText);
-        console.log(textstatus);
     });
 }
 function loadLists(uri){
@@ -520,7 +484,6 @@ function loadLists(uri){
         $('#Done').text("");
 
         $.each(listas, function(i,v){
-            console.log(v);
              if(v.hecho==false){
                 $('#Todo').append('<li><div><p class="news-item-preview ">'+v.item+'</p><div align="right"><a href="#" onClick="listaHecho(\''+v.links[0].uri+'\');" class="btn btn-mini btn-info" ><i class="btn-icon-only icon-ok"></i></a></div></div></li>');
              }
@@ -544,7 +507,6 @@ function loadTarea(uri){
         data.links=linksToMap(data.links);
         var tareas = data.tareas;
         $('#Task').text("");
-        console.log(data);
         var admin = JSON.parse(sessionStorage["grupoadmin"]);
         $.each(tareas, function(i,v){
             if(admin.admin == authToken.userid){
@@ -563,7 +525,6 @@ function loadTarea(uri){
              }
             else{
                 if(v.userid==authToken.userid){
-                    console.log(v);
                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"><a href="#" onClick="DeleteTask(\''+v.links[1].uri+'\');" class="btn btn-mini btn-danger" ><i class="btn-icon-only icon-remove"></i></a></div></div></li>');
                 }
                 else{
@@ -586,7 +547,6 @@ function loadTarea(uri){
                 }
              }
             else{
-                console.log(v);
                 if(v.userid==authToken.userid){
                  $('#Task').append('<li><div><p class="news-item-preview ">'+v.tarea+'</p><p class="news-item-preview ">Points: '+v.puntos+'</p><div align="right"></div></div></li>');
                 }
@@ -651,7 +611,6 @@ function points(uri){
         
     }).fail(function(jqXHR, textStatus, errorThrown){
         alert('Error');    
-        console.log("Fail");
         var error = JSON.parse(jqXHR.responseText); 
         alert(error.reason);
     });
@@ -696,7 +655,6 @@ function changeDetails(info, fullname, email){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     var uri = authToken["links"]["user-profile"].uri;
     var userid = authToken.userid;
-    console.log(uri);
     objeto = {
         "id": userid,
         "email":email,
@@ -727,9 +685,6 @@ function changeDetails(info, fullname, email){
 }
 function updateTarea (formdata, uri){
     var authToken = JSON.parse(sessionStorage["auth-token"]);
-    console.log(authToken);
-    console.log(uri);
-    console.log('LLego');
      //var uri=api.user.uri;
         $.ajax({
             url: uri,
@@ -748,7 +703,6 @@ function updateTarea (formdata, uri){
             processData: false,
              headers: {"X-Auth-Token" : authToken.token}
         }).done(function(data, status,jqxhr){
-            console.log('YE');
             var response = $.parseJSON(jqxhr.responseText);
             var lastfilename = response.filname;
             alert('Todo OK');
@@ -786,9 +740,7 @@ function getTareaE(uri){
         dataType: "json",
         headers: {"X-Auth-Token" : authToken.token}
     }).done(function(data, status, jqxhr){
-        data.links=linksToMap(data.links);
-        console.log("Aqui esta la tarea");
-        console.log(data);
+        data.links=linksToMap(data.links);;
         sessionStorage["tareaE"]=JSON.stringify(data);
         window.location.replace("punctuate.html");
         
@@ -824,7 +776,6 @@ function getMyTa(uri){
         var filename=data.image;
         $("#img").text('');
         var a = "/images/"+filename+".png";
-        console.log("/images/"+filename+".jpg");
         $("#img").append('<img src="'+a+'" class="img-rounded img-responsive" />');
         $('#lbltarea').text(data.tarea);
         
@@ -833,12 +784,10 @@ function getMyTa(uri){
     });
 }
 function getUser(){
-    console.log('Arribo??');
     var authToken = JSON.parse(sessionStorage["auth-token"]);
     var uri = authToken["links"]["user-profile"].uri;
     var userid = authToken.userid;
     var getuserURI = uri;
-    console.log(getuserURI);
     $.ajax({
         url: getuserURI,
         type: 'GET',
@@ -847,10 +796,8 @@ function getUser(){
         headers: {"X-Auth-Token" : authToken.token}
     }).done(function(data, status, jqxhr){
         data.links=linksToMap(data.links);
-        console.log("TODO BIEN");
         var filename=data.filename;
         $("#img_src").text('');
-        console.log("/images/"+filename);
         $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
     }).fail(function(){
         alert("ERROR");
@@ -888,14 +835,12 @@ function buscarUsers(login){
     }).done(function(data, status, jqxhr){
         var usuarios = data.users;
         $("#info").text("");
-        console.log(data.users.length);
         if(data.users.length==0){
             $("#info").append('<div class="alert alert-block alert-info"><p><span style="color:red">We do not find any user that contains this words. </span></p></div>');
         }
         else{
         $.each(usuarios,function(i,v){
-            console.log("Aqui va el usuario");
-            console.log(v.links[4].uri);
+
            $("#tabla").append('<tr><td><a href="#" onClick="getProfile(\''+v.links[4].uri+'\');">'+v.loginid+'</a></td><td>'+ v.tareas+'</td><td>'+v.puntos+'</td></tr>');
         });
         }
