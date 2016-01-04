@@ -224,7 +224,7 @@ function loadGrupo2step(uri){
         
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
-        alert('heeee');
+       console.log('Error');
     });
 }
 
@@ -280,7 +280,7 @@ function crearMensaje(contenido, uri){
         
         
     }).fail(function(){
-        alert('Error creating the message.');
+        console.log('Error');
     });
 }
 
@@ -346,8 +346,8 @@ function foraGrupo(uri){
         
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+        console.log(xhr.status);
+      
     });
 }
 function todosforaGrupo(uri){
@@ -366,8 +366,7 @@ function todosforaGrupo(uri){
         
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+        console.log(xhr.status);
     });
 }
 
@@ -428,7 +427,7 @@ function loadList(uri){
         });
     }).fail(function(jqXHR, textStatus) {
         var error = JSON.parse(jqXHR.responseText);
-        alert(error.reason);
+        console.log(error.reason);
     });
 }
 function addItem(item, uri){
@@ -447,7 +446,15 @@ function addItem(item, uri){
         
         
     }).fail(function(data, status, jqxhr){
+<<<<<<< HEAD
         alert('ERROR');
+=======
+        console.log('ERROR');
+    
+        console.log(data);
+        //console.log(xhr.statusText);
+        console.log(textstatus);
+>>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
     });
 }
 function addTask(task, uri){
@@ -466,7 +473,15 @@ function addTask(task, uri){
         
         
     }).fail(function(data, status, jqxhr){
+<<<<<<< HEAD
         alert('ERROR');
+=======
+        console.log('ERROR');
+    
+        console.log(data);
+        //console.log(xhr.statusText);
+        console.log(textstatus);
+>>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
     });
 }
 function loadLists(uri){
@@ -492,7 +507,7 @@ function loadLists(uri){
             }
         });
     }).fail(function(){
-        alert("ERROR");
+        console.log("ERROR");
     });
 }
 function loadTarea(uri){
@@ -557,7 +572,7 @@ function loadTarea(uri){
         }
         });
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function TareaAdd(uri){
@@ -574,8 +589,8 @@ function TareaAdd(uri){
 	    window.location.replace("tareas.html");
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+        
+         console.log(xhr.status);
     });
 }
 function listaHecho(uri){
@@ -592,8 +607,8 @@ function listaHecho(uri){
 	    window.location.replace("lista.html");
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+        
+         console.log(xhr.status);
     });
 }
 function points(uri){
@@ -609,10 +624,15 @@ function points(uri){
         //data.links=linksToMap(data.links);
 	    window.location.replace("tareas.html");
         
+<<<<<<< HEAD
     }).fail(function(jqXHR, textStatus, errorThrown){
         alert('Error');    
+=======
+    }).fail(function(jqXHR, textStatus, errorThrown){    
+        console.log("Fail");
+>>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
         var error = JSON.parse(jqXHR.responseText); 
-        alert(error.reason);
+        console.log(error.reason);
     });
 }
 function DeleteTask(uri){
@@ -629,8 +649,7 @@ function DeleteTask(uri){
 	    window.location.replace("tareas.html");
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+         console.log(xhr.status);
     });
 }
 function DeleteItem(uri){
@@ -647,8 +666,8 @@ function DeleteItem(uri){
 	    window.location.replace("lista.html");
         
     }).fail(function(xhr, textstatus){
-        alert('ERROR');
-        alert(xhr.status);
+    
+     console.log(xhr.status);
     });
 }
 function changeDetails(info, fullname, email){
@@ -710,7 +729,7 @@ function updateTarea (formdata, uri){
             window.location.reload();
         }).fail(function(jqXHR, textStatus) {
             var error = JSON.parse(jqXHR.responseText);
-            alert(error.reason);
+             console.log(error.reason);
             
         });
 }
@@ -728,7 +747,7 @@ function getMyTarea(uri){
         window.location.replace("uptask.html")
         
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function getTareaE(uri){
@@ -745,7 +764,7 @@ function getTareaE(uri){
         window.location.replace("punctuate.html");
         
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function getMyT(uri){
@@ -760,7 +779,7 @@ function getMyT(uri){
         data.links=linksToMap(data.links);
         $('#lbltarea').text(data.tarea);
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function getMyTa(uri){
@@ -780,7 +799,7 @@ function getMyTa(uri){
         $('#lbltarea').text(data.tarea);
         
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function getUser(){
@@ -800,7 +819,7 @@ function getUser(){
         $("#img_src").text('');
         $("#img_src").append('<img src="images/'+filename+'" class="img-rounded img-responsive" />');
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 function getProfile(uri){
@@ -816,7 +835,7 @@ function getProfile(uri){
         sessionStorage["profile"]=JSON.stringify(data);
         window.location.replace("myProfile.html")
     }).fail(function(){
-        alert("ERROR");
+         console.log("ERROR");
     });
 }
 
@@ -845,7 +864,7 @@ function buscarUsers(login){
         });
         }
     }).fail(function(){
-        alert('Error');
+         console.log('Error');
     });
    
 }
