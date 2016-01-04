@@ -229,7 +229,7 @@ function loadGrupo2step(uri){
 }
 
 function MensajeCollection (mensajeCollection){ 
-  this.Mensaje = mensajeCollection;
+    this.Mensaje = mensajeCollection;
     var instance = this;
     
     this.toHTML = function(){
