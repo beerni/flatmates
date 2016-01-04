@@ -17,7 +17,7 @@ console.log(authToken);
 $("#add").click(function(e){
     $('progress').toggle();
     var formData = new FormData();
-     var tareas = JSON.parse(sessionStorage["tarea"]);
+    var tareas = JSON.parse(sessionStorage["tarea"]);
     var Uri = tareas["links"]["Update"].uri; 
     formData.append('imagen', $('#inputFile')[0].files[0]);  
     updateTarea(formData, Uri);

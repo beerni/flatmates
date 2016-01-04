@@ -91,7 +91,7 @@ public class MensajeDAOImpl implements MensajeDAO {
             double total = pagin/5;
             int paginas = (int)pagin/5;
             if (total > paginas)
-                pag_total = paginas+1;
+                pag_total = paginas;
             else if (total == paginas){
                 pag_total = paginas-1;
             }

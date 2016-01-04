@@ -19,7 +19,12 @@ $("#add").click(function(e) {
     var grupoas = JSON.parse(sessionStorage["grupo"]);
     console.log(grupoas);
     var currentListaUri = grupoas["lista"].uri;
-    addItem($("#txtitem").val(),currentListaUri);
+    if(/^\s+|\s+$/.test($("#txtitem").val())||$("#txtitem").val()==""){
+        $("#culebrilla").text("");   
+        $("#culebrilla").append("<div class='alert alert-block alert-info'><p><span style='color:red'>Error writing the item. Hint: Be careful with de blank spaces at the beginning and all messages must finish with a dot or a letter, not a blank.</span></p></div>");
+    }
+    else
+        addItem($("#txtitem").val(),currentListaUri);
 });
 $("#btnlogout").click(function(e){
     e.preventDefault();

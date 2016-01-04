@@ -107,7 +107,6 @@ function loadStings(uri){
         data.links=linksToMap(data.links);
         var response = data;
         var mensajeCollection = new MensajeCollection(response);
-        
         var html = mensajeCollection.toHTML();
         //$("#message").html(html);
     }).fail(function(jqXHR, textStatus){
@@ -246,14 +245,13 @@ function MensajeCollection (mensajeCollection){
         var prev = this.Mensaje.links["prev"].uri;
            var next = this.Mensaje.links["next"].uri;
         if(mensajeCollection.pagbefore==0){
-            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Next</button></div></a>');
+            $('#pagination').append(' <a onClick="loadStings(\'' + next + '\');" style = "cursor: pointer; cursor: hand;"><div class="span3"><button class="btn btn-box">Next</button></div></a>');
         }
         else if (mensajeCollection.pagbefore==mensajeCollection.pagtotal){
              $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Previous</button></div></a>');
         }
         else{
         if(prev){
-            
             $('#pagination').append(' <a onClick="loadStings(\'' + prev + '\');" style = "cursor: pointer; cursor: hand; "><div class="span3"><button class="btn btn-box">Previous</button></div></a>');
         }
         if(next){
@@ -446,15 +444,7 @@ function addItem(item, uri){
         
         
     }).fail(function(data, status, jqxhr){
-<<<<<<< HEAD
-        alert('ERROR');
-=======
         console.log('ERROR');
-    
-        console.log(data);
-        //console.log(xhr.statusText);
-        console.log(textstatus);
->>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
     });
 }
 function addTask(task, uri){
@@ -473,15 +463,13 @@ function addTask(task, uri){
         
         
     }).fail(function(data, status, jqxhr){
-<<<<<<< HEAD
         alert('ERROR');
-=======
         console.log('ERROR');
     
         console.log(data);
         //console.log(xhr.statusText);
         console.log(textstatus);
->>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
+
     });
 }
 function loadLists(uri){
@@ -623,16 +611,15 @@ function points(uri){
         }).done(function(data, status, jqxhr){
         //data.links=linksToMap(data.links);
 	    window.location.replace("tareas.html");
-        
-<<<<<<< HEAD
+
     }).fail(function(jqXHR, textStatus, errorThrown){
         alert('Error');    
-=======
     }).fail(function(jqXHR, textStatus, errorThrown){    
         console.log("Fail");
->>>>>>> 342825669a1e795452c8ed295a922f20cd1108c5
         var error = JSON.parse(jqXHR.responseText); 
-        console.log(error.reason);
+        $("#culebrilla").text("");
+        $("#culebrilla").append('<div class="alert alert-block alert-info"><p><span style="color:red">'+error.reason+'</span></p></div>');   
+
     });
 }
 function DeleteTask(uri){
@@ -724,12 +711,11 @@ function updateTarea (formdata, uri){
         }).done(function(data, status,jqxhr){
             var response = $.parseJSON(jqxhr.responseText);
             var lastfilename = response.filname;
-            alert('Todo OK');
             $('progress').toggle();
             window.location.reload();
         }).fail(function(jqXHR, textStatus) {
             var error = JSON.parse(jqXHR.responseText);
-             console.log(error.reason);
+            console.log(error.reason);
             
         });
 }

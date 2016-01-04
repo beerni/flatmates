@@ -44,11 +44,11 @@ public class Main {
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
 
-         return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+         //return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
 
       //Para hacerlo estatico el apache
 
-      /* HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+      HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
         //HttpHandler httpHandler = new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "/web/");
         HttpHandler httpHandler = new StaticHttpHandler("./www/");
 
@@ -58,7 +58,7 @@ public class Main {
             l.getFileCache().setEnabled(false);
         }
 
-        return httpServer;*/
+        return httpServer;
 
     }
 
