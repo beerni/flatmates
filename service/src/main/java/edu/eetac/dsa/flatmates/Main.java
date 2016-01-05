@@ -44,7 +44,16 @@ public class Main {
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
 
-         return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        org.glassfish.grizzly.http.server.HttpHandler httpHandler = new StaticHttpHandler("./www/");
+        httpServer.getServerConfiguration().addHttpHandler(httpHandler,"/");
+
+
+
+        return httpServer;
+
+         //return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+
 
     }
 
@@ -55,6 +64,7 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
+
     }
 }
 

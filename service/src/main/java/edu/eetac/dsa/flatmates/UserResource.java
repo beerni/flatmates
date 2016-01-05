@@ -65,8 +65,6 @@ public class UserResource {
             throw new BadRequestException("all parameters are mandatory");
         UserDAO userDAO = new UserDAOImpl();
         User user = null;
-        System.out.println(imagen);
-        System.out.println(fileDetail);
         AuthToken authenticationToken = null;
         try{
             user = userDAO.createUser(loginid, password, email, fullname, info, sexo, imagen);
