@@ -20,7 +20,6 @@ public class Main {
 
 
     // Base URI the Grizzly HTTP server will listen on
-    //Para cargar el fichero de configuracion, grouptalk.properties que es donde esta la pagina.
     private static String baseURI;
     public final static String getBaseURI() {
         if (baseURI == null)
@@ -43,17 +42,12 @@ public class Main {
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
+        return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
 
-        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        /*HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
         org.glassfish.grizzly.http.server.HttpHandler httpHandler = new StaticHttpHandler("./www/");
         httpServer.getServerConfiguration().addHttpHandler(httpHandler,"/");
-
-
-
-        return httpServer;
-
-         //return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
-
+        return httpServer;*/
 
     }
 
